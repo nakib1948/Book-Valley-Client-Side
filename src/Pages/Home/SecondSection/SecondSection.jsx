@@ -1,0 +1,45 @@
+import "./secondsection.css"; 
+
+const Secondsection = () => {
+  return (
+    <div className="grid grid-cols-1 m-10 h-96 md:grid-cols-2 gap-6">
+    <div
+      className="hero zooming-background" // Add a new class for the background animation
+      style={{
+        backgroundImage: "url(https://i.ibb.co/P6SBH0s/fiction-1.jpg)",
+        animation: "zoomInOut 10s infinite alternate", // Apply the animation here
+      }}
+    >
+      <div className="hero-overlay bg-opacity-30"></div>
+      <div className="hero-content text-center text-neutral-content">
+        <div className="max-w-md">
+          <p className="mb-5 font-semibold">LATEST BESTSELLING</p>
+          <h1 className="mb-5 text-5xl font-bold">Crime Fiction Books</h1>
+
+          <button className="btn bg-deepblue text-white">Shop now</button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      className="hero zooming-background" // Add a new class for the background animation
+      style={{
+        backgroundImage: "url(https://i.ibb.co/s1Hz2NX/war.jpg)",
+        animation: "zoomInOut 4s infinite alternate", // Apply the animation here
+      }}
+    >
+      <div className="hero-overlay bg-opacity-30"></div>
+      <div className="hero-content text-center text-neutral-content">
+        <div className="max-w-md">
+          <p className="mb-5 font-semibold">GET TO KNOW</p>
+          <h1 className="mb-5 text-5xl font-bold">World war Heroes</h1>
+
+          <button className="btn bg-deepblue text-white">Shop now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  );
+};
+
+export default Secondsection;

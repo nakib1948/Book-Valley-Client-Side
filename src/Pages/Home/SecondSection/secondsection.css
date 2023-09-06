@@ -1,0 +1,10 @@
+/* animations.css */
+@keyframes zoomInOut {
+    0%, 100% {
+      background-size: 100%;
+    }
+    50% {
+      background-size: 110%;
+    }
+  }
+  
