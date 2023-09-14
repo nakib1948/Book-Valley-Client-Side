@@ -51,9 +51,9 @@ const Topslider = () => {
             <img src={data.imageURL} className="md:max-w-md sm:max-w-sm" />
 
               <div className="text-white md:w-1/2 lg:w-1/2 sm:w-full ">
-                <h1 className="md:text-5xl sm:text-3xl font-bold">{data.title}</h1>
+                <h1 className="text-5xl  font-bold">{data.title}</h1>
                 <p className="py-6">{data.description}</p>
-                <button className="btn btn-primary">Shop Now</button>
+                <button className="btn bg-deepblue text-white rounded-full">Shop Now</button>
               </div>
             </div>
           </div>

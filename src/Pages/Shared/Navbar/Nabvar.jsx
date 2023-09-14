@@ -1,9 +1,13 @@
 
+import { Link } from "react-router-dom";
 import bookIcon from "../../../assets/bookstore.png";
 import cart from "../../../assets/Home/cart.png";
 const Navbar = () => {
+
+
+
   return (
-    <div className="navbar sticky top-0 z-10 bg-opacity-40  bg-black text-white">
+    <div className="navbar h-10 sticky top-0 z-10 bg-opacity-70  bg-black text-white">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -26,21 +30,21 @@ const Navbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow  rounded-box w-52"
           >
-            <li>
+            <li className="text-lg">
               <a>Item 1</a>
             </li>
-            <li>
+            <li className="text-lg">
               <a>Parent</a>
               <ul className="p-2">
-                <li>
+                <li className="text-lg">
                   <a>Submenu 1</a>
                 </li>
-                <li>
+                <li className="text-lg">
                   <a>Submenu 2</a>
                 </li>
               </ul>
             </li>
-            <li>
+            <li className="text-lg">
               <a>Item 3</a>
             </li>
           </ul>
@@ -49,35 +53,37 @@ const Navbar = () => {
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          <li>
-            <a>Home</a>
+          <li className="text-lg">
+            <Link to="/">Home</Link>
           </li>
-          <li tabIndex={0}>
+          <li className="text-lg" tabIndex={0}>
             <details>
               <summary>Parent</summary>
               <ul className="p-2">
-                <li>
+                <li className="text-lg">
                   <a>Submenu 1</a>
                 </li>
-                <li>
+                <li className="text-lg">
                   <a>Submenu 2</a>
                 </li>
               </ul>
             </details>
           </li>
-          <li>
+          <li className="text-lg">
             <a>Dashboard</a>
           </li>
-          <li>
+          <li className="text-lg">
             <a>Contact</a>
+          </li>
+          <li className="text-lg">
+          <img src={cart} className="h-14" alt="" />
           </li>
         </ul>
       </div>
-      <div className="">
-        <a className="">
-          {" "}
-          <img src={cart} className="h-14" alt="" />{" "}
-        </a>
+      <div className="navbar-end">
+        <Link to="/login" className="btn text-lg text-semibold text-white rounded-full bg-deepblue">
+          Login
+        </Link>
       </div>
     </div>
   );
