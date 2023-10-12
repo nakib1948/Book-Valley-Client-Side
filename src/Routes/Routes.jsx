@@ -4,6 +4,9 @@ import Main from "../Layout/Main";
 import Unknownpage from "../Pages/UnknownPage/Unknownpage";
 import Signup from "../Pages/Signup/Signup";
 import Login from "../Pages/Login/Login";
+import Allbooks from "../Pages/Allbooks/Allbooks";
+import SinglebookDetails from "../Pages/Allbooks/SinglebookDetails";
+import Cart from "../Pages/Cart/Cart";
 
 export const router = createBrowserRouter([
     {
@@ -22,6 +25,18 @@ export const router = createBrowserRouter([
           path: "/login",
           element: <Login></Login>,
         },
+        {
+          path: "/allbooks",
+          element: <Allbooks></Allbooks>,
+        },
+        {
+          path: "/allbooks/:id",
+          element: <SinglebookDetails></SinglebookDetails>,
+        },
+        {
+          path: "/cart",
+          element: <Cart></Cart>
+        }
       ],
     },
   

@@ -27,7 +27,7 @@ const Categories = () => {
             768: {
               slidesPerView: 1,
             },
-  
+            
             992: {
               slidesPerView: 4,
             },

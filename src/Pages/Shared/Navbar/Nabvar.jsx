@@ -4,8 +4,6 @@ import bookIcon from "../../../assets/bookstore.png";
 import cart from "../../../assets/Home/cart.png";
 const Navbar = () => {
 
-
-
   return (
     <div className="navbar h-10 sticky top-0 z-10 bg-opacity-70  bg-black text-white">
       <div className="navbar-start">
@@ -56,27 +54,15 @@ const Navbar = () => {
           <li className="text-lg">
             <Link to="/">Home</Link>
           </li>
-          <li className="text-lg" tabIndex={0}>
-            <details>
-              <summary>Parent</summary>
-              <ul className="p-2">
-                <li className="text-lg">
-                  <a>Submenu 1</a>
-                </li>
-                <li className="text-lg">
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </details>
-          </li>
           <li className="text-lg">
-            <a>Dashboard</a>
+            <Link to="/allbooks">shop</Link>
           </li>
           <li className="text-lg">
             <a>Contact</a>
           </li>
           <li className="text-lg">
-          <img src={cart} className="h-14" alt="" />
+          
+            <Link to="/cart"><img src={cart} className="h-10" alt="" /></Link>
           </li>
         </ul>
       </div>

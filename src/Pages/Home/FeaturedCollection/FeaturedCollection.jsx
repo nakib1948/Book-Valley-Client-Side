@@ -17,6 +17,7 @@ import dollar from "../../../assets/All-Books/dollar.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import Modal from "./Modal";
 
 const FeaturedCollection = () => {
   const [showButtons, setShowButtons] = useState(false);
@@ -89,8 +90,9 @@ const FeaturedCollection = () => {
         title="Featured Collections"
         description="Browse the collection of our best selling and top interresting products. You will definitely find what you are looking for."
       ></HeaderTitle>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 m-10 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 m-10 gap-6">
         {booksData.map((book, index) => (
+          <>
           <div
             key={index}
             className="group relative w-96  bg-base-100 shadow-xl"
@@ -137,12 +139,21 @@ const FeaturedCollection = () => {
                 <button className="btn">
                   <img src={cart} alt="" /> add to cart
                 </button>
-                <button className="btn ml-2">
+                <button className="btn ml-2" onClick={()=>document.getElementById(`${index}`).showModal()}>
                   <img src={search} className="h-8" alt="" /> quick view
                 </button>
               </div>
             </div>
           </div>
+          <dialog id={`${index}`} className="modal ">
+          <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
+             <Modal/>
+          </div>
+          <form method="dialog" className="modal-backdrop">
+            <button>close</button>
+          </form>
+        </dialog>
+        </>
         ))}
       </div>
     </div>

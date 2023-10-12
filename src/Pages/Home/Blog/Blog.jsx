@@ -1,13 +1,15 @@
-import blog1 from "../../../assets/Home/blog1.jpg"
-import blog2 from "../../../assets/Home/blog2.webp"
+import blog1 from "../../../assets/Home/blog1.jpg";
+import blog2 from "../../../assets/Home/blog2.webp";
 import HeaderTitle from "../../Shared/HeaderTitle/HeaderTitle";
 
 const Blog = () => {
-    return (
-        <div className="mt-24 "> 
-
-        <HeaderTitle title="LATEST BLOG" description=" Explore our newest blog posts to stay updated with the latest insights, trends, and information."></HeaderTitle>
-        <section className="text-gray-600 mt-5 body-font">
+  return (
+    <div className="mt-24 ">
+      <HeaderTitle
+        title="LATEST BLOG"
+        description=" Explore our newest blog posts to stay updated with the latest insights, trends, and information."
+      ></HeaderTitle>
+      <section className="text-gray-600 mt-5 body-font">
         <div className="container px-5 mx-auto">
           <div className="flex flex-wrap -m-4">
             <div className="p-4 md:w-1/2">
@@ -25,8 +27,8 @@ const Blog = () => {
                     The 400 Blows
                   </h1>
                   <p className="leading-relaxed mb-3">
-                    Photo booth fam kinfolk cold-pressed sriracha leggings jianbing
-                    microdosing tousled waistcoat.
+                    Photo booth fam kinfolk cold-pressed sriracha leggings
+                    jianbing microdosing tousled waistcoat.
                   </p>
                   <div className="flex items-center flex-wrap">
                     <a className="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0">
@@ -98,8 +100,8 @@ const Blog = () => {
                     Shooting Stars
                   </h1>
                   <p className="leading-relaxed mb-3">
-                    Photo booth fam kinfolk cold-pressed sriracha leggings jianbing
-                    microdosing tousled waistcoat.
+                    Photo booth fam kinfolk cold-pressed sriracha leggings
+                    jianbing microdosing tousled waistcoat.
                   </p>
                   <div className="flex items-center flex-wrap ">
                     <a className="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0">
@@ -159,10 +161,8 @@ const Blog = () => {
           </div>
         </div>
       </section>
-   
-      </div>
-  
-    );
+    </div>
+  );
 };
 
 export default Blog;
