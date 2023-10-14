@@ -10,6 +10,7 @@ import fantacy from "../../../assets/Home/categories/fantacy.jpg";
 import religion from "../../../assets/Home/categories/religion.jpg";
 import thriller from "../../../assets/Home/categories/thriller.jpg";
 const Categories = () => {
+  
   return (
     <div  className="categories">
       <p className="text-4xl font-bold ml-10 mb-10">Hot Categories</p>

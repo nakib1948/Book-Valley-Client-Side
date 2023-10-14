@@ -7,6 +7,9 @@ import Login from "../Pages/Login/Login";
 import Allbooks from "../Pages/Allbooks/Allbooks";
 import SinglebookDetails from "../Pages/Allbooks/SinglebookDetails";
 import Cart from "../Pages/Cart/Cart";
+import ReaderProfile from "../Pages/Reader/ReaderProfile";
+import Viewbook from "../Pages/Reader/viewbook/Viewbook";
+
 
 export const router = createBrowserRouter([
     {
@@ -36,6 +39,14 @@ export const router = createBrowserRouter([
         {
           path: "/cart",
           element: <Cart></Cart>
+        },
+        {
+          path: "/readerprofile",
+          element: <ReaderProfile></ReaderProfile>
+        },
+        {
+          path: "/viewbook",
+          element: <Viewbook></Viewbook>
         }
       ],
     },

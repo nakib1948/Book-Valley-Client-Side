@@ -58,7 +58,7 @@ const Navbar = () => {
             <Link to="/allbooks">shop</Link>
           </li>
           <li className="text-lg">
-            <a>Contact</a>
+            <Link to="/readerprofile">Profile</Link>
           </li>
           <li className="text-lg">
           
