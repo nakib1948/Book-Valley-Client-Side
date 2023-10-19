@@ -10,6 +10,7 @@ import Cart from "../Pages/Cart/Cart";
 import ReaderProfile from "../Pages/Reader/ReaderProfile";
 import Viewbook from "../Pages/Reader/viewbook/Viewbook";
 import Dashboard from "../Layout/ReaderDashboard";
+import Publisherlist from "../Pages/Writer/Dashboard/PublisherList/Publisherlist";
 
 export const router = createBrowserRouter([
   {
@@ -53,7 +54,12 @@ export const router = createBrowserRouter([
   {
     path: "/reader",
     element: <Dashboard></Dashboard>,
-    children: [],
+    children: [
+      {
+        path: "publisherlist",
+        element: <Publisherlist></Publisherlist>,
+      },
+    ],
   },
 
   {

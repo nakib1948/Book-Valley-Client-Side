@@ -67,11 +67,9 @@ const SinglebookDetails = () => {
         </div>
       </section>
 
-      <div className="  text-indigo-500 text-center border-b-4 border-indigo-500 py-2 mb-5 text-2xl font-semibold max-w-sm  mx-auto" >
-               
-                  Reviews
-              
-              </div>
+      <div className="  text-indigo-500 text-center border-b-4 border-indigo-500 py-2 mb-5 text-2xl font-semibold max-w-sm  mx-auto">
+        Reviews
+      </div>
 
       <div className="flex flex-wrap">
         <section className="rounded-md text-center md:text-left">
@@ -174,9 +172,8 @@ const SinglebookDetails = () => {
             ></textarea>
           </div>
           <button className="text-white bg-deepblue border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-             post review
+            post review
           </button>
-         
         </div>
       </div>
     </div>

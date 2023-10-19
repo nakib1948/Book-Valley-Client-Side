@@ -3,7 +3,7 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/flowbite/**/*.js"
+    
   ],
   theme: {
     extend: {
@@ -12,7 +12,7 @@ export default {
       }
     },
   },
-  plugins: [require("daisyui",'@tailwindcss/forms'),require('flowbite/plugin')],
+  plugins: [require("daisyui",'@tailwindcss/forms')],
   daisyui: {
     themes: ["light", "dark"],
   },
