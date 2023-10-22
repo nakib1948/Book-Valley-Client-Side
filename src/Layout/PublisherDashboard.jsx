@@ -2,16 +2,16 @@ import React, { useEffect } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import Header from "../Pages/Writer/Dashboard/Header";
 import home from "../assets/Dashboard/home.png";
+import offer from "../assets/Publisher/offer.png";
 import publisher from "../assets/Dashboard/publisher.png";
-import request from "../assets/Dashboard/request.png";
+import withdraw from "../assets/Publisher/withdraw.png";
 import shop from "../assets/Dashboard/shop.png";
 import blog from "../assets/Dashboard/blog.png";
 import profile from "../assets/Dashboard/profile.png";
 import paymentHistory from "../assets/payment-history.png";
 import earning from "../assets/Dashboard/earning.png";
-import withdraw from "../assets/Publisher/withdraw.png";
 
-const Dashboard = () => {
+const PublisherDashboard = () => {
   const location = useLocation();
   let { pathname } = location;
   useEffect(() => {
@@ -60,43 +60,18 @@ const Dashboard = () => {
                     to="/writer/publisherlist"
                     className="text-base my-1 font-semibold"
                   >
+                    <img src={offer} className="h-5" alt="" />
+                    Offer
+                  </Link>
+                </li>
+
+                <li className="bg-slate-50 rounded-sm my-1">
+                  <Link
+                    to="/writer/publisherlist"
+                    className="text-base my-1 font-semibold"
+                  >
                     <img src={publisher} className="h-5" alt="" />
-                    Publisher
-                  </Link>
-                </li>
-
-                <li className="bg-slate-50 rounded-sm my-1">
-                  <Link to="/writer/allrequest" className="text-base my-1 font-semibold">
-                    <img src={request} className="h-5" alt="" />
-                    Request
-                  </Link>
-                </li>
-
-                <li className="bg-slate-50 rounded-sm my-1">
-                  <Link className="text-base my-1 font-semibold">
-                    <img src={blog} className="h-5" alt="" />
-                    Blog
-                  </Link>
-                </li>
-
-                <li className="bg-slate-50 rounded-sm my-1">
-                  <Link to="/writer/profile" className="text-base my-1 font-semibold">
-                    <img src={profile} className="h-5" alt="" />
-                    Profile
-                  </Link>
-                </li>
-
-                <li className="bg-slate-50 rounded-sm my-1">
-                  <Link className="text-base my-1 font-semibold">
-                    <img src={paymentHistory} className="h-5" alt="" />
-                    Payment History
-                  </Link>
-                </li>
-
-                <li className="bg-slate-50 rounded-sm my-1">
-                  <Link className="text-base my-1 font-semibold">
-                    <img src={earning} className="h-5" alt="" />
-                    Earning
+                    Published book
                   </Link>
                 </li>
 
@@ -104,6 +79,13 @@ const Dashboard = () => {
                   <Link className="text-base my-1 font-semibold">
                     <img src={withdraw} className="h-5" alt="" />
                     Withdraw History
+                  </Link>
+                </li>
+
+                <li className="bg-slate-50 rounded-sm my-1">
+                  <Link className="text-base my-1 font-semibold">
+                    <img src={earning} className="h-5" alt="" />
+                    Earning
                   </Link>
                 </li>
               </ul>
@@ -121,4 +103,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default PublisherDashboard;
