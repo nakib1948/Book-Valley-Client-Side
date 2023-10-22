@@ -56,7 +56,7 @@ const Dashboard = () => {
 
                 <li className="bg-slate-50 rounded-sm my-1">
                   <Link
-                    to="/reader/publisherlist"
+                    to="/writer/publisherlist"
                     className="text-base my-1 font-semibold"
                   >
                     <img src={publisher} className="h-5" alt="" />
@@ -65,7 +65,7 @@ const Dashboard = () => {
                 </li>
 
                 <li className="bg-slate-50 rounded-sm my-1">
-                  <Link className="text-base my-1 font-semibold">
+                  <Link to="/writer/allrequest" className="text-base my-1 font-semibold">
                     <img src={request} className="h-5" alt="" />
                     Request
                   </Link>
@@ -79,7 +79,7 @@ const Dashboard = () => {
                 </li>
 
                 <li className="bg-slate-50 rounded-sm my-1">
-                  <Link className="text-base my-1 font-semibold">
+                  <Link to="/writer/profile" className="text-base my-1 font-semibold">
                     <img src={profile} className="h-5" alt="" />
                     Profile
                   </Link>
