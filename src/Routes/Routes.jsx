@@ -9,11 +9,12 @@ import SinglebookDetails from "../Pages/Allbooks/SinglebookDetails";
 import Cart from "../Pages/Cart/Cart";
 import ReaderProfile from "../Pages/Reader/ReaderProfile";
 import Viewbook from "../Pages/Reader/viewbook/Viewbook";
-import Dashboard from "../Layout/ReaderDashboard";
+import Dashboard from "../Layout/WriterDashboard";
 import Publisherlist from "../Pages/Writer/Dashboard/PublisherList/Publisherlist";
 import RequestFeedback from "../Pages/Writer/Dashboard/RequestFeedback/RequestFeedback";
 import WriterProfile from "../Pages/Writer/Dashboard/WriterProfile/WriterProfile";
 import PublisherDashboard from "../Layout/PublisherDashboard";
+import Offer from "../Pages/Publisher/Offer/Offer";
 
 export const router = createBrowserRouter([
   {
@@ -77,8 +78,8 @@ export const router = createBrowserRouter([
     element: <PublisherDashboard></PublisherDashboard>,
     children: [
       {
-        path: "publisherlist",
-        element: <Publisherlist></Publisherlist>,
+        path: "offer",
+        element: <Offer></Offer>,
       },
       {
         path: "allrequest",

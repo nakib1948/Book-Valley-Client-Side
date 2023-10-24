@@ -5,7 +5,7 @@ const Chatmodal = () => {
     <div className="overflow-y-scroll h-80">
         
       {chatConversation.map((chat, index) =>
-        chat.role === "publisher" ? (
+        chat.role === "writer" ? (
           <div key={index} className="chat chat-start my-1">
             <div className="chat-bubble">
              {chat.message}
