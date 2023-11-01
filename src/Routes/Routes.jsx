@@ -15,6 +15,9 @@ import RequestFeedback from "../Pages/Writer/Dashboard/RequestFeedback/RequestFe
 import WriterProfile from "../Pages/Writer/Dashboard/WriterProfile/WriterProfile";
 import PublisherDashboard from "../Layout/PublisherDashboard";
 import Offer from "../Pages/Publisher/Offer/Offer";
+import UserType from "../Pages/Signup/UserType";
+import WriterSignup from "../Pages/Signup/WriterSignup";
+import PublisherSignup from "../Pages/Signup/PublisherSignup";
 
 export const router = createBrowserRouter([
   {
@@ -26,8 +29,20 @@ export const router = createBrowserRouter([
         element: <Home></Home>,
       },
       {
+        path: "/usertype",
+        element: <UserType></UserType>,
+      },
+      {
         path: "/signup",
         element: <Signup></Signup>,
+      },
+      {
+        path: "/writersignup",
+        element: <WriterSignup></WriterSignup>,
+      },
+      {
+        path: "/publishersignup",
+        element: <PublisherSignup></PublisherSignup>,
       },
       {
         path: "/login",

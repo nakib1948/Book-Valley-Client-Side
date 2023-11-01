@@ -106,7 +106,7 @@ const Login = () => {
             <SocialLogin />
             <p className="my-4">
               Don&rsquo;t have an account?
-              <Link to="/signup" className="text-orange-500 font-bold">
+              <Link to="/usertype" className="text-orange-500 font-bold">
                 Sign Up
               </Link>
             </p>
