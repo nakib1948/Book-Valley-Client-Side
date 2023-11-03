@@ -11,10 +11,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Providers/AuthProvider";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Signup = () => {
   const { createUser, logOut } = useContext(AuthContext);
-
+  const [axiosSecure] = useAxiosSecure();
   const auth = getAuth();
   const navigate = useNavigate();
   const {
@@ -23,6 +24,7 @@ const Signup = () => {
     handleSubmit,
     reset,
   } = useForm();
+
   const onSubmit = (data) => {
     createUser(data.email, data.password)
       .then((result) => {
@@ -30,19 +32,29 @@ const Signup = () => {
           displayName: data.name,
           photoURL: data.photo,
         })
-        .then(()=>{
-            Swal.fire({
-                position: "top-center",
-                icon: "success",
-                title: "Signup successfull.",
-                showConfirmButton: false,
-                timer: 1500,
-              }).then(() => {
-                reset();
-                navigate("/");
-              });
-        })
-       
+          .then(() => {
+            const saveUser = {
+              name: data.name,
+              email: data.email,
+              image: data.photo,
+              role: "user",
+            };
+
+            axiosSecure.post("/users", saveUser).then((data) => {
+              if (data.data.insertedId) {
+                Swal.fire({
+                  position: "top-center",
+                  icon: "success",
+                  title: "Signup successfull.",
+                  showConfirmButton: false,
+                  timer: 1500,
+                }).then(() => {
+                  reset();
+                  navigate("/");
+                });
+              }
+            });
+          })
           .catch((error) => {
             // An error occurred
             // ...

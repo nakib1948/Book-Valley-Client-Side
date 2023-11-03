@@ -2,7 +2,7 @@ import img1 from "../../assets/Login&signup/animation_lmjgsrpo.json";
 import Lottie from "lottie-react";
 const PublisherSignup = () => {
   return (
-    <div className="card w-1/2 mx-auto bg-base-100 shadow-xl">
+    <div className="card w-full md:w-1/2 lg:w-1/2 mx-auto bg-base-100 shadow-xl">
       <div className="card-body">
         <section className="text-gray-900  body-font relative">
           <div className="container py-5 mx-auto">

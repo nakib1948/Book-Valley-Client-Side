@@ -1,8 +1,17 @@
-
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import bookIcon from "../../../assets/bookstore.png";
 import cart from "../../../assets/Home/cart.png";
+import { useContext } from "react";
+import { AuthContext } from "../../../Providers/AuthProvider";
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const signout = () => {
+    logOut().then(() => {
+      localStorage.removeItem("access-token");
+    });
+    navigate("/");
+  };
 
   return (
     <div className="navbar h-10 sticky top-0 z-10 bg-opacity-70  bg-black text-white">
@@ -47,7 +56,7 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <img  className="h-14" src={bookIcon}  alt="" />
+        <img className="h-14" src={bookIcon} alt="" />
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
@@ -61,15 +70,58 @@ const Navbar = () => {
             <Link to="/readerprofile">Profile</Link>
           </li>
           <li className="text-lg">
-          
-            <Link to="/cart"><img src={cart} className="h-10" alt="" /></Link>
+            <Link to="/cart">
+              <img src={cart} className="h-10" alt="" />
+            </Link>
           </li>
         </ul>
       </div>
       <div className="navbar-end">
-        <Link to="/login" className="btn text-lg text-semibold text-white rounded-full bg-deepblue">
-          Login
-        </Link>
+        {user?.email ? (
+          <div>
+            <img
+              onClick={() => window.my_modal_2.showModal()}
+              className="h-16 rounded-full group hover:tooltip"
+              src={user.photoURL}
+              alt="User Profile"
+              title={user.displayName}
+            />
+            <dialog id="my_modal_2" className="modal">
+              <form method="dialog" className="modal-box bg-base-200">
+                <img
+                  className="h-16 rounded-full mx-auto"
+                  src={user.photoURL}
+                  alt="User Profile"
+                  title={user.displayName}
+                />
+                <p className="text-lg text-deepred text-center">
+                  Name: {user.displayName}
+                </p>
+                <p className="py-4 text-deepred text-center">
+                  Email: {user.email}
+                </p>
+                <button
+                  onClick={() => signout()}
+                  className="btn btn-block bg-deepred text-white"
+                >
+                  Logout
+                </button>
+              </form>
+              <form method="dialog" className="modal-backdrop">
+                <button>close</button>
+              </form>
+            </dialog>
+          </div>
+        ) : (
+         
+            <Link
+              to="/login"
+              className="btn text-lg text-semibold text-white rounded-full bg-deepblue"
+            >
+              Login
+            </Link>
+          
+        )}
       </div>
     </div>
   );
