@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import Lottie from "lottie-react";
 import { ToastContainer, toast } from "react-toastify";
 import img1 from "../../assets/Login&signup/animation_lmjgsrpo.json";
-import bg1 from "../../assets/Login&signup/lg-bg.jpg"
+import bg1 from "../../assets/Login&signup/lg-bg.jpg";
 import { useForm } from "react-hook-form";
 import { getAuth, updateProfile } from "firebase/auth";
 import { motion } from "framer-motion";
@@ -12,12 +12,14 @@ import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+const img_hosting_token = import.meta.env.VITE_Image_Upload_Token;
 
 const Signup = () => {
   const { createUser, logOut } = useContext(AuthContext);
   const [axiosSecure] = useAxiosSecure();
   const auth = getAuth();
   const navigate = useNavigate();
+  const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`;
   const {
     register,
     formState: { errors },
@@ -26,42 +28,53 @@ const Signup = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    createUser(data.email, data.password)
-      .then((result) => {
-        updateProfile(auth.currentUser, {
-          displayName: data.name,
-          photoURL: data.photo,
-        })
-          .then(() => {
-            const saveUser = {
-              name: data.name,
-              email: data.email,
-              image: data.photo,
-              role: "user",
-            };
+    const formData = new FormData();
+    formData.append("image", data.profilePhoto[0]);
 
-            axiosSecure.post("/users", saveUser).then((data) => {
-              if (data.data.insertedId) {
-                Swal.fire({
-                  position: "top-center",
-                  icon: "success",
-                  title: "Signup successfull.",
-                  showConfirmButton: false,
-                  timer: 1500,
-                }).then(() => {
-                  reset();
-                  navigate("/");
+    fetch(img_hosting_url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((imgResponse) => {
+        const imgURL = imgResponse.data.display_url;
+        createUser(data.email, data.password)
+          .then((result) => {
+            updateProfile(auth.currentUser, {
+              displayName: data.name,
+              photoURL: imgURL,
+            })
+              .then(() => {
+                const saveUser = {
+                  name: data.name,
+                  email: data.email,
+                  image: imgURL,
+                  role: "reader",
+                };
+
+                axiosSecure.post("/users", saveUser).then((data) => {
+                  if (data.data.insertedId) {
+                    Swal.fire({
+                      position: "top-center",
+                      icon: "success",
+                      title: "Signup successfull.",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    }).then(() => {
+                      reset();
+                      navigate("/");
+                    });
+                  }
                 });
-              }
-            });
+              })
+              .catch((error) => {
+                // An error occurred
+                // ...
+              });
           })
           .catch((error) => {
-            // An error occurred
-            // ...
+            Swal.fire(error.message);
           });
-      })
-      .catch((error) => {
-        Swal.fire(error.message);
       });
   };
   return (
@@ -113,7 +126,6 @@ const Signup = () => {
                     {...register("email", {
                       required: "Email is required",
                       pattern: {
-                        // Regular expression for validating email
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                         message: "Invalid email address",
                       },
@@ -151,22 +163,24 @@ const Signup = () => {
                 </div>
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text text-lg">Photo Url</span>
+                    <span className="label-text text-lg">Upload Photo</span>
                   </label>
                   <input
-                    type="text"
-                    placeholder="url"
-                    {...register("photo", { required: true })}
-                    className="input input-bordered"
+                    type="file"
+                    {...register("profilePhoto", { required: true })}
+                    className="file-input file-input-bordered file-input-info w-full max-w-xs"
                   />
                   {errors.photo?.type === "required" && (
                     <small className="text-red-500" role="alert">
                       {" "}
-                      url is required
+                      photo is required
                     </small>
                   )}
                   <label className="label">
-                    <a href="#" className="label-text text-lg-alt link link-hover">
+                    <a
+                      href="#"
+                      className="label-text text-lg-alt link link-hover"
+                    >
                       Forgot password?
                     </a>
                   </label>

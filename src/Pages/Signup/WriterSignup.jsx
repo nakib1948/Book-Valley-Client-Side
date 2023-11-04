@@ -1,6 +1,65 @@
+import { useContext } from "react";
 import img1 from "../../assets/Login&signup/animation_lmjgsrpo.json";
 import Lottie from "lottie-react";
+import { AuthContext } from "../../Providers/AuthProvider";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { getAuth } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+
 const WriterSignup = () => {
+  const { createUser, logOut } = useContext(AuthContext);
+  const [axiosSecure] = useAxiosSecure();
+  const auth = getAuth();
+  const navigate = useNavigate();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm();
+
+  const onSubmit = (data) => {
+    createUser(data.email, data.password)
+      .then((result) => {
+        updateProfile(auth.currentUser, {
+          displayName: data.name,
+          photoURL: data.photo,
+        })
+          .then(() => {
+            const saveUser = {
+              name: data.name,
+              email: data.email,
+              image: data.photo,
+              role: "reader",
+            };
+
+            axiosSecure.post("/users", saveUser).then((data) => {
+              if (data.data.insertedId) {
+                Swal.fire({
+                  position: "top-center",
+                  icon: "success",
+                  title: "Signup successfull.",
+                  showConfirmButton: false,
+                  timer: 1500,
+                }).then(() => {
+                  reset();
+                  navigate("/");
+                });
+              }
+            });
+          })
+          .catch((error) => {
+            // An error occurred
+            // ...
+          });
+      })
+      .catch((error) => {
+        Swal.fire(error.message);
+      });
+  };
+
   return (
     <div className="card w-full md:w-11/12 lg:w-11/12 mx-auto lg:card-side bg-base-100 shadow-xl">
       <figure>
@@ -15,121 +74,185 @@ const WriterSignup = () => {
               </h1>
             </div>
             <div className=" mx-auto">
-              <div className="flex flex-wrap -m-2">
-                <div className="p-2 w-1/2">
-                  <div className="relative">
-                    <label
-                      htmlFor="name"
-                      className="leading-7 text-lg text-gray-600"
-                    >
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      placeholder=""
-                      className="input bg-gray-100 bg-opacity-50 input-bordered input-primary w-full max-w-xs"
-                    />
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="flex flex-wrap -m-2">
+                  <div className="p-2 w-1/2">
+                    <div className="relative">
+                      <label
+                        htmlFor="name"
+                        className="leading-7 text-lg text-gray-600"
+                      >
+                        Name
+                      </label>
+                      <input
+                        type="text"
+                        placeholder=""
+                        {...register("name", { required: true })}
+                        className="input bg-gray-100 bg-opacity-50 input-bordered input-primary w-full max-w-xs"
+                      />
+                      {errors.name?.type === "required" && (
+                        <small className="text-red-500" role="alert">
+                          {" "}
+                          name is required
+                        </small>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="p-2 w-1/2">
-                  <div className="relative ">
-                    <label
-                      htmlFor="email"
-                      className="leading-7 text-lg text-gray-600"
-                    >
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      placeholder=""
-                      className="input bg-gray-100 bg-opacity-50 input-bordered input-primary w-full max-w-xs"
-                    />
+                  <div className="p-2 w-1/2">
+                    <div className="relative ">
+                      <label
+                        htmlFor="email"
+                        className="leading-7 text-lg text-gray-600"
+                      >
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        placeholder=""
+                        className="input bg-gray-100 bg-opacity-50 input-bordered input-primary w-full max-w-xs"
+                        {...register("email", {
+                          required: "Email is required",
+                          pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: "Invalid email address",
+                          },
+                        })}
+                      />
+                      {errors.email && (
+                        <small className="text-red-500" role="alert">
+                          {errors.email.message}
+                        </small>
+                      )}
+                    </div>
                   </div>
-                </div>
 
-                <div className="p-2 w-1/2">
-                  <div className="relative ">
-                    <label
-                      htmlFor="password"
-                      className="leading-7 text-lg text-gray-600"
-                    >
-                      Password
-                    </label>
+                  <div className="p-2 w-1/2">
+                    <div className="relative ">
+                      <label
+                        htmlFor="password"
+                        className="leading-7 text-lg text-gray-600"
+                      >
+                        Password
+                      </label>
+                      <input
+                        type="password"
+                        placeholder=""
+                        className="input bg-gray-100 bg-opacity-50 input-bordered input-primary w-full max-w-xs"
+                        {...register("password", {
+                          required: "Password is required",
+                          pattern: {
+                            value: /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{6,}$/,
+                            message:
+                              "Password must contain at least one letter, one number, one special character, and be at least 6 characters long",
+                          },
+                        })}
+                      />
+                      {errors.password && (
+                        <small className="text-red-500" role="alert">
+                          {errors.password.message}
+                        </small>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="p-2 w-1/2">
+                    <div className="relative ">
+                      <label
+                        htmlFor="phone"
+                        className="leading-7 text-lg text-gray-600"
+                      >
+                        Phone
+                      </label>
+                      <input
+                        type="text"
+                        placeholder=""
+                        className="input bg-gray-100 bg-opacity-50 input-bordered input-primary w-full max-w-xs"
+                        {...register("phone", { required: true })}
+                      />
+                      {errors.name?.type === "required" && (
+                        <small className="text-red-500" role="alert">
+                          {" "}
+                          phone number is required
+                        </small>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="p-2 w-1/2">
+                    <div className="relative ">
+                      <label
+                        htmlFor="photo"
+                        className="leading-7 text-lg text-gray-600"
+                      >
+                        Profile Photo
+                      </label>
+                      <input
+                        type="file"
+                        className="file-input file-input-bordered file-input-info w-full max-w-xs"
+                        {...register("profilePhoto", { required: true })}
+                      />
+                      {errors.name?.type === "required" && (
+                        <small className="text-red-500" role="alert">
+                          {" "}
+                          profile picture is required
+                        </small>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="p-2 w-1/2">
+                    <div className="relative ">
+                      <label
+                        htmlFor="account"
+                        className="leading-7 text-lg text-gray-600"
+                      >
+                        Bank Account
+                      </label>
+                      <input
+                        type="text"
+                        placeholder=""
+                        className="input bg-gray-100 bg-opacity-50 input-bordered input-primary w-full max-w-xs"
+                        {...register("bankAccount", { required: true })}
+                      />
+                      {errors.name?.type === "required" && (
+                        <small className="text-red-500" role="alert">
+                          {" "}
+                          bank account is required
+                        </small>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="p-2 w-full">
+                    <div className="relative">
+                      <label
+                        htmlFor="bankdetails"
+                        className="leading-7 text-lg text-gray-600"
+                      >
+                        Bank Details
+                      </label>
+                      <textarea
+                        {...register("bankDetails", { required: true })}
+                        placeholder="write your bank account details information"
+                        className=" w-full bg-gray-100 bg-opacity-50  textarea textarea-primary"
+                      ></textarea>
+                      {errors.name?.type === "required" && (
+                        <small className="text-red-500" role="alert">
+                          {" "}
+                          bankDetails is required
+                        </small>
+                      )}
+                    </div>
+                  </div>
+                  <div className="p-2 w-full">
                     <input
-                      type="password"
-                      placeholder=""
-                      className="input bg-gray-100 bg-opacity-50 input-bordered input-primary w-full max-w-xs"
+                      type="submit"
+                      value="Signup"
+                      className="flex mx-auto btn btn-wide bg-deepblue font-bold text-lg text-white"
                     />
                   </div>
                 </div>
-
-                <div className="p-2 w-1/2">
-                  <div className="relative ">
-                    <label
-                      htmlFor="phone"
-                      className="leading-7 text-lg text-gray-600"
-                    >
-                      Phone
-                    </label>
-                    <input
-                      type="text"
-                      placeholder=""
-                      className="input bg-gray-100 bg-opacity-50 input-bordered input-primary w-full max-w-xs"
-                    />
-                  </div>
-                </div>
-
-                <div className="p-2 w-1/2">
-                  <div className="relative ">
-                    <label
-                      htmlFor="phone"
-                      className="leading-7 text-lg text-gray-600"
-                    >
-                      Profile Photo
-                    </label>
-                    <input
-                      type="file"
-                      className="file-input file-input-bordered file-input-info w-full max-w-xs"
-                    />
-                  </div>
-                </div>
-
-                <div className="p-2 w-1/2">
-                  <div className="relative ">
-                    <label
-                      htmlFor="account"
-                      className="leading-7 text-lg text-gray-600"
-                    >
-                      Bank Account
-                    </label>
-                    <input
-                      type="text"
-                      placeholder=""
-                      className="input bg-gray-100 bg-opacity-50 input-bordered input-primary w-full max-w-xs"
-                    />
-                  </div>
-                </div>
-
-                <div className="p-2 w-full">
-                  <div className="relative">
-                    <label
-                      htmlFor="message"
-                      className="leading-7 text-lg text-gray-600"
-                    >
-                      Bank Details
-                    </label>
-                    <textarea placeholder="write your bank account details information" className=" w-full bg-gray-100 bg-opacity-50  textarea textarea-primary" ></textarea>
-                  
-                  </div>
-                </div>
-                <div className="p-2 w-full">
-                <input
-                    type="submit"
-                    value="Signup"
-                    className="flex mx-auto btn btn-wide bg-deepblue font-bold text-lg text-white"
-                  />
-                </div>
-              </div>
+              </form>
             </div>
           </div>
         </section>
