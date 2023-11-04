@@ -183,7 +183,7 @@ const WriterSignup = () => {
                         className="input bg-gray-100 bg-opacity-50 input-bordered input-primary w-full max-w-xs"
                         {...register("phone", { required: true })}
                       />
-                      {errors.name?.type === "required" && (
+                      {errors.phone?.type === "required" && (
                         <small className="text-red-500" role="alert">
                           {" "}
                           phone number is required
@@ -205,7 +205,7 @@ const WriterSignup = () => {
                         className="file-input file-input-bordered file-input-info w-full max-w-xs"
                         {...register("profilePhoto", { required: true })}
                       />
-                      {errors.name?.type === "required" && (
+                      {errors.profilePhoto?.type === "required" && (
                         <small className="text-red-500" role="alert">
                           {" "}
                           profile picture is required
@@ -228,7 +228,7 @@ const WriterSignup = () => {
                         className="input bg-gray-100 bg-opacity-50 input-bordered input-primary w-full max-w-xs"
                         {...register("bankAccount", { required: true })}
                       />
-                      {errors.name?.type === "required" && (
+                      {errors.bankAccount?.type === "required" && (
                         <small className="text-red-500" role="alert">
                           {" "}
                           bank account is required
@@ -250,7 +250,7 @@ const WriterSignup = () => {
                         placeholder="write your bank account details information"
                         className=" w-full bg-gray-100 bg-opacity-50  textarea textarea-primary"
                       ></textarea>
-                      {errors.name?.type === "required" && (
+                      {errors.bankDetails?.type === "required" && (
                         <small className="text-red-500" role="alert">
                           {" "}
                           bankDetails is required
