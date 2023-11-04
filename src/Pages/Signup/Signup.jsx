@@ -68,8 +68,6 @@ const Signup = () => {
                 });
               })
               .catch((error) => {
-                // An error occurred
-                // ...
               });
           })
           .catch((error) => {

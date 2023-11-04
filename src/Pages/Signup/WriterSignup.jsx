@@ -3,62 +3,76 @@ import img1 from "../../assets/Login&signup/animation_lmjgsrpo.json";
 import Lottie from "lottie-react";
 import { AuthContext } from "../../Providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { getAuth } from "firebase/auth";
+import { getAuth, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+const img_hosting_token = import.meta.env.VITE_Image_Upload_Token;
 
 const WriterSignup = () => {
-  const { createUser, logOut } = useContext(AuthContext);
-  const [axiosSecure] = useAxiosSecure();
-  const auth = getAuth();
-  const navigate = useNavigate();
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = useForm();
-
-  const onSubmit = (data) => {
-    createUser(data.email, data.password)
-      .then((result) => {
-        updateProfile(auth.currentUser, {
-          displayName: data.name,
-          photoURL: data.photo,
-        })
-          .then(() => {
-            const saveUser = {
-              name: data.name,
-              email: data.email,
-              image: data.photo,
-              role: "reader",
-            };
-
-            axiosSecure.post("/users", saveUser).then((data) => {
-              if (data.data.insertedId) {
-                Swal.fire({
-                  position: "top-center",
-                  icon: "success",
-                  title: "Signup successfull.",
-                  showConfirmButton: false,
-                  timer: 1500,
-                }).then(() => {
-                  reset();
-                  navigate("/");
-                });
-              }
-            });
-          })
-          .catch((error) => {
-            // An error occurred
-            // ...
-          });
+    const { createUser, logOut } = useContext(AuthContext);
+    const [axiosSecure] = useAxiosSecure();
+    const auth = getAuth();
+    const navigate = useNavigate();
+    const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`;
+    const {
+      register,
+      formState: { errors },
+      handleSubmit,
+      reset,
+    } = useForm();
+  
+    const onSubmit = (data) => {
+      const formData = new FormData();
+      formData.append("image", data.profilePhoto[0]);
+  
+      fetch(img_hosting_url, {
+        method: "POST",
+        body: formData,
       })
-      .catch((error) => {
-        Swal.fire(error.message);
-      });
-  };
+        .then((res) => res.json())
+        .then((imgResponse) => {
+          const imgURL = imgResponse.data.display_url;
+          createUser(data.email, data.password)
+            .then((result) => {
+              updateProfile(auth.currentUser, {
+                displayName: data.name,
+                photoURL: imgURL,
+              })
+                .then(() => {
+                  const saveUser = {
+                    name: data.name,
+                    email: data.email,
+                    image: imgURL,
+                    bankAccount:data.bankAccount,
+                    bankDetails:data.bankDetails,
+                    phone:data.phone,
+                    role: "writer",
+                  };
+  
+                  axiosSecure.post("/users", saveUser).then((data) => {
+                    if (data.data.insertedId) {
+                      Swal.fire({
+                        position: "top-center",
+                        icon: "success",
+                        title: "Signup successfull.",
+                        showConfirmButton: false,
+                        timer: 1500,
+                      }).then(() => {
+                        reset();
+                        navigate("/");
+                      });
+                    }
+                  });
+                })
+                .catch((error) => {
+                });
+            })
+            .catch((error) => {
+              Swal.fire(error.message);
+            });
+        });
+    };
 
   return (
     <div className="card w-full md:w-11/12 lg:w-11/12 mx-auto lg:card-side bg-base-100 shadow-xl">
@@ -226,7 +240,7 @@ const WriterSignup = () => {
                   <div className="p-2 w-full">
                     <div className="relative">
                       <label
-                        htmlFor="bankdetails"
+                        htmlFor="bankDetails"
                         className="leading-7 text-lg text-gray-600"
                       >
                         Bank Details
