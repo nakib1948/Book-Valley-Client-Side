@@ -18,6 +18,11 @@ import Offer from "../Pages/Publisher/Offer/Offer";
 import UserType from "../Pages/Signup/UserType";
 import WriterSignup from "../Pages/Signup/WriterSignup";
 import PublisherSignup from "../Pages/Signup/PublisherSignup";
+import AdminDashboard from "../Layout/AdminDashboard";
+import AdminRoute from "./AdminRoute";
+import WriterRoute from "./WriterRoute";
+import PublisherRoute from "./PublisherRoute";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -58,21 +63,21 @@ export const router = createBrowserRouter([
       },
       {
         path: "/cart",
-        element: <Cart></Cart>,
+        element:<PrivateRoute><Cart></Cart></PrivateRoute> ,
       },
       {
         path: "/readerprofile",
-        element: <ReaderProfile></ReaderProfile>,
+        element:<PrivateRoute> <ReaderProfile></ReaderProfile></PrivateRoute>,
       },
       {
         path: "/viewbook",
-        element: <Viewbook></Viewbook>,
+        element:<PrivateRoute> <Viewbook></Viewbook></PrivateRoute>,
       },
     ],
   },
   {
     path: "/writer",
-    element: <Dashboard></Dashboard>,
+    element:<WriterRoute><Dashboard></Dashboard></WriterRoute> ,
     children: [
       {
         path: "publisherlist",
@@ -90,7 +95,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/Publisher",
-    element: <PublisherDashboard></PublisherDashboard>,
+    element:<PublisherRoute><PublisherDashboard></PublisherDashboard></PublisherRoute> ,
     children: [
       {
         path: "offer",
@@ -105,8 +110,25 @@ export const router = createBrowserRouter([
         element: <WriterProfile></WriterProfile>,
       },
     ],
-  }
-,
+  },
+  {
+    path: "/admin",
+    element:<AdminRoute><AdminDashboard></AdminDashboard></AdminRoute> ,
+    children: [
+      {
+        path: "offer",
+        element: <Offer></Offer>,
+      },
+      {
+        path: "allrequest",
+        element: <RequestFeedback></RequestFeedback>,
+      },
+      {
+        path: "profile",
+        element: <WriterProfile></WriterProfile>,
+      },
+    ],
+  },
   {
     path: "*",
     element: <Unknownpage />,
