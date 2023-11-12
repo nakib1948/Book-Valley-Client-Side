@@ -1,4 +1,5 @@
 import { publisherdata } from "./Publiserdata";
+import { useQuery } from "@tanstack/react-query";
 import publisherlogo from "../../../../assets/Writer/publisher-logo.jpg";
 import facebook from "../../../../assets/Writer/facebook.png";
 import instagram from "../../../../assets/Writer/instagram.png";
@@ -8,8 +9,27 @@ import phone from "../../../../assets/Writer/phone.png";
 import location from "../../../../assets/Writer/location.png";
 import website from "../../../../assets/Writer/website.png";
 import RequestModal from "./RequestPublisher/RequestModal";
+import Loader from "../../../Shared/Loader/Loader";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const Publisherlist = () => {
+  const [axiosSecure] = useAxiosSecure();
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["instructor"],
+    queryFn: async () => {
+      const res = await axiosSecure("/allpublisher");
+      return res.data;
+    },
+  });
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+  console.log(data);
+
   return (
     <div>
       <div className="mb-4 bg-blue-50/40 p-2 rounded-md">
@@ -24,7 +44,7 @@ const Publisherlist = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-        {publisherdata.map((data, index) => (
+        {data.map((data, index) => (
           <>
             <div
               key={index}
@@ -50,16 +70,29 @@ const Publisherlist = () => {
                       <a className="inline text-blue-400">{data.website}</a>
                     </div>
                     <div className="flex">
-                      <img src={facebook} className="h-10" alt="" />
-                      <img src={twitter} className="h-10 my-1" alt="" />
-                      <img src={instagram} className="h-8 mt-1" alt="" />
-                      <img src={linkedin} className="h-10" alt="" />
+                      <a href={data.facebook}>
+                        <img src={facebook} className="h-10" alt="" />
+                      </a>
+                      <a href={data.twitter}>
+                        <img src={twitter} className="h-10 my-1" alt="" />
+                      </a>
+                      <a href={data.instagram}>
+                        <img src={instagram} className="h-8 mt-1" alt="" />
+                      </a>
+                      <a href={data.linkedin}>
+                        <img src={linkedin} className="h-10" alt="" />
+                      </a>
                     </div>
                   </div>
                 </div>
                 <p>{data.description}</p>
                 <div className="card-actions justify-end">
-                  <button  onClick={()=>document.getElementById(`${index}`).showModal()} className="btn bg-deepblue text-white font-semibold rounded-full">
+                  <button
+                    onClick={() =>
+                      document.getElementById(`${index}`).showModal()
+                    }
+                    className="btn bg-deepblue text-white font-semibold rounded-full"
+                  >
                     Send Request
                   </button>
                 </div>
@@ -68,7 +101,7 @@ const Publisherlist = () => {
 
             <dialog id={`${index}`} className="modal ">
               <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
-                <RequestModal/>
+                <RequestModal />
               </div>
               <form method="dialog" className="modal-backdrop">
                 <button>close</button>

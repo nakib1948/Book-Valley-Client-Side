@@ -3,8 +3,10 @@ import bookIcon from "../../../assets/bookstore.png";
 import cart from "../../../assets/Home/cart.png";
 import { useContext } from "react";
 import { AuthContext } from "../../../Providers/AuthProvider";
+import useGetUserRole from "../../../hooks/useGetUserRole";
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+  const [isRole] = useGetUserRole();
   const navigate = useNavigate();
   const signout = () => {
     logOut().then(() => {
@@ -67,7 +69,19 @@ const Navbar = () => {
             <Link to="/allbooks">shop</Link>
           </li>
           <li className="text-lg">
-            <Link to="/readerprofile">Profile</Link>
+            {user ? (
+              isRole === "reader" ? (
+                <Link to="/readerDashboard">Dashboard</Link>
+              ) : isRole === "writer" ? (
+                <Link to="/writer">Dashboard</Link>
+              ) : isRole === "publisher" ? (
+                <Link to="/publisher">Dashboard</Link>
+              ) : (
+                <Link to="/admin">Dashboard</Link>
+              )
+            ) : (
+              <Link to="/login">Dashboard</Link>
+            )}
           </li>
           <li className="text-lg">
             <Link to="/cart">
@@ -83,7 +97,7 @@ const Navbar = () => {
               onClick={() => window.my_modal_2.showModal()}
               className="h-16 rounded-full group hover:tooltip"
               src={user.photoURL}
-              alt="User Profile"
+              alt="User Dashboard"
               title={user.displayName}
             />
             <dialog id="my_modal_2" className="modal">
@@ -91,7 +105,7 @@ const Navbar = () => {
                 <img
                   className="h-16 rounded-full mx-auto"
                   src={user.photoURL}
-                  alt="User Profile"
+                  alt="User Dashboard"
                   title={user.displayName}
                 />
                 <p className="text-lg text-deepred text-center">
@@ -113,14 +127,12 @@ const Navbar = () => {
             </dialog>
           </div>
         ) : (
-         
-            <Link
-              to="/login"
-              className="btn text-lg text-semibold text-white rounded-full bg-deepblue"
-            >
-              Login
-            </Link>
-          
+          <Link
+            to="/login"
+            className="btn text-lg text-semibold text-white rounded-full bg-deepblue"
+          >
+            Login
+          </Link>
         )}
       </div>
     </div>
