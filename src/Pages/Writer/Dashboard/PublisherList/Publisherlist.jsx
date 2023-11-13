@@ -35,7 +35,7 @@ const Publisherlist = () => {
       <div className="mb-4 bg-blue-50/40 p-2 rounded-md">
         <h1 className="text-2xl font-semibold">Publisher List</h1>
         <div className="flex justify-between mt-2">
-          <p className="text-gray-600">Total publishers:</p>
+          <p className="text-gray-600">Total publishers: {data.length}</p>
           <input
             type="text"
             placeholder="Search Publisher"

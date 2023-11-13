@@ -71,7 +71,7 @@ const Navbar = () => {
           <li className="text-lg">
             {user ? (
               isRole === "reader" ? (
-                <Link to="/readerDashboard">Dashboard</Link>
+                <Link to="/readerprofile">Dashboard</Link>
               ) : isRole === "writer" ? (
                 <Link to="/writer">Dashboard</Link>
               ) : isRole === "publisher" ? (

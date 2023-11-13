@@ -1,9 +1,8 @@
-import  { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { useResizeObserver } from "@wojtekmaj/react-hooks";
 import { pdfjs, Document, Page } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
-import samplepdf from "../../../assets/Spoken-English.pdf";
 import leftarrow from "../../../assets/left-arrow.png";
 import rightarrow from "../../../assets/right-arrow.png";
 import "./Viewbook.css";
@@ -22,105 +21,29 @@ const resizeObserverOptions = {};
 
 const maxWidth = 800;
 
+// ... (other imports)
+
 export default function Viewbook() {
-  const [file, setFile] = useState(samplepdf);
-  const [numPages, setNumPages] = useState();
-  const [containerRef, setContainerRef] = useState(null);
-  const [containerWidth, setContainerWidth] = useState();
-  const [zoom, setZoom] = useState(1);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  const onResize = useCallback((entries) => {
-    const [entry] = entries;
-
-    if (entry) {
-      setContainerWidth(entry.contentRect.width);
-    }
-  }, []);
-
-  useResizeObserver(containerRef, resizeObserverOptions, onResize);
-
-  function onDocumentLoadSuccess({ numPages: nextNumPages }) {
-    setNumPages(nextNumPages);
-  }
-
-  function handleZoomChange(event) {
-    setZoom(parseFloat(event.target.value));
-  }
-
-  function handlePageNumberChange(event) {
-    setPageNumber(parseInt(event.target.value, 10));
-  }
-
-  function goToPreviousPage() {
-    if (pageNumber > 1) {
-      setPageNumber(pageNumber - 1);
-    }
-  }
-
-  function goToNextPage() {
-    if (pageNumber < numPages) {
-      setPageNumber(pageNumber + 1);
-    }
-  }
+  const [pdfLink, setPdfLink] = useState(
+    "https://firebasestorage.googleapis.com/v0/b/book-valley-72490.appspot.com/o/pdf%2FReact-render%20f92b2a57056648839456f2d8a7e1a1fd.pdf570eef13-9027-4063-abbd-8e6a67027f80?alt=media&token=28054fcd-18e5-4d47-beeb-4cee5c85e457"
+  );
 
   return (
     <div className="Example">
       <div className="Example__container">
-        <div className="Example__container__controls">
-          <label htmlFor="zoom" className="text-base font-semibold mr-2">Zoom:</label>
-          <input
-            id="zoom"
-            type="number"
-            className="w-16"
-            step="0.1"
-            min="0.1"
-            max="3"
-            value={zoom}
-            onChange={handleZoomChange}
-          />
-          <label htmlFor="pageNumber" className="text-base font-semibold mx-2">Page Number:</label>
-          <input
-            id="pageNumber"
-            type="number"
-            min="1"
-            className="w-16"
-            max={numPages}
-            value={pageNumber}
-            onChange={handlePageNumberChange}
-          />
-        </div>
-        <div className="Example__container__document" ref={setContainerRef}>
-          <Document
-            file={file}
-            onLoadSuccess={onDocumentLoadSuccess}
-            options={options}
-          >
-            <Page
-              pageNumber={pageNumber}
-              scale={zoom}
-              width={
-                containerWidth ? Math.min(containerWidth, maxWidth) : maxWidth
-              }
-            />
-          </Document>
-        </div>
-        <div className="flex">
-          <button
-            className="btn bg-deepblue mr-5 text-white font-semibold"
-            onClick={goToPreviousPage}
-          >
-            <img src={leftarrow} className="h-8" alt="" />
-            Previous Page
-          </button>
-          <button
-            className="btn bg-deepblue mr-5 text-white font-semibold"
-            onClick={goToNextPage}
-          >
-            Next Page <img src={rightarrow} className="h-8" alt="" />
-          </button>
+        <div className="Example__container__document">
+          <iframe
+            src={pdfLink}
+            title="PDF Viewer"
+            width="100%"
+            height="600px"
+            frameBorder="0"
+            allowFullScreen
+            sandbox="allow-scripts allow-same-origin"
+          ></iframe>
         </div>
       </div>
     </div>
   );
 }
+
