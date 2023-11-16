@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useAxiosSecure from "../../../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { ToastContainer, toast } from "react-toastify";
 import { useContext } from "react";
 import { AuthContext } from "../../../../../Providers/AuthProvider";
 import { storage } from "../../../../../firebase/firebase.config";
 import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 const maxFileSizeInBytes = 5 * 1024 * 1024;
-const RequestModal = () => {
+const RequestModal = ({publisherData}) => {
   const [axiosSecure] = useAxiosSecure();
   const { user } = useContext(AuthContext);
   const [pdfUpload, setPdfUpload] = useState(null);
@@ -31,31 +32,40 @@ const RequestModal = () => {
 
     await uploadBytes(pdfRef, pdfUpload);
     const downloadURL = await getDownloadURL(pdfRef);
-    console.log(downloadURL)
+   
 
-    const saveUser = {
+    const requesttopublisher = {
       name: data.name,
       category: data.category,
       percentage: data.percentage,
       description: data.description,
       bankDetails: data.bankDetails,
+      bookCopy: downloadURL,
+      status:"pending",
+      writerEmail: user.email,
+      publisherEmail:publisherData.email
     };
 
-    // axiosSecure.post("/requesttopublisher", saveUser).then((data) => {
-    //   if (data.data.insertedId) {
-    //     Swal.fire({
-    //       position: "top-center",
-    //       icon: "success",
-    //       title: "request sent successfully.",
-    //       showConfirmButton: false,
-    //       timer: 1500,
-    //     });
-    //   }
-    // });
+    axiosSecure.post("/requesttopublisher", requesttopublisher).then((data) => {
+      if (data.data.insertedId) {
+        toast.success("request sent successfully!!!", {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        reset()
+      }
+    });
   };
 
   return (
     <div className=" bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full  md:mt-0">
+      
       <h2 className="text-gray-900 text-lg font-medium title-font mb-5">
         Please fill out the given field
       </h2>
@@ -95,6 +105,7 @@ const RequestModal = () => {
             <option>RELIGION</option>
             <option>THRILLER</option>
             <option>LITERATURE</option>
+            <option>EDUCATIONAL</option>
           </select>
           {errors.category?.type === "required" && (
             <small className="text-red-500" role="alert">
@@ -140,7 +151,7 @@ const RequestModal = () => {
             </small>
           )}
         </div>
-
+        <ToastContainer />
         <div className="form-control w-full max-w-xs">
           <label className="label">
             <span className="label-text">Book Copy</span>

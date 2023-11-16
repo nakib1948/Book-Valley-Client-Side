@@ -101,7 +101,7 @@ const Publisherlist = () => {
 
             <dialog id={`${index}`} className="modal ">
               <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
-                <RequestModal />
+                <RequestModal publisherData={data}/>
               </div>
               <form method="dialog" className="modal-backdrop">
                 <button>close</button>

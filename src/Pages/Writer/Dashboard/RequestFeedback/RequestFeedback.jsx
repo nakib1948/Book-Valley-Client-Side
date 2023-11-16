@@ -12,7 +12,8 @@ const RequestFeedback = () => {
               <p>Book: {data.bookName}</p>
               <p>Category: {data.bookCategory}</p>
               <p>Earning percentage: {data.bookPercentage}</p>
-              <div className="card-actions justify-around">
+              <p>Status: pending</p>
+              <div className="card-actions justify-start">
                 <button
                   onClick={() =>
                     document.getElementById(`${index}`).showModal()
@@ -22,7 +23,7 @@ const RequestFeedback = () => {
                   Chat
                 </button>
                 <button className="btn btn-outline btn-info">Agreement</button>
-                <p>Pending</p>
+                
               </div>
             </div>
           </div>
