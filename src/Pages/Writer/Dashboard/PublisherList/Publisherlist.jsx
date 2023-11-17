@@ -15,7 +15,7 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 const Publisherlist = () => {
   const [axiosSecure] = useAxiosSecure();
   const { data, isLoading, error } = useQuery({
-    queryKey: ["instructor"],
+    queryKey: ["publisher"],
     queryFn: async () => {
       const res = await axiosSecure("/allpublisher");
       return res.data;
@@ -28,7 +28,6 @@ const Publisherlist = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-  console.log(data);
 
   return (
     <div>
@@ -101,7 +100,7 @@ const Publisherlist = () => {
 
             <dialog id={`${index}`} className="modal ">
               <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
-                <RequestModal publisherData={data}/>
+                <RequestModal publisherData={data} />
               </div>
               <form method="dialog" className="modal-backdrop">
                 <button>close</button>

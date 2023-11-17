@@ -9,7 +9,7 @@ import { storage } from "../../../../../firebase/firebase.config";
 import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 const maxFileSizeInBytes = 5 * 1024 * 1024;
-const RequestModal = ({publisherData}) => {
+const RequestModal = ({ publisherData }) => {
   const [axiosSecure] = useAxiosSecure();
   const { user } = useContext(AuthContext);
   const [pdfUpload, setPdfUpload] = useState(null);
@@ -32,18 +32,20 @@ const RequestModal = ({publisherData}) => {
 
     await uploadBytes(pdfRef, pdfUpload);
     const downloadURL = await getDownloadURL(pdfRef);
-   
 
     const requesttopublisher = {
       name: data.name,
       category: data.category,
       percentage: data.percentage,
       description: data.description,
-      bankDetails: data.bankDetails,
       bookCopy: downloadURL,
-      status:"pending",
+      status: "pending",
+      writerName: user.displayName,
       writerEmail: user.email,
-      publisherEmail:publisherData.email
+      publisherEmail: publisherData.email,
+      publisherName: publisherData.name,
+      chat: [],
+      agreement: "",
     };
 
     axiosSecure.post("/requesttopublisher", requesttopublisher).then((data) => {
@@ -58,14 +60,13 @@ const RequestModal = ({publisherData}) => {
           progress: undefined,
           theme: "light",
         });
-        reset()
+        reset();
       }
     });
   };
 
   return (
     <div className=" bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full  md:mt-0">
-      
       <h2 className="text-gray-900 text-lg font-medium title-font mb-5">
         Please fill out the given field
       </h2>

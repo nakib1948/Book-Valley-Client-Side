@@ -1,17 +1,77 @@
 import Chatmodal from "./Chatmodal";
 import { request, chatConversation } from "./requestdata";
-import send from "../../../../assets/Writer/send.png"
+import send from "../../../../assets/Writer/send.png";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import Loader from "../../../Shared/Loader/Loader";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../../../Providers/AuthProvider";
+import { ToastContainer, toast } from "react-toastify";
 const RequestFeedback = () => {
+  const { user } = useContext(AuthContext);
+  const [axiosSecure] = useAxiosSecure();
+  const [message, setMessage] = useState("");
+  const queryClient = useQueryClient();
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["requests"],
+    queryFn: async () => {
+      const res = await axiosSecure(`/writerrequest/${user?.email}`);
+      return res.data;
+    },
+  });
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  const chat = async (id) => {
+    const chat = {
+      id,
+      role: "writer",
+      chat: message,
+    };
+    axiosSecure.patch("/chat", chat).then((data) => {
+      if (data.data.modifiedCount) {
+        toast.success("message sent", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setMessage("");
+        queryClient.invalidateQueries(["chat"]);
+      } else {
+        toast.warn("Message not sent!Try again", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    });
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-      {request.map((data, index) => (
+      {data.map((data, index) => (
         <>
           <div key={index} className="card w-full bg-base-100 shadow-xl">
             <div className="card-body">
-              <h2 className="card-title">Request to Ankur Prakashani</h2>
-              <p>Book: {data.bookName}</p>
-              <p>Category: {data.bookCategory}</p>
-              <p>Earning percentage: {data.bookPercentage}</p>
+              <h2 className="card-title">Request to {data.publisherName}</h2>
+              <p>Book: {data.name}</p>
+              <p>Category: {data.category}</p>
               <p>Status: pending</p>
               <div className="card-actions justify-start">
                 <button
@@ -23,22 +83,34 @@ const RequestFeedback = () => {
                   Chat
                 </button>
                 <button className="btn btn-outline btn-info">Agreement</button>
-                
               </div>
             </div>
           </div>
 
           <dialog id={`${index}`} className="modal ">
+            <ToastContainer />
             <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
               <div className="mb-4  p-2 rounded-md">
-                <h1 className="text-2xl text-white text-center font-semibold">Chat with Ankur prokashoni</h1>
+                <h1 className="text-2xl text-white text-center font-semibold">
+                  Chat with {data.publisherName}
+                </h1>
               </div>
-              <Chatmodal />
+              <Chatmodal id={data._id} />
               <div className="flex">
-              <input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
-              <button className="btn bg-deepblue text-base font-semibold text-white ml-2">send
-               <img src={send} className="h-6" alt="" />
-              </button>
+                <input
+                  type="text"
+                  placeholder="Type here"
+                  value={message}
+                  className="input input-bordered w-full max-w-xs"
+                  onChange={(event) => setMessage(event.target.value)}
+                />
+                <button
+                  onClick={() => chat(data._id)}
+                  className="btn bg-deepblue text-base font-semibold text-white ml-2"
+                >
+                  send
+                  <img src={send} className="h-6" alt="" />
+                </button>
               </div>
             </div>
             <form method="dialog" className="modal-backdrop">
