@@ -41,6 +41,19 @@ const Offer = () => {
   }
 
   const chat = async (id) => {
+    if(message ==="")
+    {
+       return toast.warn("write some message", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
     const chat = {
       id,
       role: "publisher",
@@ -84,7 +97,8 @@ const Offer = () => {
               <h2 className="card-title">Offer from {data.writerName}</h2>
               <p>Book: {data.name}</p>
               <p>Category: {data.category}</p>
-              <p>Earning percentage: {data.percentage}</p>
+              <p>Earning percentage: {data.percentage}%</p>
+              <p>writer approval: pending</p>
               <p>Status: Pending</p>
               <div className="card-actions justify-start">
                 <button
@@ -104,6 +118,8 @@ const Offer = () => {
                   Sent Agreement
                 </button>
                 <button className="btn btn-outline btn-info">Decline</button>
+                <button className="btn btn-outline btn-info">Agreement</button>
+                <button className="btn btn-outline btn-info">upload book</button>
               </div>
             </div>
           </div>
@@ -119,15 +135,13 @@ const Offer = () => {
               <Chatmodal id={data._id} />
 
               <div className="flex">
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Type here"
-                    value={message}
-                    className="input input-bordered w-full "
-                    onChange={(event) => setMessage(event.target.value)}
-                  />
-                </div>
+                <input
+                  type="text"
+                  placeholder="Type here"
+                  value={message}
+                  className="input input-bordered w-full max-w-xs"
+                  onChange={(event) => setMessage(event.target.value)}
+                />
                 <button
                   onClick={() => chat(data._id)}
                   className="btn bg-deepblue text-base font-semibold text-white ml-2"
@@ -144,7 +158,7 @@ const Offer = () => {
 
           <dialog id={`${index + 1}`} className="modal ">
             <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
-              <Agreement />
+              <Agreement id={data._id} percentage={data.percentage}/>
             </div>
             <form method="dialog" className="modal-backdrop">
               <button>close</button>

@@ -8,12 +8,11 @@ import { AuthContext } from "../../../../../Providers/AuthProvider";
 import { storage } from "../../../../../firebase/firebase.config";
 import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
-const maxFileSizeInBytes = 5 * 1024 * 1024;
+const maxFileSizeInBytes = 30 * 1024 * 1024;
 const RequestModal = ({ publisherData }) => {
   const [axiosSecure] = useAxiosSecure();
   const { user } = useContext(AuthContext);
   const [pdfUpload, setPdfUpload] = useState(null);
-  const [pdflink, setPdfLink] = useState(null);
 
   const {
     register,
@@ -36,9 +35,12 @@ const RequestModal = ({ publisherData }) => {
     const requesttopublisher = {
       name: data.name,
       category: data.category,
-      percentage: data.percentage,
+      percentage: parseInt(data.percentage),
       description: data.description,
       bookCopy: downloadURL,
+      bookPrice:0,
+      Rating:0,
+      writerApproval:"pending",
       status: "pending",
       writerName: user.displayName,
       writerEmail: user.email,

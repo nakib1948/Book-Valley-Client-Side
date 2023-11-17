@@ -29,6 +29,19 @@ const RequestFeedback = () => {
   }
 
   const chat = async (id) => {
+    if(message ==="")
+    {
+       return toast.warn("write some message", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
     const chat = {
       id,
       role: "writer",
