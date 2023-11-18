@@ -98,7 +98,7 @@ const Offer = () => {
               <p>Book: {data.name}</p>
               <p>Category: {data.category}</p>
               <p>Earning percentage: {data.percentage}%</p>
-              <p>writer approval: pending</p>
+              <p>writer approval: {data.writerApproval}</p>
               <p>Status: Pending</p>
               <div className="card-actions justify-start">
                 <button
@@ -119,7 +119,7 @@ const Offer = () => {
                 </button>
                 <button className="btn btn-outline btn-info">Decline</button>
                 <button className="btn btn-outline btn-info">Agreement</button>
-                <button className="btn btn-outline btn-info">upload book</button>
+                <button disabled={data.writerApproval === "pending"} className="btn btn-outline btn-info">upload book</button>
               </div>
             </div>
           </div>

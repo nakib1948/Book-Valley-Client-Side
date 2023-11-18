@@ -29,9 +29,8 @@ const RequestFeedback = () => {
   }
 
   const chat = async (id) => {
-    if(message ==="")
-    {
-       return toast.warn("write some message", {
+    if (message === "") {
+      return toast.warn("write some message", {
         position: "top-center",
         autoClose: 2000,
         hideProgressBar: false,
@@ -76,6 +75,34 @@ const RequestFeedback = () => {
     });
   };
 
+  const writerApproval = (id)=>{
+    axiosSecure.patch("/writerapproval", {id}).then((data) => {
+      if (data.data.modifiedCount) {
+        toast.success("agreement approved", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else {
+        toast.warn("somethings wrong!Try again", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    });
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
       {data.map((data, index) => (
@@ -95,7 +122,15 @@ const RequestFeedback = () => {
                 >
                   Chat
                 </button>
-                <button className="btn btn-outline btn-info">Agreement</button>
+
+                <button
+                  onClick={() =>
+                    document.getElementById(`${index + 1}`).showModal()
+                  }
+                  className="btn btn-outline btn-info"
+                >
+                  Agreement
+                </button>
               </div>
             </div>
           </div>
@@ -125,6 +160,27 @@ const RequestFeedback = () => {
                   <img src={send} className="h-6" alt="" />
                 </button>
               </div>
+            </div>
+            <form method="dialog" className="modal-backdrop">
+              <button>close</button>
+            </form>
+          </dialog>
+
+          <dialog id={`${index + 1}`} className="modal ">
+          <ToastContainer />
+            <div className="modal-box w-9/12 max-w-5xl mt-20 h-full bg-gray-500 modal-bottom sm:modal-middle">
+              <iframe
+                src={data.agreement}
+                title="PDF Viewer"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                allowFullScreen
+                sandbox="allow-scripts allow-same-origin"
+              ></iframe>
+              <button  disabled={data.writerApproval === "approved"}  onClick={() => writerApproval(data._id)} className="btn btn-block text-xl text-white btn-primary">
+                Confrim Agreement
+              </button>
             </div>
             <form method="dialog" className="modal-backdrop">
               <button>close</button>

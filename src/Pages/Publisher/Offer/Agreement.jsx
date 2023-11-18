@@ -37,7 +37,7 @@ const Agreement = ({ id, percentage }) => {
       id,
       percentage: parseInt(data.percentage),
       bookPrice: parseInt(data.bookPrice),
-      bookCopy: downloadURL,
+      agreement: downloadURL,
     };
 
     axiosSecure.patch("/postagreement", agreement).then((data) => {

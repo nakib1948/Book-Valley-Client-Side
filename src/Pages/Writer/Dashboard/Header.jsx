@@ -8,6 +8,7 @@ const Header = () => {
         <div className="my-2">
           <h1 className="text-xl text-center font-semibold text-gray-800">Book store</h1>
         </div>
+        
 
         <div className="lg:text-right text-center text-gray-600 my-2">
           <div className="text-sm font-bold">{formattedDate}</div>
