@@ -1,12 +1,10 @@
 import { useForm } from "react-hook-form";
-import Swal from "sweetalert2";
 import { ToastContainer, toast } from "react-toastify";
-import { useContext, useState } from "react";
+import {  useState } from "react";
 
-import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { AuthContext } from "../../../Providers/AuthProvider";
 import { storage } from "../../../firebase/firebase.config";
 const maxFileSizeInBytes = 30 * 1024 * 1024;
 

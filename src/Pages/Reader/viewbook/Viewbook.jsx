@@ -7,16 +7,11 @@ export default function Viewbook() {
   );
 
   return (
-   
-          <iframe
-            src={pdfLink}
-            title="PDF Viewer"
-            width="100%"
-            height="600px"
-            frameBorder="0"
-            allowFullScreen
-            sandbox="allow-scripts allow-same-origin"
-          ></iframe>
+    <embed src={pdfLink}
+    width="100%"
+    height="600px"
+     />
+        
        
   );
 }

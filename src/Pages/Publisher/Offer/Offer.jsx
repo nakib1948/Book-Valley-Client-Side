@@ -12,6 +12,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Loader from "../../Shared/Loader/Loader";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
+import UploadBook from "./UploadBook";
 
 const Offer = () => {
   const { user, loading } = useContext(AuthContext);
@@ -41,9 +42,8 @@ const Offer = () => {
   }
 
   const chat = async (id) => {
-    if(message ==="")
-    {
-       return toast.warn("write some message", {
+    if (message === "") {
+      return toast.warn("write some message", {
         position: "top-center",
         autoClose: 2000,
         hideProgressBar: false,
@@ -118,8 +118,23 @@ const Offer = () => {
                   Sent Agreement
                 </button>
                 <button className="btn btn-outline btn-info">Decline</button>
-                <button className="btn btn-outline btn-info">Agreement</button>
-                <button disabled={data.writerApproval === "pending"} className="btn btn-outline btn-info">upload book</button>
+                <button
+                  onClick={() =>
+                    document.getElementById(`${index + 2}`).showModal()
+                  }
+                  className="btn btn-outline btn-info"
+                >
+                  Agreement
+                </button>
+                <button
+                  disabled={data.writerApproval === "pending"}
+                  onClick={() =>
+                    document.getElementById(`${index + 3}`).showModal()
+                  }
+                  className="btn btn-outline btn-info"
+                >
+                  upload book
+                </button>
               </div>
             </div>
           </div>
@@ -158,7 +173,25 @@ const Offer = () => {
 
           <dialog id={`${index + 1}`} className="modal ">
             <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
-              <Agreement id={data._id} percentage={data.percentage}/>
+              <Agreement id={data._id} percentage={data.percentage} />
+            </div>
+            <form method="dialog" className="modal-backdrop">
+              <button>close</button>
+            </form>
+          </dialog>
+
+          <dialog id={`${index + 2}`} className="modal ">
+            <div className="modal-box w-9/12 max-w-5xl  h-full bg-gray-500 modal-bottom sm:modal-middle">
+              <embed src={data.agreement} width="100%" height="600px" />
+            </div>
+            <form method="dialog" className="modal-backdrop">
+              <button>close</button>
+            </form>
+          </dialog>
+
+          <dialog id={`${index + 3}`} className="modal ">
+            <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
+              <UploadBook id={data._id} />
             </div>
             <form method="dialog" className="modal-backdrop">
               <button>close</button>

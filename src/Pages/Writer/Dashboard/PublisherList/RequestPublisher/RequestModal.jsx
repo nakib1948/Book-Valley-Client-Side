@@ -38,6 +38,7 @@ const RequestModal = ({ publisherData }) => {
       percentage: parseInt(data.percentage),
       description: data.description,
       bookCopy: downloadURL,
+      bookCoverPhoto:"",
       bookPrice:0,
       Rating:0,
       writerApproval:"pending",
@@ -47,6 +48,7 @@ const RequestModal = ({ publisherData }) => {
       publisherEmail: publisherData.email,
       publisherName: publisherData.name,
       chat: [],
+      review:[],
       agreement: "",
     };
 

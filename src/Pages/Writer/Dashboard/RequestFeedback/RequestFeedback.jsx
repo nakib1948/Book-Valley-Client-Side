@@ -168,16 +168,8 @@ const RequestFeedback = () => {
 
           <dialog id={`${index + 1}`} className="modal ">
           <ToastContainer />
-            <div className="modal-box w-9/12 max-w-5xl mt-20 h-full bg-gray-500 modal-bottom sm:modal-middle">
-              <iframe
-                src={data.agreement}
-                title="PDF Viewer"
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                allowFullScreen
-                sandbox="allow-scripts allow-same-origin"
-              ></iframe>
+            <div className="modal-box w-9/12 max-w-5xl  h-full bg-gray-500 modal-bottom sm:modal-middle">
+            <embed src={data.agreement} width="100%" height="600px" />
               <button  disabled={data.writerApproval === "approved"}  onClick={() => writerApproval(data._id)} className="btn btn-block text-xl text-white btn-primary">
                 Confrim Agreement
               </button>
