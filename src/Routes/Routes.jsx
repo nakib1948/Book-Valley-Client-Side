@@ -23,6 +23,9 @@ import AdminRoute from "./AdminRoute";
 import WriterRoute from "./WriterRoute";
 import PublisherRoute from "./PublisherRoute";
 import PrivateRoute from "./PrivateRoute";
+import Allusers from "../Pages/Admin/Allusers/Allusers";
+import BookRequest from "../Pages/Admin/BookRequest/BookRequest";
+import PdfPreview from "../Pages/Shared/PdfPreview/PdfPreview";
 
 export const router = createBrowserRouter([
   {
@@ -116,18 +119,22 @@ export const router = createBrowserRouter([
     element:<AdminRoute><AdminDashboard></AdminDashboard></AdminRoute> ,
     children: [
       {
-        path: "offer",
-        element: <Offer></Offer>,
+        path: "allusers",
+        element: <Allusers></Allusers>,
       },
       {
-        path: "allrequest",
-        element: <RequestFeedback></RequestFeedback>,
+        path: "allbookrequest",
+        element: <BookRequest></BookRequest>,
       },
       {
         path: "profile",
         element: <WriterProfile></WriterProfile>,
       },
     ],
+  },
+  {
+    path:"/pdfreader",
+    element:<PdfPreview/>
   },
   {
     path: "*",

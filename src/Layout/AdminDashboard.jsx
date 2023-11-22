@@ -9,6 +9,7 @@ import blog from "../assets/Dashboard/blog.png";
 import profile from "../assets/Dashboard/profile.png";
 import paymentHistory from "../assets/payment-history.png";
 import earning from "../assets/Dashboard/earning.png";
+import allusers from "../assets/Dashboard/alluser.png";
 import withdraw from "../assets/Publisher/withdraw.png";
 
 const AdminDashboard = () => {
@@ -56,28 +57,28 @@ const AdminDashboard = () => {
                       className="text-base my-1 font-semibold"
                     >
                       <img src={publisher} className="h-5" alt="" />
-                      Publisher
+                      Published Books
                     </Link>
                   </li>
   
                   <li className="bg-slate-50 rounded-sm my-1">
-                    <Link to="/writer/allrequest" className="text-base my-1 font-semibold">
+                    <Link to="/admin/allbookrequest" className="text-base my-1 font-semibold">
                       <img src={request} className="h-5" alt="" />
-                      Request
+                     Book Request
                     </Link>
                   </li>
   
                   <li className="bg-slate-50 rounded-sm my-1">
                     <Link className="text-base my-1 font-semibold">
                       <img src={blog} className="h-5" alt="" />
-                      Blog
+                      Blog Request
                     </Link>
                   </li>
   
                   <li className="bg-slate-50 rounded-sm my-1">
-                    <Link to="/writer/profile" className="text-base my-1 font-semibold">
-                      <img src={profile} className="h-5" alt="" />
-                      Profile
+                    <Link to="/admin/allusers" className="text-base my-1 font-semibold">
+                      <img src={allusers} className="h-5" alt="" />
+                      All Users
                     </Link>
                   </li>
   
