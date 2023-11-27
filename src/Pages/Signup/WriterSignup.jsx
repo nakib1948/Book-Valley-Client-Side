@@ -61,6 +61,7 @@ const WriterSignup = () => {
                       }).then(() => {
                         reset();
                         navigate("/");
+                        window.location.reload();
                       });
                     }
                   });

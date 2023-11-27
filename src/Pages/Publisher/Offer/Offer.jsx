@@ -103,15 +103,18 @@ const Offer = () => {
               <div className="card-actions justify-start">
                 <button
                   onClick={() =>
-                    document.getElementById(`${index}`).showModal()
+                    document.getElementById(`chatModal_${data._id}`).showModal()
                   }
                   className="btn btn-outline btn-info"
                 >
                   Chat
                 </button>
                 <button
+                  disabled= {data.agreement !== ""}
                   onClick={() =>
-                    document.getElementById(`${index + 1}`).showModal()
+                    document
+                      .getElementById(`agreementModal_${data._id}`)
+                      .showModal()
                   }
                   className="btn btn-outline btn-info"
                 >
@@ -120,26 +123,33 @@ const Offer = () => {
                 <button className="btn btn-outline btn-info">Decline</button>
                 <button
                   onClick={() =>
-                    document.getElementById(`${index + 2}`).showModal()
+                    document
+                      .getElementById(`showagreementModal_${data._id}`)
+                      .showModal()
                   }
                   className="btn btn-outline btn-info"
                 >
                   Agreement
                 </button>
                 <button
-                  disabled={data.writerApproval === "pending"}
+                  disabled={data.writerApproval === "pending" || data.bookCoverPhoto!==""}
                   onClick={() =>
-                    document.getElementById(`${index + 3}`).showModal()
+                    document
+                      .getElementById(`uploadBookModal_${data._id}`)
+                      .showModal()
                   }
                   className="btn btn-outline btn-info"
                 >
-                  upload book
+                  {
+                     data.bookCoverPhoto ? "uploaded": " upload book"
+                  }
+                 
                 </button>
               </div>
             </div>
           </div>
 
-          <dialog id={`${index}`} className="modal ">
+          <dialog id={`chatModal_${data._id}`} className="modal ">
             <ToastContainer />
             <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
               <div className="mb-4  p-2 rounded-md">
@@ -171,7 +181,7 @@ const Offer = () => {
             </form>
           </dialog>
 
-          <dialog id={`${index + 1}`} className="modal ">
+          <dialog id={`agreementModal_${data._id}`} className="modal ">
             <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
               <Agreement id={data._id} percentage={data.percentage} />
             </div>
@@ -180,18 +190,25 @@ const Offer = () => {
             </form>
           </dialog>
 
-          <dialog id={`${index + 2}`} className="modal ">
-            <div className="modal-box w-9/12 max-w-5xl  h-full bg-gray-500 modal-bottom sm:modal-middle">
-              <embed src={data.agreement} width="100%" height="600px" />
-            </div>
+          <dialog id={`showagreementModal_${data._id}`} className="modal ">
+            {data.agreement === "" ? (
+              <div className="text-center modal-box w-9/12 max-w-5xl  h-full text-blue-500 text-xl font-bold modal-bottom sm:modal-middle">
+                No agreement yet
+              </div>
+            ) : (
+              <div className="modal-box w-9/12 max-w-5xl  h-full bg-gray-500 modal-bottom sm:modal-middle">
+                <embed src={data.agreement} width="100%" height="600px" />
+              </div>
+            )}
+
             <form method="dialog" className="modal-backdrop">
               <button>close</button>
             </form>
           </dialog>
 
-          <dialog id={`${index + 3}`} className="modal ">
+          <dialog id={`uploadBookModal_${data._id}`} className="modal ">
             <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
-              <UploadBook id={data._id} />
+              <UploadBook id={data._id}  />
             </div>
             <form method="dialog" className="modal-backdrop">
               <button>close</button>

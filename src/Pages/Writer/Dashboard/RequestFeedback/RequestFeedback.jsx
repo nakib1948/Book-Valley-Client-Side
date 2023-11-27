@@ -75,8 +75,8 @@ const RequestFeedback = () => {
     });
   };
 
-  const writerApproval = (id)=>{
-    axiosSecure.patch("/writerapproval", {id}).then((data) => {
+  const writerApproval = (id) => {
+    axiosSecure.patch("/writerapproval", { id }).then((data) => {
       if (data.data.modifiedCount) {
         toast.success("agreement approved", {
           position: "top-center",
@@ -101,7 +101,7 @@ const RequestFeedback = () => {
         });
       }
     });
-  }
+  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
@@ -116,7 +116,7 @@ const RequestFeedback = () => {
               <div className="card-actions justify-start">
                 <button
                   onClick={() =>
-                    document.getElementById(`${index}`).showModal()
+                    document.getElementById(`chatModal_${data._id}`).showModal()
                   }
                   className="btn btn-outline btn-info"
                 >
@@ -125,7 +125,9 @@ const RequestFeedback = () => {
 
                 <button
                   onClick={() =>
-                    document.getElementById(`${index + 1}`).showModal()
+                    document
+                      .getElementById(`agreementModal_${data._id}`)
+                      .showModal()
                   }
                   className="btn btn-outline btn-info"
                 >
@@ -135,7 +137,7 @@ const RequestFeedback = () => {
             </div>
           </div>
 
-          <dialog id={`${index}`} className="modal ">
+          <dialog id={`chatModal_${data._id}`} className="modal ">
             <ToastContainer />
             <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
               <div className="mb-4  p-2 rounded-md">
@@ -166,14 +168,26 @@ const RequestFeedback = () => {
             </form>
           </dialog>
 
-          <dialog id={`${index + 1}`} className="modal ">
-          <ToastContainer />
-            <div className="modal-box w-9/12 max-w-5xl  h-full bg-gray-500 modal-bottom sm:modal-middle">
-            <embed src={data.agreement} width="100%" height="600px" />
-              <button  disabled={data.writerApproval === "approved"}  onClick={() => writerApproval(data._id)} className="btn btn-block text-xl text-white btn-primary">
-                Confrim Agreement
-              </button>
-            </div>
+          <dialog id={`agreementModal_${data._id}`} className="modal ">
+            <ToastContainer />
+            {data.agreement === "" ? (
+              <div className="text-center modal-box w-9/12 max-w-5xl  h-full text-blue-500 text-xl font-bold modal-bottom sm:modal-middle">
+                
+                No agreement yet
+              </div>
+            ) : (
+              <div className="modal-box w-9/12 max-w-5xl  h-full bg-gray-500 modal-bottom sm:modal-middle">
+                <embed src={data.agreement} width="100%" height="600px" />
+                <button
+                  disabled={data.writerApproval === "approved"}
+                  onClick={() => writerApproval(data._id)}
+                  className="btn btn-block text-xl text-white btn-primary"
+                >
+                  Confrim Agreement
+                </button>
+              </div>
+            )}
+
             <form method="dialog" className="modal-backdrop">
               <button>close</button>
             </form>

@@ -10,13 +10,24 @@ import { useState } from "react";
 import Pagination from "../Shared/Pagination/Pagination";
 import { Link, useNavigate } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
+import useGetAllBooks from "../../hooks/useGetAllBooks";
+import Loader from "../Shared/Loader/Loader";
 const Allbooks = () => {
+  const [data, isLoading, error, refetch] = useGetAllBooks()
   const [currentPage, setCurrentPage] = useState(1);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
   const postsPerPage = 12;
 
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
-  const currentPosts = booksData.slice(firstPostIndex, lastPostIndex);
+  const currentPosts = data.slice(firstPostIndex, lastPostIndex);
 
   return (
     <div>
@@ -31,7 +42,7 @@ const Allbooks = () => {
               >
                 <figure className="px-5">
                   <img
-                    src={book.image}
+                    src={book.bookCoverPhoto}
                     alt="Shoes"
                     className="rounded-xl h-64"
                   />
@@ -66,9 +77,9 @@ const Allbooks = () => {
                       className="mask mask-star-2 bg-orange-400"
                     />
                   </div>
-                  <h2 className="card-title">{book.booktitle}</h2>
+                  <h2 className="card-title">{book.name} by {book.writerName}</h2>
                   <p className="text-lg font-bold">
-                    {book.price} <FontAwesomeIcon icon={faDollarSign} />{" "}
+                    {book.bookPrice} <FontAwesomeIcon icon={faDollarSign} />{" "}
                   </p>
 
                   <div className="hidden absolute inset-0 flex items-center justify-center  bg-gray-300 bg-opacity-40 group-hover:flex">
@@ -134,7 +145,7 @@ const Allbooks = () => {
         </div>
       </div>
       <Pagination
-        totalPosts={booksData.length}
+        totalPosts={data.length}
         postsPerPage={postsPerPage}
         setCurrentPage={setCurrentPage}
         currentPage={currentPage}

@@ -63,6 +63,7 @@ const Signup = () => {
                     }).then(() => {
                       reset();
                       navigate("/");
+                      window.location.reload();
                     });
                   }
                 });

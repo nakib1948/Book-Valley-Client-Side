@@ -4,9 +4,12 @@ import cart from "../../../assets/Home/cart.png";
 import { useContext } from "react";
 import { AuthContext } from "../../../Providers/AuthProvider";
 import useGetUserRole from "../../../hooks/useGetUserRole";
+import Loader from "../Loader/Loader";
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
-  const [isRole] = useGetUserRole();
+  const [isRole, isRoleLoading,error] = useGetUserRole();
+ 
+
   const navigate = useNavigate();
   const signout = () => {
     logOut().then(() => {

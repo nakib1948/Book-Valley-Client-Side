@@ -50,6 +50,7 @@ const RequestModal = ({ publisherData }) => {
       chat: [],
       review:[],
       agreement: "",
+      bookStatus:"paid"
     };
 
     axiosSecure.post("/requesttopublisher", requesttopublisher).then((data) => {

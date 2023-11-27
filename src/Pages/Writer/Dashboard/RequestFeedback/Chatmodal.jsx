@@ -6,7 +6,7 @@ import Loader from "../../../Shared/Loader/Loader";
 const Chatmodal = ({ id }) => {
   const [axiosSecure] = useAxiosSecure();
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["chat"],
+    queryKey: ["chat",id],
     queryFn: async () => {
       const res = await axiosSecure(`/getchat/${id}`);
       return res.data;

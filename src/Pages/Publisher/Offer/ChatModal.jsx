@@ -6,7 +6,7 @@ const Chatmodal = ({ id }) => {
   const [axiosSecure] = useAxiosSecure();
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["publisherchat"],
+    queryKey: ["publisherchat",id],
     queryFn: async () => {
       const res = await axiosSecure(`/getchat/${id}`);
       return res.data;

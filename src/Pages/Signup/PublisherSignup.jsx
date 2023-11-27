@@ -69,6 +69,7 @@ const PublisherSignup = () => {
                       }).then(() => {
                         reset();
                         navigate("/");
+                        window.location.reload();
                       });
                     }
                   });

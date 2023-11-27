@@ -30,7 +30,7 @@ const BookRequest = () => {
         <tbody>
             {
                 data.filter(data=> data.writerApproval === "approved")
-                .map((data,index)=><BookRequestTable request={data} key={index}></BookRequestTable>)
+                .map((data,index)=><BookRequestTable refetch={refetch} request={data} key={index}></BookRequestTable>)
             }
         </tbody>
       </table>

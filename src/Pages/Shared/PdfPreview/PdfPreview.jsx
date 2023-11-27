@@ -11,7 +11,7 @@ const PdfPreview = () => {
   const { user } = useContext(AuthContext);
   const [isRole, isRoleLoading] = useGetUserRole();
   const navigate = useNavigate();
-  const [booklink,setBookLink] = useContext(pdfContext)
+  const [booklink, setBookLink] = useContext(pdfContext);
 
   if (isRoleLoading) {
     <Loader></Loader>;
@@ -29,29 +29,21 @@ const PdfPreview = () => {
 
   return (
     <div>
-      <div className="flex justify-center">
-        <ul className="menu bg-base-200 menu-horizontal  rounded-box">
-          <li>
-            <a className="text-base font-semibold">
-              <img src={home} className="h-7" alt="" />
-              Home
-            </a>
-          </li>
-          <li>
-            <a className="text-base font-semibold">
-              <img src={shop} className="h-7" alt="" />
-              Shop
-            </a>
-          </li>
-          <li>
-            <a onClick={path} className="text-base font-semibold">
-              <img src={dashboard} className="h-7" alt="" />
-              Dashboard
-            </a>
-          </li>
-        </ul>
+      <embed src={booklink} className="w-full h-screen" />
+      <div className="btm-nav  btm-nav-xs">
+        <button className="bg-pink-200 text-pink-600">
+          <img src={home} className="h-7" alt="" />
+          <span >Home</span>
+        </button>
+        <button className="active bg-blue-200 text-blue-600 border-blue-600">
+          <img src={shop} className="h-7" alt="" />
+          <span >Shop</span>
+        </button>
+        <button onClick={path} className="bg-teal-200 text-teal-600">
+          <img src={dashboard} className="h-5" alt="" />
+          <span >Dashboard</span>
+        </button>
       </div>
-      <embed src={booklink} width="100%" height="600px" />
     </div>
   );
 };
