@@ -1,11 +1,11 @@
 import Modal from "../Home/FeaturedCollection/Modal";
 import Headersection from "./Headersection";
-import booksData from "./bookdata";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
 import cart from "../../assets/All-Books/cart.png";
 import search from "../../assets/All-Books/search.gif";
 import details from "../../assets/All-Books/details.png";
+import premium from "../../assets/All-Books/premium.png";
 import { useState } from "react";
 import Pagination from "../Shared/Pagination/Pagination";
 import { Link, useNavigate } from "react-router-dom";
@@ -27,7 +27,7 @@ const Allbooks = () => {
 
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
-  const currentPosts = data.slice(firstPostIndex, lastPostIndex);
+  const currentPosts = data.filter(status=> status.status==="approved").slice(firstPostIndex, lastPostIndex);
 
   return (
     <div>
@@ -40,6 +40,7 @@ const Allbooks = () => {
                 key={index}
                 className="group relative w-96  bg-base-100 shadow-xl"
               >
+                <div className="badge badge-lg"><img src={premium} className="h-7" alt="" /></div>
                 <figure className="px-5">
                   <img
                     src={book.bookCoverPhoto}
@@ -100,7 +101,7 @@ const Allbooks = () => {
                       className="btn mx-4"
                       data-for={`quickViewTooltip-${index}`}
                       onClick={() =>
-                        document.getElementById(`${index}`).showModal()
+                        document.getElementById(`quickview${book._id}`).showModal()
                       }
                       data-tip="quick view"
                     >
@@ -112,7 +113,7 @@ const Allbooks = () => {
                       />
                       <img src={search} className="h-8" alt="" />
                     </button>
-                    <Link to={`/allbooks/${book.id}`}>
+                    <Link to={`/allbooks/${book._id}`}>
                       <button
                         className="btn"
                         data-for={`details-${index}`}
@@ -132,9 +133,9 @@ const Allbooks = () => {
                 </div>
               </div>
 
-              <dialog id={`${index}`} className="modal ">
+              <dialog id={`quickview${book._id}`} className="modal ">
                 <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
-                  <Modal />
+                  <Modal book={book}/>
                 </div>
                 <form method="dialog" className="modal-backdrop">
                   <button>close</button>

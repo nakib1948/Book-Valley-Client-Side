@@ -19,7 +19,7 @@ const Chatmodal = ({ id }) => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-  console.log(data);
+  
   return (
     <div className="overflow-y-scroll scroll-smooth h-80">
       {data.map((chat, index) =>

@@ -147,7 +147,7 @@ const FeaturedCollection = () => {
           </div>
           <dialog id={`${index}`} className="modal ">
           <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
-             <Modal/>
+             <Modal book={book}/>
           </div>
           <form method="dialog" className="modal-backdrop">
             <button>close</button>
