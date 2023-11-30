@@ -12,9 +12,12 @@ import { Link, useNavigate } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import useGetAllBooks from "../../hooks/useGetAllBooks";
 import Loader from "../Shared/Loader/Loader";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 const Allbooks = () => {
   const [data, isLoading, error, refetch] = useGetAllBooks()
   const [currentPage, setCurrentPage] = useState(1);
+  const [axiosSecure]=useAxiosSecure()
 
   if (isLoading) {
     return <Loader />;
@@ -28,6 +31,22 @@ const Allbooks = () => {
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentPosts = data.filter(status=> status.status==="approved").slice(firstPostIndex, lastPostIndex);
+
+  const addtoCart = (data)=>{
+    axiosSecure(`/existsIncart/${data._id}`).then((res) => {
+      if (res.data.exists)
+        return Swal.fire("You already added this book!!!");
+      else {
+        axiosSecure.patch("/addTocart", data).then((data) => {
+          if (data.data == "already exists") {
+            Swal.fire("you already added this book");
+          } else if (data.data.modifiedCount) {
+            Swal.fire("book added successfully");
+          }
+        });
+      }
+    });
+  }
 
   return (
     <div>
@@ -88,6 +107,7 @@ const Allbooks = () => {
                       className="btn mr-5"
                       data-for={`cartTooltip-${index}`}
                       data-tip="add to cart"
+                      onClick={()=>addtoCart(book)}
                     >
                       <img src={cart} alt="" />
                     </button>

@@ -47,6 +47,7 @@ const RequestModal = ({ publisherData }) => {
       writerEmail: user.email,
       publisherEmail: publisherData.email,
       publisherName: publisherData.name,
+      soldUnit:0,
       chat: [],
       review:[],
       agreement: "",

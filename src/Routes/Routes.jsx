@@ -26,6 +26,7 @@ import PrivateRoute from "./PrivateRoute";
 import Allusers from "../Pages/Admin/Allusers/Allusers";
 import BookRequest from "../Pages/Admin/BookRequest/BookRequest";
 import PdfPreview from "../Pages/Shared/PdfPreview/PdfPreview";
+import Payment from "../Pages/Payment/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ export const router = createBrowserRouter([
         path: "/viewbook",
         element:<PrivateRoute> <Viewbook></Viewbook></PrivateRoute>,
       },
+      {
+         path:"/payment",
+         element:<PrivateRoute><Payment></Payment></PrivateRoute>
+      }
     ],
   },
   {

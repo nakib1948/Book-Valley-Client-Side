@@ -69,7 +69,7 @@ const Navbar = () => {
             <Link to="/">Home</Link>
           </li>
           <li className="text-lg">
-            <Link to="/allbooks">shop</Link>
+            <Link to="/allbooks">Shop</Link>
           </li>
           <li className="text-lg">
             {user ? (
@@ -86,10 +86,15 @@ const Navbar = () => {
               <Link to="/login">Dashboard</Link>
             )}
           </li>
-          <li className="text-lg">
-            <Link to="/cart">
-              <img src={cart} className="h-10" alt="" />
+          <li >
+            
+            <Link to="/cart" className="text-lg">
+              Cart
+              <img src={cart} className="h-7" alt="" />
+              
+              
             </Link>
+            
           </li>
         </ul>
       </div>

@@ -90,7 +90,7 @@ const WriterSignup = () => {
             </div>
             <div className=" mx-auto">
               <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex flex-wrap -m-2">
+                <div className="flex flex-wrap m-2">
                   <div className="p-2 w-1/2">
                     <div className="relative">
                       <label

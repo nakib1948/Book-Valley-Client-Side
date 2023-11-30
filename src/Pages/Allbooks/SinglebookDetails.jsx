@@ -7,41 +7,13 @@ import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
+import Swal from "sweetalert2";
 
 const SinglebookDetails = () => {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
   const [axiosSecure] = useAxiosSecure();
-  const reviewdata = [
-    {
-      name: "Alice",
-      email: "alice@example.com",
-      rating: 4,
-      review: "Enjoyed the book. It was a great read!",
-      userImg: "https://example.com/alice.jpg",
-    },
-    {
-      name: "Bob",
-      email: "bob@example.com",
-      rating: 5,
-      review: "Fantastic book! Couldn't put it down.",
-      userImg: "https://example.com/bob.jpg",
-    },
-    {
-      name: "Charlie",
-      email: "charlie@example.com",
-      rating: 3,
-      review: "Good book, but I expected more twists.",
-      userImg: "https://example.com/charlie.jpg",
-    },
-    {
-      name: "David",
-      email: "david@example.com",
-      rating: 5,
-      review: "Absolutely loved it! A must-read.",
-      userImg: "https://example.com/david.jpg",
-    },
-  ];
+
 
   const {
     register,
@@ -64,6 +36,23 @@ const SinglebookDetails = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
+  const addtoCart = (data)=>{
+    axiosSecure(`/existsIncart/${data._id}`).then((res) => {
+      if (res.data.exists)
+        return Swal.fire("You already added this book!!!");
+      else {
+        axiosSecure.patch("/addTocart", data).then((data) => {
+          if (data.data == "already exists") {
+            Swal.fire("you already added this book");
+          } else if (data.data.modifiedCount) {
+            Swal.fire("book added successfully");
+          }
+        });
+      }
+    });
+  }
+
+
   const onSubmit = async (data) => {
     const review = {
       id,
@@ -157,7 +146,9 @@ const SinglebookDetails = () => {
                 <span className="title-font font-medium text-2xl text-gray-900">
                   ${data.bookPrice}
                 </span>
-                <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+                <button 
+                onClick={()=>addtoCart(data)}
+                className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
                   Add to Cart
                 </button>
                 <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">

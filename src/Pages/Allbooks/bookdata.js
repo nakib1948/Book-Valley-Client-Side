@@ -178,4 +178,35 @@ const booksData = [
       },
       
   ];
+
+  const reviewdata = [
+    {
+      name: "Alice",
+      email: "alice@example.com",
+      rating: 4,
+      review: "Enjoyed the book. It was a great read!",
+      userImg: "https://example.com/alice.jpg",
+    },
+    {
+      name: "Bob",
+      email: "bob@example.com",
+      rating: 5,
+      review: "Fantastic book! Couldn't put it down.",
+      userImg: "https://example.com/bob.jpg",
+    },
+    {
+      name: "Charlie",
+      email: "charlie@example.com",
+      rating: 3,
+      review: "Good book, but I expected more twists.",
+      userImg: "https://example.com/charlie.jpg",
+    },
+    {
+      name: "David",
+      email: "david@example.com",
+      rating: 5,
+      review: "Absolutely loved it! A must-read.",
+      userImg: "https://example.com/david.jpg",
+    },
+  ];
   export default booksData
