@@ -5,8 +5,39 @@ import "swiper/css/pagination";
 import { Grid, Pagination } from "swiper/modules";
 import adventure from "../../../assets/Home/categories/adventure.jpg";
 import reading from "../../../assets/reading.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import Loader from "../../Shared/Loader/Loader";
+import { useContext } from "react";
+import { pdfContext } from "../../../Providers/PdfLinkProvider";
 const Premiumbooks = () => {
+ 
+  const [axiosSecure] = useAxiosSecure();
+  const [booklink, setBookLink] = useContext(pdfContext);
+  const navigate = useNavigate()
+
+
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["getPaidBook"],
+    queryFn: async () => {
+      const res = await axiosSecure(`/getPaidBook`);
+      return res.data;
+    },
+  });
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  const pdflinkClick = async(link)=>{
+      await setBookLink(link)
+      navigate('/pdfreader')
+  }
+  console.log(data)
   const breakpoints = {
     320: {
       slidesPerView: 1,
@@ -37,111 +68,27 @@ const Premiumbooks = () => {
           modules={[Grid, Pagination]}
           className="mySwiper "
         >
-          <SwiperSlide>
-            {" "}
-            <div className="card w-80 mb-10 relative shadow-xl group">
-              <figure className="px-10 pt-10">
-                <img src={adventure} alt="Shoes" className="rounded-xl h-64" />
-              </figure>
-              <div className="card-body items-center text-center">
-                <h2 className="card-title">ADVENTURE</h2>
+          {
+             data.map((book,index) =>  <SwiperSlide key={index}>
+            
+              <div className="card w-80 mb-10 relative shadow-xl group">
+                <figure className="px-10 pt-10">
+                  <img src={book.bookCoverPhoto} alt="Shoes" className="rounded-xl h-64" />
+                </figure>
+                <div className="card-body items-center text-center">
+                  <h2 className="card-title">{book.name} by {book.writerName}</h2>
+                </div>
+                <div className="hidden absolute inset-0 flex items-center justify-center bg-gray-300 bg-opacity-40 group-hover:flex">
+                  <button onClick={()=> pdflinkClick(book.bookCopy)} className="btn">
+                    <img src={reading} className="h-8" alt="" />
+                    read
+                  </button>
+                </div>
               </div>
-              <div className="hidden absolute inset-0 flex items-center justify-center bg-gray-300 bg-opacity-40 group-hover:flex">
-                <Link to="/viewbook" className="btn">
-                  <img src={reading} className="h-8" alt="" />
-                  read
-                </Link>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            {" "}
-            <div className="card w-80 mb-10  shadow-xl">
-              <figure className="px-10 pt-10">
-                <img src={adventure} alt="Shoes" className=" rounded-xl h-64" />
-              </figure>
-              <div className="card-body items-center text-center">
-                <h2 className="card-title">ADVENTURE</h2>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            {" "}
-            <div className="card w-80 mb-10  shadow-xl">
-              <figure className="px-10 pt-10">
-                <img src={adventure} alt="Shoes" className=" rounded-xl h-64" />
-              </figure>
-              <div className="card-body items-center text-center">
-                <h2 className="card-title">ADVENTURE</h2>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            {" "}
-            <div className="card w-80 mb-10  shadow-xl">
-              <figure className="px-10 pt-10">
-                <img src={adventure} alt="Shoes" className=" rounded-xl h-64" />
-              </figure>
-              <div className="card-body items-center text-center">
-                <h2 className="card-title">ADVENTURE</h2>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            {" "}
-            <div className="card w-80 mb-10  shadow-xl">
-              <figure className="px-10 pt-10">
-                <img src={adventure} alt="Shoes" className=" rounded-xl h-64" />
-              </figure>
-              <div className="card-body items-center text-center">
-                <h2 className="card-title">ADVENTURE</h2>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            {" "}
-            <div className="card w-80 mb-10  shadow-xl">
-              <figure className="px-10 pt-10">
-                <img src={adventure} alt="Shoes" className=" rounded-xl h-64" />
-              </figure>
-              <div className="card-body items-center text-center">
-                <h2 className="card-title">ADVENTURE</h2>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            {" "}
-            <div className="card w-80 mb-10  shadow-xl">
-              <figure className="px-10 pt-10">
-                <img src={adventure} alt="Shoes" className=" rounded-xl h-64" />
-              </figure>
-              <div className="card-body items-center text-center">
-                <h2 className="card-title">ADVENTURE</h2>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            {" "}
-            <div className="card w-80 mb-10  shadow-xl">
-              <figure className="px-10 pt-10">
-                <img src={adventure} alt="Shoes" className=" rounded-xl h-64" />
-              </figure>
-              <div className="card-body items-center text-center">
-                <h2 className="card-title">ADVENTURE</h2>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            {" "}
-            <div className="card w-80 mb-10  shadow-xl">
-              <figure className="px-10 pt-10">
-                <img src={adventure} alt="Shoes" className=" rounded-xl h-64" />
-              </figure>
-              <div className="card-body items-center text-center">
-                <h2 className="card-title">ADVENTURE</h2>
-              </div>
-            </div>
-          </SwiperSlide>
+            </SwiperSlide>)
+          }
+         
+       
         </Swiper>
       </div>
     </div>
