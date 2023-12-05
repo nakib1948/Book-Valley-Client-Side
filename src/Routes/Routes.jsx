@@ -27,6 +27,7 @@ import Allusers from "../Pages/Admin/Allusers/Allusers";
 import BookRequest from "../Pages/Admin/BookRequest/BookRequest";
 import PdfPreview from "../Pages/Shared/PdfPreview/PdfPreview";
 import Payment from "../Pages/Payment/Payment";
+import UploadBook from "../Pages/Admin/UploadBook/UploadBook";
 
 export const router = createBrowserRouter([
   {
@@ -134,6 +135,10 @@ export const router = createBrowserRouter([
       {
         path: "profile",
         element: <WriterProfile></WriterProfile>,
+      },
+      {
+        path: "uploadBook",
+        element: <UploadBook></UploadBook>,
       },
     ],
   },

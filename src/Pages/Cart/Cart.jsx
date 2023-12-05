@@ -18,8 +18,15 @@ const Cart = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-  const total = data.reduce((sum, book) => sum + book.bookPrice, 0);
-  const tax = 15;
+  let total=0,tax=15;
+  if(data.length)
+  {
+    total = data.reduce((sum, book) => sum + book.bookPrice, 0);
+  }
+  else{
+        tax = 0;
+  }
+
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -72,7 +79,7 @@ const Cart = () => {
               </thead>
 
               <tbody>
-                {data.map((book, index) => (
+                {data && data.map((book, index) => (
                   <tr key={index}>
                     <td className="hidden pb-4 md:table-cell">
                       <img

@@ -33,19 +33,28 @@ const Allbooks = () => {
   const currentPosts = data.filter(status=> status.status==="approved").slice(firstPostIndex, lastPostIndex);
 
   const addtoCart = (data)=>{
-    axiosSecure(`/existsIncart/${data._id}`).then((res) => {
+    axiosSecure(`/existsInPaidbook/${data._id}`).then((res) => {
       if (res.data.exists)
-        return Swal.fire("You already added this book!!!");
+        return Swal.fire("You already bought this book!!!");
       else {
-        axiosSecure.patch("/addTocart", data).then((data) => {
-          if (data.data == "already exists") {
-            Swal.fire("you already added this book");
-          } else if (data.data.modifiedCount) {
-            Swal.fire("book added successfully");
+
+        axiosSecure(`/existsIncart/${data._id}`).then((res) => {
+          if (res.data.exists)
+            return Swal.fire("You already added this book!!!");
+          else {
+            axiosSecure.patch("/addTocart", data).then((data) => {
+              if (data.data.modifiedCount) {
+                Swal.fire("book added successfully");
+              }
+              else{
+                Swal.fire("Something went wrong! try again");
+              }
+            });
           }
         });
       }
-    });
+    })
+  
   }
 
   return (

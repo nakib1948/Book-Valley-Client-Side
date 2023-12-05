@@ -6,7 +6,7 @@ import publisher from "../assets/Dashboard/publisher.png";
 import request from "../assets/Dashboard/request.png";
 import shop from "../assets/Dashboard/shop.png";
 import blog from "../assets/Dashboard/blog.png";
-import profile from "../assets/Dashboard/profile.png";
+import upload from "../assets/admin/upload.png";
 import paymentHistory from "../assets/payment-history.png";
 import earning from "../assets/Dashboard/earning.png";
 import allusers from "../assets/Dashboard/alluser.png";
@@ -57,7 +57,7 @@ const AdminDashboard = () => {
                       className="text-base my-1 font-semibold"
                     >
                       <img src={publisher} className="h-5" alt="" />
-                      Published Books
+                      All Books
                     </Link>
                   </li>
   
@@ -83,9 +83,9 @@ const AdminDashboard = () => {
                   </li>
   
                   <li className="bg-slate-50 rounded-sm my-1">
-                    <Link className="text-base my-1 font-semibold">
-                      <img src={paymentHistory} className="h-5" alt="" />
-                      Payment History
+                    <Link to="/admin/uploadBook" className="text-base my-1 font-semibold">
+                      <img src={upload} className="h-5" alt="" />
+                      Upload Book
                     </Link>
                   </li>
   

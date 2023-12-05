@@ -1,6 +1,45 @@
-const Modal = ({book}) => {
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { ToastContainer, toast } from "react-toastify";
+const Modal = ({ book }) => {
+  const [axiosSecure] = useAxiosSecure();
+  const addtoCart = (data) => {
+    axiosSecure(`/existsInPaidbook/${data._id}`).then((res) => {
+      if (res.data.exists)
+        return toast("You already bought this book!!!", {
+          position: "bottom-center",
+          autoClose: 2000,
+        });
+      else {
+        axiosSecure(`/existsIncart/${data._id}`).then((res) => {
+          if (res.data.exists)
+            return toast("You already added this book!!!", {
+              position: "bottom-center",
+              autoClose: 2000,
+            });
+          else {
+            axiosSecure.patch("/addTocart", data).then((data) => {
+              if (data.data.modifiedCount) {
+                toast("book added successfully", {
+                  position: "bottom-center",
+                  autoClose: 2000,
+                });
+              } else {
+                toast("Something went wrong! try again", {
+                  position: "bottom-center",
+                  autoClose: 2000,
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  };
+
   return (
     <section className="text-gray-400 bg-gray-900 body-font overflow-hidden">
+      <ToastContainer />
       <div className="container  mx-auto">
         <div className=" mx-auto flex flex-wrap">
           <img
@@ -13,7 +52,7 @@ const Modal = ({book}) => {
               Book NAME
             </h2>
             <h1 className="text-white text-3xl title-font font-medium mb-1">
-             {book.name}
+              {book.name}
             </h1>
             <div className="flex mb-4">
               <span className="flex items-center">
@@ -113,9 +152,7 @@ const Modal = ({book}) => {
                 </a>
               </span>
             </div>
-            <p className="leading-relaxed">
-             {book.description}
-            </p>
+            <p className="leading-relaxed">{book.description}</p>
             <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-800 mb-5">
               <div className="flex">
                 <span className="mr-3">Color</span>
@@ -152,10 +189,12 @@ const Modal = ({book}) => {
               <span className="title-font font-medium text-2xl text-white">
                 ${book.bookPrice}
               </span>
-              <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+              <button
+                onClick={() => addtoCart(book)}
+                className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+              >
                 Add to Cart
               </button>
-            
             </div>
           </div>
         </div>
