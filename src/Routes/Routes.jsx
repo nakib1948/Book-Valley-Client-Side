@@ -28,6 +28,8 @@ import BookRequest from "../Pages/Admin/BookRequest/BookRequest";
 import PdfPreview from "../Pages/Shared/PdfPreview/PdfPreview";
 import Payment from "../Pages/Payment/Payment";
 import UploadBook from "../Pages/Admin/UploadBook/UploadBook";
+import Freebook from "../Pages/Allbooks/Freebook/Freebook";
+import ReaderDashboard from "../Layout/ReaderDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -71,17 +73,35 @@ export const router = createBrowserRouter([
         element:<PrivateRoute><Cart></Cart></PrivateRoute> ,
       },
       {
-        path: "/reader/dashboard",
-        element:<PrivateRoute> <ReaderProfile></ReaderProfile></PrivateRoute>,
-      },
-      {
         path: "/viewbook",
         element:<PrivateRoute> <Viewbook></Viewbook></PrivateRoute>,
       },
       {
          path:"/payment",
          element:<PrivateRoute><Payment></Payment></PrivateRoute>
+      },
+      {
+         path:"/freebook",
+         element:<PrivateRoute><Freebook></Freebook></PrivateRoute>
       }
+    ],
+  },
+  {
+    path: "/reader",
+    element:<PrivateRoute><ReaderDashboard></ReaderDashboard></PrivateRoute> ,
+    children: [
+      {
+        path: "dashboard",
+        element: <ReaderProfile></ReaderProfile>,
+      },
+      {
+        path: "allrequest",
+        element: <RequestFeedback></RequestFeedback>,
+      },
+      {
+        path: "profile",
+        element: <WriterProfile></WriterProfile>,
+      },
     ],
   },
   {

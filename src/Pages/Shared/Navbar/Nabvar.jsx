@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import bookIcon from "../../../assets/bookstore.png";
+import freeBook from "../../../assets/All-Books/freeBook.png"
 import cart from "../../../assets/Home/cart.png";
 import { useContext } from "react";
 import { AuthContext } from "../../../Providers/AuthProvider";
@@ -7,8 +8,7 @@ import useGetUserRole from "../../../hooks/useGetUserRole";
 import Loader from "../Loader/Loader";
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
-  const [isRole, isRoleLoading,error] = useGetUserRole();
- 
+  const [isRole, isRoleLoading, error] = useGetUserRole();
 
   const navigate = useNavigate();
   const signout = () => {
@@ -86,15 +86,18 @@ const Navbar = () => {
               <Link to="/login">Dashboard</Link>
             )}
           </li>
-          <li >
-            
+          <li>
             <Link to="/cart" className="text-lg">
               Cart
               <img src={cart} className="h-7" alt="" />
-              
-              
             </Link>
-            
+          </li>
+          <li>
+            <Link to="/freebook" className="text-lg">
+              
+              <img src={freeBook} className="h-7" alt="" />
+              Free Book
+            </Link>
           </li>
         </ul>
       </div>

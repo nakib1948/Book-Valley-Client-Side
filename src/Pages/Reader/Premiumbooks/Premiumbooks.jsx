@@ -54,6 +54,7 @@ const Premiumbooks = () => {
   };
   return (
     <div className="pb-10">
+      <input type="checkbox" value="synthwave" className="toggle theme-controller"/>
       <p className="text-4xl font-bold ml-10 mb-10">Premium books</p>
       <div className="md:ml-10 ml-5 lg:ml-10">
         <Swiper
@@ -67,6 +68,7 @@ const Premiumbooks = () => {
           }}
           modules={[Grid, Pagination]}
           className="mySwiper "
+          spaceBetween={100} 
         >
           {
              data.map((book,index) =>  <SwiperSlide key={index}>

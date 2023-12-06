@@ -8,10 +8,9 @@ import useGetUserRole from "../../../hooks/useGetUserRole";
 import { pdfContext } from "../../../Providers/PdfLinkProvider";
 import { Worker, Viewer } from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
-import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
-import { toolbarPlugin } from '@react-pdf-viewer/toolbar';
-import '@react-pdf-viewer/toolbar/lib/styles/index.css';
+import { toolbarPlugin } from "@react-pdf-viewer/toolbar";
+import "@react-pdf-viewer/toolbar/lib/styles/index.css";
 const PdfPreview = () => {
   const { user } = useContext(AuthContext);
   const [isRole, isRoleLoading] = useGetUserRole();
@@ -20,6 +19,11 @@ const PdfPreview = () => {
   const [position, setPosition] = useState({ top: "50%", left: "50%" });
 
   useEffect(() => {
+    const storedPdfLink = localStorage.getItem("pdfLink");
+    if (storedPdfLink) {
+      setBookLink(storedPdfLink);
+    }
+
     const timeout = setInterval(() => {
       const randomTop = `${Math.floor(Math.random() * 60) + 20}%`;
       const randomLeft = `${Math.floor(Math.random() * 60) + 20}%`;
@@ -28,7 +32,12 @@ const PdfPreview = () => {
     }, 3000);
 
     return () => clearInterval(timeout);
-  }, []);
+  }, [setBookLink]);
+  useEffect(() => {
+    if (booklink) {
+      localStorage.setItem("pdfLink", booklink);
+    }
+  }, [booklink]);
 
   const path = () => {
     if (user) {
@@ -40,42 +49,41 @@ const PdfPreview = () => {
     }
   };
   const toolbarPluginInstance = toolbarPlugin();
-    const { renderDefaultToolbar, Toolbar } = toolbarPluginInstance;
+  const { renderDefaultToolbar, Toolbar } = toolbarPluginInstance;
 
-    const transform = (slot) => ({
-        ...slot,
-        Download: () => <></>,
-        DownloadMenuItem: () => <></>,
-        EnterFullScreen: () => <></>,
-        EnterFullScreenMenuItem: () => <></>,
-        SwitchTheme: () => <></>,
-        Print: () => <></>,
-        Open: () => <></>,
-      
-    });
+  const transform = (slot) => ({
+    ...slot,
+    Download: () => <></>,
+    DownloadMenuItem: () => <></>,
+    EnterFullScreen: () => <></>,
+    EnterFullScreenMenuItem: () => <></>,
+    SwitchTheme: () => <></>,
+    Print: () => <></>,
+    Open: () => <></>,
+  });
 
   return (
-    <div className="h-screen overflow-x-scroll" onContextMenu={(e) => e.preventDefault()}>
+    <div
+      className="h-screen overflow-x-scroll"
+      onContextMenu={(e) => e.preventDefault()}
+    >
       <Worker
         workerUrl={`https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js`}
       >
-    
-            <div
-           
-                style={{
-                    alignItems: 'center',
-                    backgroundColor: '#eeeeee',
-                    borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
-                    display: 'flex',
-                    padding: '0.25rem',
-                }}
-            >
-                <Toolbar>{renderDefaultToolbar(transform)}</Toolbar>
-            </div>
-            <div>
-                <Viewer fileUrl={booklink} plugins={[toolbarPluginInstance]} />
-            </div>
-      
+        <div
+          style={{
+            alignItems: "center",
+            backgroundColor: "#eeeeee",
+            borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+            display: "flex",
+            padding: "0.25rem",
+          }}
+        >
+          <Toolbar>{renderDefaultToolbar(transform)}</Toolbar>
+        </div>
+        <div>
+          <Viewer fileUrl={booklink} plugins={[toolbarPluginInstance]} />
+        </div>
       </Worker>
 
       <div className="btm-nav btm-nav-xs">

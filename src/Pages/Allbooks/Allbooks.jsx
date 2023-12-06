@@ -18,6 +18,7 @@ const Allbooks = () => {
   const [data, isLoading, error, refetch] = useGetAllBooks()
   const [currentPage, setCurrentPage] = useState(1);
   const [axiosSecure]=useAxiosSecure()
+  const [filteredData, setFilteredData] = useState(data);
 
   if (isLoading) {
     return <Loader />;
@@ -26,11 +27,29 @@ const Allbooks = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
+  const handleSearch = async (selectedCategory, searchInput) => {
+    const filtered =await data
+      .filter((status) => status.status === "approved")
+      .filter((book) => {
+        if (selectedCategory === "All Category" || book.category === selectedCategory) {
+          const searchValue = searchInput.toLowerCase();
+          return (
+            book.name.toLowerCase().includes(searchValue) ||
+            book.writerName.toLowerCase().includes(searchValue)
+          );
+        }
+        return false;
+      });
+
+    setFilteredData(filtered);
+    setCurrentPage(1);
+  };
+
   const postsPerPage = 12;
 
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
-  const currentPosts = data.filter(status=> status.status==="approved").slice(firstPostIndex, lastPostIndex);
+  const currentPosts = filteredData?.slice(firstPostIndex, lastPostIndex) || data;
 
   const addtoCart = (data)=>{
     axiosSecure(`/existsInPaidbook/${data._id}`).then((res) => {
@@ -59,10 +78,10 @@ const Allbooks = () => {
 
   return (
     <div>
-      <Headersection />
+      <Headersection handleSearch={handleSearch} />
       <div className="my-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 m-10 gap-6">
-          {currentPosts.map((book, index) => (
+          {currentPosts && currentPosts.map((book, index) => (
             <>
               <div
                 key={index}
@@ -175,7 +194,7 @@ const Allbooks = () => {
         </div>
       </div>
       <Pagination
-        totalPosts={data.length}
+        totalPosts={filteredData?.length}
         postsPerPage={postsPerPage}
         setCurrentPage={setCurrentPage}
         currentPage={currentPage}
