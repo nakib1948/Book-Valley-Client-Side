@@ -1,13 +1,10 @@
-import React, { useContext, useEffect } from "react";
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
-import Header from "../Pages/Writer/Dashboard/Header";
+import { useContext } from "react";
+import { Link, Outlet } from "react-router-dom";
 import home from "../assets/Dashboard/home.png";
 import publisher from "../assets/Dashboard/publisher.png";
 import shop from "../assets/Dashboard/shop.png";
 import profile from "../assets/Dashboard/profile.png";
 import paymentHistory from "../assets/payment-history.png";
-import earning from "../assets/Dashboard/earning.png";
-import withdraw from "../assets/Publisher/withdraw.png";
 import bookIcon from "../assets/book-icon.png";
 import { AuthContext } from "../Providers/AuthProvider";
 const ReaderDashboard = () => {
@@ -39,7 +36,7 @@ const ReaderDashboard = () => {
                   <img src={bookIcon} className="h-20" alt="" />
                   <p className="text-3xl font-bold">Book Valley</p>
                 </div>
-                <div className="flex items-center mb-5 px-1 rounded py-2 bg-slate-100">
+                <div className="flex overflow-x-scroll items-center mb-5 px-1 rounded py-2 bg-slate-100">
                   <div className="avatar">
                     <div className="w-16 rounded-full">
                       <img src={user?.photoURL} />
@@ -48,7 +45,6 @@ const ReaderDashboard = () => {
                   <div className="ml-2 ">
                     <p className="text-xl font-semibold">Welcome</p>
                     <p className="text-base font-bold">{user?.displayName}</p>
-
                   </div>
                 </div>
                 <li className="bg-slate-50  rounded-sm my-1">
@@ -65,22 +61,28 @@ const ReaderDashboard = () => {
                   </Link>
                 </li>
                 <li className="bg-slate-50 rounded-sm my-1">
-                  <Link className="text-base my-1 font-semibold">
+                  <Link
+                    to="/reader/readerPremimumbooks"
+                    className="text-base my-1 font-semibold"
+                  >
                     <img src={publisher} className="h-5" alt="" />
                     Your Premimum Book
                   </Link>
                 </li>
 
                 <li className="bg-slate-50 rounded-sm my-1">
-                  <Link className="text-base my-1 font-semibold">
+                  <Link
+                    to="/reader/readerFreeBook"
+                    className="text-base my-1 font-semibold"
+                  >
                     <img src={publisher} className="h-5" alt="" />
-                   Your Free Book
+                    Your Free Book
                   </Link>
                 </li>
 
                 <li className="bg-slate-50 rounded-sm my-1">
                   <Link
-                    to="/writer/profile"
+                    to="/reader/readerUpdateProfile"
                     className="text-base my-1 font-semibold"
                   >
                     <img src={profile} className="h-5" alt="" />
@@ -89,20 +91,21 @@ const ReaderDashboard = () => {
                 </li>
 
                 <li className="bg-slate-50 rounded-sm my-1">
-                  <Link className="text-base my-1 font-semibold">
+                  <Link
+                    to="/reader/paymentDetails"
+                    className="text-base my-1 font-semibold"
+                  >
                     <img src={paymentHistory} className="h-5" alt="" />
                     Payment History
                   </Link>
                 </li>
-
-               
               </ul>
             </div>
           </div>
         </div>
         <div
           id="noscrollbar"
-          className="md:col-span-4 h-screen lg:col-span-4 col-span-5 bg-white m-0 md:m-3 lg:m-3 shadow-md rounded-md p-2 overflow-y-scroll "
+          className="md:col-span-4 h-screen lg:col-span-4 col-span-5 bg-white m-0 md:m-3 lg:m-3 shadow-md rounded-md p-2 overflow-x-scroll overflow-y-scroll "
         >
           <Outlet />
         </div>

@@ -42,7 +42,7 @@ const PdfPreview = () => {
   const path = () => {
     if (user) {
       if (isRole === "writer") navigate("/readerprofile");
-      else if (isRole === "reader") navigate("/reader/dashboard");
+      else if (isRole === "reader") navigate("/reader/readerPremimumbooks");
       else if (isRole === "publisher") navigate("/Publisher");
       else if (isRole === "admin") navigate("/admin");
       else navigate("/");

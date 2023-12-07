@@ -12,6 +12,7 @@ const UploadBook = () => {
   const [axiosSecure] = useAxiosSecure();
   const [pdfUpload, setPdfUpload] = useState(null);
   const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`;
+ 
   const {
     register,
     formState: { errors },
@@ -44,7 +45,7 @@ const UploadBook = () => {
         const uploadBook = {
           name:data.name,
           writerName:data.writername,
-          bookDescription:data.description,
+          description:data.description,
           category:data.category,
           bookCoverPhoto: bookCoverPhoto,
           bookCopy: downloadURL,

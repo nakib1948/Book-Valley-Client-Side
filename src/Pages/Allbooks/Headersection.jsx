@@ -37,7 +37,7 @@ const Headersection = ({ handleSearch }) => {
              onChange={handleCategoryChange}
              value={selectedCategory}
             >
-              <option disabled selected>
+              <option  selected>
                 All Category
               </option>
               <option>ADVENTURE</option>

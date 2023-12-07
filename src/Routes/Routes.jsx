@@ -7,8 +7,6 @@ import Login from "../Pages/Login/Login";
 import Allbooks from "../Pages/Allbooks/Allbooks";
 import SinglebookDetails from "../Pages/Allbooks/SinglebookDetails";
 import Cart from "../Pages/Cart/Cart";
-import ReaderProfile from "../Pages/Reader/ReaderProfile";
-import Viewbook from "../Pages/Reader/viewbook/Viewbook";
 import Dashboard from "../Layout/WriterDashboard";
 import Publisherlist from "../Pages/Writer/Dashboard/PublisherList/Publisherlist";
 import RequestFeedback from "../Pages/Writer/Dashboard/RequestFeedback/RequestFeedback";
@@ -30,6 +28,10 @@ import Payment from "../Pages/Payment/Payment";
 import UploadBook from "../Pages/Admin/UploadBook/UploadBook";
 import Freebook from "../Pages/Allbooks/Freebook/Freebook";
 import ReaderDashboard from "../Layout/ReaderDashboard";
+import Freebooks from "../Pages/Reader/Freebooks/Freebooks";
+import Premiumbooks from "../Pages/Reader/Premiumbooks/Premiumbooks";
+import PaymentHistory from "../Pages/Reader/PaymentInformation/PaymentHistory";
+import UpdateProfile from "../Pages/Reader/UpdateProfile/UpdateProfile";
 
 export const router = createBrowserRouter([
   {
@@ -73,16 +75,8 @@ export const router = createBrowserRouter([
         element:<PrivateRoute><Cart></Cart></PrivateRoute> ,
       },
       {
-        path: "/viewbook",
-        element:<PrivateRoute> <Viewbook></Viewbook></PrivateRoute>,
-      },
-      {
-         path:"/payment",
-         element:<PrivateRoute><Payment></Payment></PrivateRoute>
-      },
-      {
-         path:"/freebook",
-         element:<PrivateRoute><Freebook></Freebook></PrivateRoute>
+         path: "/freeBook",
+         element: <Freebook></Freebook>
       }
     ],
   },
@@ -91,16 +85,20 @@ export const router = createBrowserRouter([
     element:<PrivateRoute><ReaderDashboard></ReaderDashboard></PrivateRoute> ,
     children: [
       {
-        path: "dashboard",
-        element: <ReaderProfile></ReaderProfile>,
+        path: "readerPremimumbooks",
+        element: <Premiumbooks></Premiumbooks>,
       },
       {
-        path: "allrequest",
-        element: <RequestFeedback></RequestFeedback>,
+        path: "readerFreeBook",
+        element: <Freebooks></Freebooks>,
       },
       {
-        path: "profile",
-        element: <WriterProfile></WriterProfile>,
+        path: "paymentDetails",
+        element: <PaymentHistory></PaymentHistory>,
+      },
+      {
+        path: "readerUpdateProfile",
+        element: <UpdateProfile></UpdateProfile>,
       },
     ],
   },

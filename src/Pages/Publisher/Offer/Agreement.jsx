@@ -20,7 +20,7 @@ const Agreement = ({ id, percentage }) => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(typeof parseInt(data.percentage));
+   
     if (pdfUpload.size > maxFileSizeInBytes) {
       return;
     }

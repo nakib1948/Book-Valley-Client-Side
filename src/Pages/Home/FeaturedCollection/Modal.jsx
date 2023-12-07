@@ -187,7 +187,7 @@ const Modal = ({ book }) => {
             </div>
             <div className="flex">
               <span className="title-font font-medium text-2xl text-white">
-                ${book.bookPrice}
+                ${book?.bookPrice}
               </span>
               <button
                 onClick={() => addtoCart(book)}
