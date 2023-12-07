@@ -33,13 +33,18 @@ const UpdatePassword = () => {
 
       updatePassword(user, newPassword)
         .then(() => {
+          setpassfield({
+            newpassword: "",
+            confrimpassword: "",
+          });
+        
           Swal.fire({
             position: "top-center",
             icon: "success",
             title: "Password updated successfully!!.",
             showConfirmButton: false,
             timer: 3000,
-          });
+          }).then(()=>{  window.location.reload();})
         })
         .catch((error) => {
           Swal.fire({

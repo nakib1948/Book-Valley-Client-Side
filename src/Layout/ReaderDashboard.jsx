@@ -11,7 +11,7 @@ const ReaderDashboard = () => {
   const { user } = useContext(AuthContext);
   return (
     <div className=" p-2">
-      <div className="grid grid-cols-5 gap-0 md:gap-2 lg:gap-2 p-2">
+      <div className="grid grid-cols-4 gap-0 md:gap-1 lg:gap-1 p-2">
         <div className="md:col-span-1 lg:col-span-1 col-span-2 bg-white m-3  shadow-md rounded-md p-2 ">
           <div className="drawer lg:drawer-open relative z-10">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -24,7 +24,7 @@ const ReaderDashboard = () => {
                 Open drawer
               </label>
             </div>
-            <div className="drawer-side ">
+            <div className="drawer-side">
               <label
                 htmlFor="my-drawer-2"
                 aria-label="close sidebar"
@@ -105,7 +105,7 @@ const ReaderDashboard = () => {
         </div>
         <div
           id="noscrollbar"
-          className="md:col-span-4 h-screen lg:col-span-4 col-span-5 bg-white m-0 md:m-3 lg:m-3 shadow-md rounded-md p-2 overflow-x-scroll overflow-y-scroll "
+          className="md:col-span-3 h-screen lg:col-span-3 col-span-5 bg-white m-0 md:m-3 lg:m-3 shadow-md rounded-md p-2 overflow-x-scroll overflow-y-scroll "
         >
           <Outlet />
         </div>
