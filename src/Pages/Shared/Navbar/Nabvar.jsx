@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import bookIcon from "../../../assets/bookstore.png";
+import bookIcon from "../../../assets/book-icon.png";
 import freeBook from "../../../assets/All-Books/freeBook.png"
 import cart from "../../../assets/Home/cart.png";
 import { useContext } from "react";

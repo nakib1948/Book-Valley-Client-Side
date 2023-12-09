@@ -36,6 +36,8 @@ import UpdateWriterProfile from "../Pages/Writer/Dashboard/UpdateWriteprofile/Up
 import WriterBooks from "../Pages/Writer/Dashboard/WriterBooks/WriterBooks";
 import BlogWriting from "../Pages/Writer/Dashboard/BlogWriting/BlogWriting";
 import BlogRequest from "../Pages/Admin/BlogRequest/BlogRequest";
+import BlogDetails from "../Pages/Home/Blog/BlogDetails";
+import Earning from "../Pages/Writer/Dashboard/Earning/Earning";
 
 export const router = createBrowserRouter([
   {
@@ -76,7 +78,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/cart",
-        element:<PrivateRoute><Cart></Cart></PrivateRoute> ,
+        element:<Cart></Cart> ,
       },
       {
          path: "/freeBook",
@@ -85,6 +87,10 @@ export const router = createBrowserRouter([
       {
         path:"/payment",
         element:<Payment></Payment>
+      },
+      {
+        path:"/blog/:id",
+        element:<BlogDetails></BlogDetails>
       }
     ],
   },
@@ -137,6 +143,10 @@ export const router = createBrowserRouter([
       {
         path: "blogwriting",
         element: <BlogWriting></BlogWriting>,
+      },
+      {
+        path: "earning",
+        element: <Earning></Earning>,
       },
     ],
   },

@@ -79,7 +79,7 @@ const CheckoutForm = ({ price, data }) => {
                 axiosSecure.patch("/UpdateCartToEmpty", data).then((res) => {
                     if (res.data.modifiedCount) {
                       Swal.fire("Payment Successful!!");
-                      navigate('/readerprofile')
+                      navigate('/reader/readerPremimumbooks')
                     }
                   });
             }

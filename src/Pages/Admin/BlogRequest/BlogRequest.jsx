@@ -1,15 +1,14 @@
-import React from "react";
 import Loader from "../../Shared/Loader/Loader";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import BlogRequestTable from "./BlogRequestTable";
+import axios from "axios";
 
 const BlogRequest = () => {
-  const [axiosSecure] = useAxiosSecure();
+ 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["getAllBlog"],
     queryFn: async () => {
-      const res = await axiosSecure(`/getAllBlog`);
+      const res = await axios.get(`http://localhost:3000/getAllBlog`);
       return res.data;
     },
   });
@@ -21,7 +20,6 @@ const BlogRequest = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  console.log(data);
 
   return (
     <div className="overflow-x-auto w-full card-body bg-slate-50 rounded-xl">

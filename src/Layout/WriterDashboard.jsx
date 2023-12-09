@@ -109,7 +109,7 @@ const Dashboard = () => {
 
 
                 <li className="bg-slate-50 rounded-sm my-1">
-                  <Link className="text-base my-1 font-semibold">
+                  <Link to="/writer/earning" className="text-base my-1 font-semibold">
                     <img src={earning} className="h-5" alt="" />
                     Earning
                   </Link>

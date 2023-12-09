@@ -6,7 +6,8 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./Routes/Routes.jsx";
 import AuthProvider from "./Providers/AuthProvider.jsx";
 import { HelmetProvider } from "react-helmet-async";
-import { CloudinaryContext } from "cloudinary-react";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 import {
   QueryClient,
   QueryClientProvider,

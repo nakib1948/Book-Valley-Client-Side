@@ -13,8 +13,6 @@ const SinglebookDetails = () => {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
   const [axiosSecure] = useAxiosSecure();
-
-
   const {
     register,
     formState: { errors },

@@ -3,7 +3,6 @@ import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/pagination";
 import { Grid, Pagination } from "swiper/modules";
-import adventure from "../../../assets/Home/categories/adventure.jpg";
 import reading from "../../../assets/reading.png";
 import dlete from "../../../assets/delete.png";
 import HeaderTitle from "../../Shared/HeaderTitle/HeaderTitle";

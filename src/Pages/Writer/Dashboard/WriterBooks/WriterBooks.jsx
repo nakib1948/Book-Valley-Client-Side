@@ -45,7 +45,7 @@ const WriterBooks = () => {
     },
   };
 
-  const writerbooks = data.filter((data) => data.writerEmail === user.email);
+  const writerbooks = data.filter((data) => data.writerEmail === user.email && data.status==='approved');
  
 
   return (

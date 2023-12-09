@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "./useAxiosSecure";
+import axios from "axios";
 const useGetAllBooks = () => {
-    const [axiosSecure] = useAxiosSecure();
+   
     const { data, isLoading, error, refetch } = useQuery({
         queryKey: ["allbooks"],
         queryFn: async () => {
-          const res = await axiosSecure("/allbooks");
+          const res = await axios.get("http://localhost:3000/allbooks");
           return res.data;
         },
       });
