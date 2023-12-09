@@ -11,7 +11,7 @@ const BookRequest = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-  console.log(data);
+
   return (
     <div className="overflow-x-auto w-full card-body bg-slate-50 rounded-xl">
       <table className="table">

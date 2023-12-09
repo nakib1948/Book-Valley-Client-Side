@@ -32,6 +32,10 @@ import Freebooks from "../Pages/Reader/Freebooks/Freebooks";
 import Premiumbooks from "../Pages/Reader/Premiumbooks/Premiumbooks";
 import PaymentHistory from "../Pages/Reader/PaymentInformation/PaymentHistory";
 import UpdateProfile from "../Pages/Reader/UpdateProfile/UpdateProfile";
+import UpdateWriterProfile from "../Pages/Writer/Dashboard/UpdateWriteprofile/UpdateWriterProfile";
+import WriterBooks from "../Pages/Writer/Dashboard/WriterBooks/WriterBooks";
+import BlogWriting from "../Pages/Writer/Dashboard/BlogWriting/BlogWriting";
+import BlogRequest from "../Pages/Admin/BlogRequest/BlogRequest";
 
 export const router = createBrowserRouter([
   {
@@ -77,6 +81,10 @@ export const router = createBrowserRouter([
       {
          path: "/freeBook",
          element: <Freebook></Freebook>
+      },
+      {
+        path:"/payment",
+        element:<Payment></Payment>
       }
     ],
   },
@@ -118,6 +126,18 @@ export const router = createBrowserRouter([
         path: "profile",
         element: <WriterProfile></WriterProfile>,
       },
+      {
+        path: "updateWriterProfile",
+        element: <UpdateWriterProfile></UpdateWriterProfile>,
+      },
+      {
+        path: "writerBooks",
+        element: <WriterBooks></WriterBooks>,
+      },
+      {
+        path: "blogwriting",
+        element: <BlogWriting></BlogWriting>,
+      },
     ],
   },
   {
@@ -157,6 +177,10 @@ export const router = createBrowserRouter([
       {
         path: "uploadBook",
         element: <UploadBook></UploadBook>,
+      },
+      {
+        path: "blogrequest",
+        element: <BlogRequest></BlogRequest>,
       },
     ],
   },

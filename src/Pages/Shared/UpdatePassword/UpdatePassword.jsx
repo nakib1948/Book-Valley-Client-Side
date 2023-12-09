@@ -59,7 +59,7 @@ const UpdatePassword = () => {
   };
 
   return (
-    <div className="card flex-shrink-0 w-full shadow-2xl bg-base-100">
+    <div className="card flex-shrink-0 h-96 w-full shadow-2xl bg-base-100">
       <div className="card-body">
         <h1 className="text-3xl font-bold text-deepred text-center">
           Change Password

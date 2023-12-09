@@ -84,7 +84,7 @@ const UploadBook = () => {
     <div className="">
       <ToastContainer />
       <HeaderTitle title="upload Free Book"></HeaderTitle>
-      <div className="bg-white rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 relative z-10 shadow-md">
+      <div className="bg-white rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 shadow-md">
         
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="lg:flex">

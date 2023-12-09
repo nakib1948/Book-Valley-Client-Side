@@ -6,9 +6,6 @@ import offer from "../assets/Publisher/offer.png";
 import publisher from "../assets/Dashboard/publisher.png";
 import withdraw from "../assets/Publisher/withdraw.png";
 import shop from "../assets/Dashboard/shop.png";
-import blog from "../assets/Dashboard/blog.png";
-import profile from "../assets/Dashboard/profile.png";
-import paymentHistory from "../assets/payment-history.png";
 import earning from "../assets/Dashboard/earning.png";
 
 const PublisherDashboard = () => {
@@ -20,7 +17,7 @@ const PublisherDashboard = () => {
   return (
     <div className=" p-2">
       <Header />
-      <div className="grid grid-cols-5 gap-0 md:gap-2 lg:gap-2 p-2">
+      <div className="grid grid-cols-4 gap-0 md:gap-2 lg:gap-2 p-2">
         <div className="md:col-span-1 lg:col-span-1 col-span-2 bg-white m-3  shadow-md rounded-md p-2 ">
           <div className="drawer lg:drawer-open relative z-10">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -94,7 +91,7 @@ const PublisherDashboard = () => {
         </div>
         <div
           id="noscrollbar"
-          className="md:col-span-4 h-screen lg:col-span-4 col-span-5 bg-white m-0 md:m-3 lg:m-3 shadow-md rounded-md p-2 overflow-y-scroll "
+          className="md:col-span-3 h-screen lg:col-span-3 col-span-5 bg-white m-0 md:m-3 lg:m-3 shadow-md rounded-md p-2 overflow-y-scroll "
         >
           <Outlet />
         </div>

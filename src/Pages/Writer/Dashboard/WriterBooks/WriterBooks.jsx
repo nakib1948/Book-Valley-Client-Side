@@ -3,26 +3,20 @@ import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/pagination";
 import { Grid, Pagination } from "swiper/modules";
-import reading from "../../../assets/reading.png";
-import { Link, useNavigate } from "react-router-dom";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { useQuery } from "@tanstack/react-query";
-import Loader from "../../Shared/Loader/Loader";
 import { useContext } from "react";
-import { pdfContext } from "../../../Providers/PdfLinkProvider";
-import HeaderTitle from "../../Shared/HeaderTitle/HeaderTitle";
-const Premiumbooks = () => {
-  const [axiosSecure] = useAxiosSecure();
+import useGetAllBooks from "../../../../hooks/useGetAllBooks";
+import HeaderTitle from "../../../Shared/HeaderTitle/HeaderTitle";
+import Loader from "../../../Shared/Loader/Loader";
+import { AuthContext } from "../../../../Providers/AuthProvider";
+import { pdfContext } from "../../../../Providers/PdfLinkProvider";
+import { useNavigate } from "react-router-dom";
+import reading from "../../../../assets/reading.png";
+
+const WriterBooks = () => {
+  const [data, isLoading, error, refetch] = useGetAllBooks();
+  const { user } = useContext(AuthContext);
   const [booklink, setBookLink] = useContext(pdfContext);
   const navigate = useNavigate();
-
-  const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["getPaidBook"],
-    queryFn: async () => {
-      const res = await axiosSecure(`/getPaidBook`);
-      return res.data;
-    },
-  });
   if (isLoading) {
     return <Loader />;
   }
@@ -50,12 +44,16 @@ const Premiumbooks = () => {
       slidesPerView: 3,
     },
   };
+
+  const writerbooks = data.filter((data) => data.writerEmail === user.email);
+ 
+
   return (
-    <div className="pb-10 mt-10">
-      {data.length ? (
+    <div className="pb-10 mt-10 ">
+      {writerbooks.length ? (
         <>
           {" "}
-          <HeaderTitle title="Your Premium Books Collections"></HeaderTitle>
+          <HeaderTitle title="Your Published Books"></HeaderTitle>
           <div className="md:ml-10 mt-5 ml-5 lg:ml-10">
             <Swiper
               grid={{
@@ -70,7 +68,7 @@ const Premiumbooks = () => {
               className="mySwiper "
               spaceBetween={100}
             >
-              {data.map((book, index) => (
+              {writerbooks.map((book, index) => (
                 <SwiperSlide key={index}>
                   <div className="card h-96 w-80 mb-10 relative shadow-xl group">
                     <figure className="px-10 pt-10">
@@ -82,7 +80,7 @@ const Premiumbooks = () => {
                     </figure>
                     <div className="card-body items-center text-center">
                       <h2 className="card-title">
-                        {book.name} by {book.writerName}
+                        {book.name} 
                       </h2>
                     </div>
                     <div className="hidden absolute inset-0 flex items-center justify-center bg-gray-300 bg-opacity-40 group-hover:flex">
@@ -102,11 +100,11 @@ const Premiumbooks = () => {
         </>
       ) : (
         <div className="flex items-center justify-center h-screen">
-          <HeaderTitle title="You have no Premimum Book Collection"></HeaderTitle>
+          <HeaderTitle title="You have no published book yet"></HeaderTitle>
         </div>
       )}
     </div>
   );
 };
 
-export default Premiumbooks;
+export default WriterBooks;
