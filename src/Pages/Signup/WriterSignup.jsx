@@ -48,6 +48,8 @@ const WriterSignup = () => {
                     bankDetails:data.bankDetails,
                     phone:data.phone,
                     role: "writer",
+                    withdraw:0,
+                    withdrawHistory:[]
                   };
   
                   axiosSecure.post("/users", saveUser).then((data) => {

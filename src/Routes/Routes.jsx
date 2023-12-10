@@ -38,6 +38,10 @@ import BlogWriting from "../Pages/Writer/Dashboard/BlogWriting/BlogWriting";
 import BlogRequest from "../Pages/Admin/BlogRequest/BlogRequest";
 import BlogDetails from "../Pages/Home/Blog/BlogDetails";
 import Earning from "../Pages/Writer/Dashboard/Earning/Earning";
+import WithdrawHistory from "../Pages/Writer/Dashboard/withdrawHistory/withdrawHistory";
+import PublishedBook from "../Pages/Publisher/PublishedBook/PublishedBook";
+import PublisherEarning from "../Pages/Publisher/Earning/publisherEarning";
+import UpdatePublisherProfile from "../Pages/Publisher/UpdatePublisherProfile/UpdatePublisherProfile";
 
 export const router = createBrowserRouter([
   {
@@ -148,6 +152,10 @@ export const router = createBrowserRouter([
         path: "earning",
         element: <Earning></Earning>,
       },
+      {
+        path: "withdrawHistory",
+        element: <WithdrawHistory></WithdrawHistory>,
+      },
     ],
   },
   {
@@ -163,8 +171,20 @@ export const router = createBrowserRouter([
         element: <RequestFeedback></RequestFeedback>,
       },
       {
-        path: "profile",
-        element: <WriterProfile></WriterProfile>,
+        path: "publishedBook",
+        element: <PublishedBook></PublishedBook>,
+      },
+      {
+        path: "publisherEarning",
+        element: <PublisherEarning></PublisherEarning>,
+      },
+      {
+        path: "withdrawHistory",
+        element: <WithdrawHistory></WithdrawHistory>,
+      },
+      {
+        path: "updatePublisherProfile",
+        element: <UpdatePublisherProfile></UpdatePublisherProfile>,
       },
     ],
   },

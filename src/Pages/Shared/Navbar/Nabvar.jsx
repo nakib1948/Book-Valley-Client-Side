@@ -78,7 +78,7 @@ const Navbar = () => {
               ) : isRole === "writer" ? (
                 <Link to="/writer">Dashboard</Link>
               ) : isRole === "publisher" ? (
-                <Link to="/publisher">Dashboard</Link>
+                <Link to="/publisher/publishedBook">Dashboard</Link>
               ) : (
                 <Link to="/admin">Dashboard</Link>
               )

@@ -13,6 +13,7 @@ import Loader from "../../Shared/Loader/Loader";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import UploadBook from "./UploadBook";
+import HeaderTitle from "../../Shared/HeaderTitle/HeaderTitle";
 
 const Offer = () => {
   const { user, loading } = useContext(AuthContext);
@@ -89,7 +90,9 @@ const Offer = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+    <div className="mt-10">
+    <HeaderTitle title="Offer Book From Writer"></HeaderTitle>
+    <div className="grid grid-cols-1 mt-10 md:grid-cols-2 lg:grid-cols-2 gap-6">
       {data.map((data, index) => (
         <>
           <div key={index} className="card w-full bg-base-100 shadow-xl">
@@ -120,7 +123,7 @@ const Offer = () => {
                 >
                   Sent Agreement
                 </button>
-                <button className="btn btn-outline btn-info">Decline</button>
+                <button disabled={data.status==="approved"} className="btn btn-outline btn-info">Decline</button>
                 <button
                   onClick={() =>
                     document
@@ -216,6 +219,7 @@ const Offer = () => {
           </dialog>
         </>
       ))}
+    </div>
     </div>
   );
 };

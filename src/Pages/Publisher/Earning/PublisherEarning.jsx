@@ -1,18 +1,17 @@
-import HeaderTitle from "../../../Shared/HeaderTitle/HeaderTitle";
-import book from "../../../../assets/Writer/book.png";
-import withdraw from "../../../../assets/Writer/withdraw.png";
-import totalamount from "../../../../assets/Writer/total-amount.png";
-import earning from "../../../../assets/Writer/earning.png";
-import Loader from "../../../Shared/Loader/Loader";
-import useGetAllBooks from "../../../../hooks/useGetAllBooks";
+import HeaderTitle from "../../Shared/HeaderTitle/HeaderTitle";
+import book from "../../../assets/Writer/book.png";
+import withdraw from "../../../assets/Writer/withdraw.png";
+import earning from "../../../assets/Writer/earning.png";
+import Loader from "../../Shared/Loader/Loader";
+import useGetAllBooks from "../../../hooks/useGetAllBooks";
 import { useContext } from "react";
-import { AuthContext } from "../../../../Providers/AuthProvider";
+import { AuthContext } from "../../../Providers/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { v4 as uuidv4 } from "uuid";
 
-const Earning = () => {
+const PublisherEarning = () => {
   const [data, isLoading, error, refetch] = useGetAllBooks();
   const { user } = useContext(AuthContext);
   const [axiosSecure] = useAxiosSecure();
@@ -40,13 +39,13 @@ const Earning = () => {
     return <div>Error: {withdrawError.message}</div>;
   }
 
-  const writerbooks = data.filter(
-    (data) => data.writerEmail === user.email && data.status === "approved"
+  const publisherbooks = data.filter(
+    (data) => data.publisherEmail === user.email && data.status === "approved"
   );
-  const writerTotalEarning = writerbooks.reduce((sum, val) => {
-    return (sum += (val.soldUnit * val.bookPrice * val.percentage) / 100);
+  const publisherTotalEarning = publisherbooks.reduce((sum, val) => {
+    return (sum += (val.soldUnit * val.bookPrice )-(val.soldUnit * val.bookPrice * (val.percentage+5)) / 100);
   }, 0);
-  const bookSoldUnit = writerbooks.reduce((sum, val) => {
+  const bookSoldUnit = publisherbooks.reduce((sum, val) => {
     return (sum += val.soldUnit);
   }, 0);
 
@@ -62,7 +61,7 @@ const Earning = () => {
       email: withdrawData.email,
       BankAccount: withdrawData.bankAccount,
       Branch: withdrawData.bankDetails,
-      amount: writerTotalEarning - withdrawData.withdraw,
+      amount: publisherTotalEarning - withdrawData.withdraw,
       transactionId: uuidv4(),
       date: formattedDate,
     };
@@ -117,7 +116,7 @@ const Earning = () => {
             <div className="p-4 md:w-1/4 sm:w-1/2 w-full">
               <div className="border-2 border-gray-200 px-4 py-6 rounded-lg">
                 <img className="h-12 mx-auto" src={earning} alt="" />
-                <h2 className="stat-value">{writerTotalEarning}$</h2>
+                <h2 className="stat-value">{publisherTotalEarning}$</h2>
                 <p className="stat-title">Total Earning</p>
               </div>
             </div>
@@ -144,18 +143,18 @@ const Earning = () => {
           <div className="stat">
             <div className="stat-title">Account balance</div>
             <div className="stat-value">
-              ${writerTotalEarning - withdrawData.withdraw}
+              ${publisherTotalEarning - withdrawData.withdraw}
             </div>
           </div>
 
           <div className="stat">
             <div className="stat-title">Current balance</div>
             <div className="stat-value">
-              ${writerTotalEarning - withdrawData.withdraw}
+              ${publisherTotalEarning - withdrawData.withdraw}
             </div>
             <div className="stat-actions">
               <button
-                onClick={() => withdrawMoney(writerTotalEarning)}
+                onClick={() => withdrawMoney(publisherTotalEarning)}
                 className="btn btn-sm"
               >
                 Withdrawal
@@ -168,4 +167,4 @@ const Earning = () => {
   );
 };
 
-export default Earning;
+export default PublisherEarning;

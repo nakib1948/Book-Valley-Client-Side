@@ -1,13 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
-import Header from "../Pages/Writer/Dashboard/Header";
 import home from "../assets/Dashboard/home.png";
 import publisher from "../assets/Dashboard/publisher.png";
 import request from "../assets/Dashboard/request.png";
-import shop from "../assets/Dashboard/shop.png";
 import blog from "../assets/Dashboard/blog.png";
 import profile from "../assets/Dashboard/profile.png";
-import paymentHistory from "../assets/payment-history.png";
 import earning from "../assets/Dashboard/earning.png";
 import withdraw from "../assets/Publisher/withdraw.png";
 import { AuthContext } from "../Providers/AuthProvider";
@@ -116,7 +113,7 @@ const Dashboard = () => {
                 </li>
 
                 <li className="bg-slate-50 rounded-sm my-1">
-                  <Link className="text-base my-1 font-semibold">
+                  <Link to="/writer/withdrawHistory" className="text-base my-1 font-semibold">
                     <img src={withdraw} className="h-5" alt="" />
                     Withdraw History
                   </Link>

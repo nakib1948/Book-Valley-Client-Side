@@ -56,6 +56,8 @@ const PublisherSignup = () => {
                     instragram:data.instragram,
                     description:data.description,
                     role: "publisher",
+                    withdraw:0,
+                    withdrawHistory:[]
                   };
   
                   axiosSecure.post("/users", saveUser).then((data) => {
