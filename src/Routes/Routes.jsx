@@ -42,6 +42,7 @@ import WithdrawHistory from "../Pages/Writer/Dashboard/withdrawHistory/withdrawH
 import PublishedBook from "../Pages/Publisher/PublishedBook/PublishedBook";
 import PublisherEarning from "../Pages/Publisher/Earning/publisherEarning";
 import UpdatePublisherProfile from "../Pages/Publisher/UpdatePublisherProfile/UpdatePublisherProfile";
+import Statistic from "../Pages/Admin/Statistic/Statistic";
 
 export const router = createBrowserRouter([
   {
@@ -201,8 +202,8 @@ export const router = createBrowserRouter([
         element: <BookRequest></BookRequest>,
       },
       {
-        path: "profile",
-        element: <WriterProfile></WriterProfile>,
+        path: "statistic",
+        element: <Statistic></Statistic>,
       },
       {
         path: "uploadBook",
