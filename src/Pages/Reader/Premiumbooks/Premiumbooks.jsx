@@ -68,7 +68,7 @@ const Premiumbooks = () => {
               }}
               modules={[Grid, Pagination]}
               className="mySwiper "
-              spaceBetween={100}
+              spaceBetween={50}
             >
               {data.map((book, index) => (
                 <SwiperSlide key={index}>

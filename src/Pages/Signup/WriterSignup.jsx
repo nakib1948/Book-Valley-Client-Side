@@ -49,7 +49,8 @@ const WriterSignup = () => {
                     phone:data.phone,
                     role: "writer",
                     withdraw:0,
-                    withdrawHistory:[]
+                    withdrawHistory:[],
+                    isDeleted:false
                   };
   
                   axiosSecure.post("/users", saveUser).then((data) => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import signupselection from "../../assets/Login&signup/signupselection.jpg"
 import OutlineButton from '../Shared/Button/OutlineButton';
+import { Link } from 'react-router-dom';
 
 const UserType = () => {
     return (
@@ -8,6 +9,7 @@ const UserType = () => {
         <figure><img src={signupselection} alt="Album"/></figure>
         <div className="card-body my-auto">
           <h2 className=" text-center text-3xl font-bold"> Select Your type</h2>
+          
           <OutlineButton link="/signup"  text="Signup as Reader"></OutlineButton>
           <OutlineButton link="/writersignup" text="Signup as Writer"></OutlineButton>
           <OutlineButton link="/publishersignup" text="Signup as Publisher"></OutlineButton>

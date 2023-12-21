@@ -12,20 +12,29 @@ import { AuthContext } from "../../Providers/AuthProvider";
 import { useForm } from "react-hook-form";
 import SocialLogin from "../Shared/SocialLogin/SocialLogin";
 import Swal from "sweetalert2";
+import Loader from "../Shared/Loader/Loader";
+import axios from "axios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const Login = () => {
   const { signIn, user } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
+  const [axiosSecure] = useAxiosSecure();
+ 
   const {
     register,
     formState: { errors },
     handleSubmit,
     reset,
   } = useForm();
-  const onSubmit = (data) => {
-    signIn(data.email, data.password)
+  const onSubmit = async(data) => {
+    const getUser = await axiosSecure(`/getSingleUser/${data.email}`)
+    if(getUser.data && getUser.data.isDeleted === false)
+    {
+      signIn(data.email, data.password)
       .then((result) => {
         const user = result.user;
         const loggedUser = {
@@ -37,6 +46,11 @@ const Login = () => {
       .catch((error) => {
         Swal.fire("Please enter correct email and password");
       });
+    }
+    else{
+      Swal.fire("User is blocked by admin.Contract to office");
+    }
+    
   };
   return (
     <div

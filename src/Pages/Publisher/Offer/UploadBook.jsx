@@ -7,7 +7,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { storage } from "../../../firebase/firebase.config";
 const maxFileSizeInBytes = 30 * 1024 * 1024;
 const img_hosting_token = import.meta.env.VITE_Image_Upload_Token;
-const UploadBook = ({ id }) => {
+const UploadBook = ({ id ,refetch}) => {
   const [axiosSecure] = useAxiosSecure();
   const [pdfUpload, setPdfUpload] = useState(null);
   const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`;
@@ -58,6 +58,7 @@ const UploadBook = ({ id }) => {
               progress: undefined,
               theme: "light",
             });
+            refetch()
             reset();
           } else {
             toast.warn("somethings wrong!Try again", {

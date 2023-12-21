@@ -76,11 +76,11 @@ const Navbar = () => {
               isRole === "reader" ? (
                 <Link to="/reader/readerPremimumbooks">Dashboard</Link>
               ) : isRole === "writer" ? (
-                <Link to="/writer">Dashboard</Link>
+                <Link to="/writer/writerBooks">Dashboard</Link>
               ) : isRole === "publisher" ? (
                 <Link to="/publisher/publishedBook">Dashboard</Link>
               ) : (
-                <Link to="/admin">Dashboard</Link>
+                <Link to="/admin/allbookrequest">Dashboard</Link>
               )
             ) : (
               <Link to="/login">Dashboard</Link>
@@ -112,7 +112,7 @@ const Navbar = () => {
               title={user.displayName}
             />
             <dialog id="my_modal_2" className="modal">
-              <form method="dialog" className="modal-box bg-base-200">
+              <form method="dialog" className="modal-box bg-gray-600">
                 <img
                   className="h-16 rounded-full mx-auto"
                   src={user.photoURL}
@@ -127,7 +127,7 @@ const Navbar = () => {
                 </p>
                 <button
                   onClick={() => signout()}
-                  className="btn btn-block bg-deepred text-white"
+                  className="btn btn-block bg-deepblue text-white"
                 >
                   Logout
                 </button>

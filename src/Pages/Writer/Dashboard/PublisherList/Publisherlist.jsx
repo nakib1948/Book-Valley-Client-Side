@@ -52,7 +52,7 @@ const Publisherlist = () => {
               <div className="card-body">
                 <div className="flex justify-evenly">
                   <div className="mr-5">
-                    <img src={publisherlogo} className="w-32 rounded " alt="" />
+                    <img src={data.image} className="w-32 rounded " alt="" />
                   </div>
                   <div>
                     <h2 className="card-title">{data.name}</h2>

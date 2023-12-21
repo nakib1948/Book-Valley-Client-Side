@@ -50,6 +50,7 @@ const Signup = () => {
                   email: data.email,
                   image: imgURL,
                   role: "reader",
+                  isDeleted:false
                 };
 
                 axiosSecure.post("/users", saveUser).then((data) => {

@@ -14,10 +14,17 @@ import useGetAllBooks from "../../hooks/useGetAllBooks";
 import Loader from "../Shared/Loader/Loader";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { useQuery } from "@tanstack/react-query";
 const Allbooks = () => {
-  const [data, isLoading, error, refetch] = useGetAllBooks();
-  const [currentPage, setCurrentPage] = useState(1);
   const [axiosSecure] = useAxiosSecure();
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["getApprovedBooks"],
+    queryFn: async () => {
+      const res = await axiosSecure(`/getApprovedBooks`);
+      return res.data;
+    },
+  });
   const [filteredData, setFilteredData] = useState(data);
 
   if (isLoading) {
@@ -27,22 +34,22 @@ const Allbooks = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
+
+ 
   const handleSearch = async (selectedCategory, searchInput) => {
-    const filtered = await data
-      .filter((status) => status.status === "approved")
-      .filter((book) => {
-        if (
-          selectedCategory === "All Category" ||
-          book.category === selectedCategory
-        ) {
-          const searchValue = searchInput.toLowerCase();
-          return (
-            book.name.toLowerCase().includes(searchValue) ||
-            book.writerName.toLowerCase().includes(searchValue)
-          );
-        }
-        return false;
-      });
+    const filtered = await data.filter((book) => {
+      if (
+        selectedCategory === "All Category" ||
+        book.category === selectedCategory
+      ) {
+        const searchValue = searchInput.toLowerCase();
+        return (
+          book.name.toLowerCase().includes(searchValue) ||
+          book.writerName.toLowerCase().includes(searchValue)
+        );
+      }
+      return false;
+    });
 
     setFilteredData(filtered);
     setCurrentPage(1);
@@ -94,8 +101,8 @@ const Allbooks = () => {
                   <figure className="px-5">
                     <img
                       src={book.bookCoverPhoto}
-                      alt="Shoes"
-                      className="rounded-xl h-64"
+                      alt=""
+                      className="rounded-xl mx-auto h-64"
                     />
                   </figure>
 

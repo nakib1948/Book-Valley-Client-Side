@@ -116,7 +116,7 @@ const RequestFeedback = () => {
                 <h2 className="card-title">Request to {data.publisherName}</h2>
                 <p>Book: {data.name}</p>
                 <p>Category: {data.category}</p>
-                <p>Status: pending</p>
+                <p>Status: {data.status}</p>
                 <div className="card-actions justify-start">
                   <button
                     onClick={() =>

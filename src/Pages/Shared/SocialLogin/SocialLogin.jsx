@@ -21,6 +21,7 @@ const SocialLogin = () => {
           email: user.email,
           image: user.photoURL,
           role: "reader",
+          isDeleted:false
         };
 
         axiosSecure.post("/users", saveUser).then((data) => {

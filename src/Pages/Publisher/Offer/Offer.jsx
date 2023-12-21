@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import UploadBook from "./UploadBook";
 import HeaderTitle from "../../Shared/HeaderTitle/HeaderTitle";
+import Swal from "sweetalert2";
 
 const Offer = () => {
   const { user, loading } = useContext(AuthContext);
@@ -27,7 +28,7 @@ const Offer = () => {
     reset,
   } = useForm();
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error,refetch } = useQuery({
     queryKey: ["requests"],
     queryFn: async () => {
       const res = await axiosSecure(`/offertopublisher/${user?.email}`);
@@ -89,6 +90,22 @@ const Offer = () => {
     });
   };
 
+  const declineRequest = (id)=>{
+    axiosSecure.patch(`/updateDeclineRequestbyPubliher/${id}`).then((data) => {
+      if (data.data.modifiedCount) {
+
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "book declined!",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        refetch()
+      } 
+    });
+  }
+
   return (
     <div className="mt-10">
     <HeaderTitle title="Offer Book From Writer"></HeaderTitle>
@@ -102,7 +119,8 @@ const Offer = () => {
               <p>Category: {data.category}</p>
               <p>Earning percentage: {data.percentage}%</p>
               <p>writer approval: {data.writerApproval}</p>
-              <p>Status: Pending</p>
+              <p>Status: {data.status}</p>
+              <p>Book: <a className="font-bold text-blue-800 underline" href={data.bookCopy}>see script</a> </p>
               <div className="card-actions justify-start">
                 <button
                   onClick={() =>
@@ -113,7 +131,7 @@ const Offer = () => {
                   Chat
                 </button>
                 <button
-                  disabled= {data.agreement !== ""}
+                  disabled= {data.agreement !== "" || data.status==="declined"}
                   onClick={() =>
                     document
                       .getElementById(`agreementModal_${data._id}`)
@@ -123,7 +141,7 @@ const Offer = () => {
                 >
                   Sent Agreement
                 </button>
-                <button disabled={data.status==="approved"} className="btn btn-outline btn-info">Decline</button>
+                <button onClick={()=>declineRequest(data._id)} disabled={data.status==="approved" || data.status==='declined' || data.writerApproval==='approved'} className="btn btn-outline btn-info">Decline</button>
                 <button
                   onClick={() =>
                     document
@@ -131,6 +149,7 @@ const Offer = () => {
                       .showModal()
                   }
                   className="btn btn-outline btn-info"
+                  disabled={data.status==="declined"}
                 >
                   Agreement
                 </button>
@@ -211,7 +230,7 @@ const Offer = () => {
 
           <dialog id={`uploadBookModal_${data._id}`} className="modal ">
             <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
-              <UploadBook id={data._id}  />
+              <UploadBook id={data._id} refetch={refetch} />
             </div>
             <form method="dialog" className="modal-backdrop">
               <button>close</button>

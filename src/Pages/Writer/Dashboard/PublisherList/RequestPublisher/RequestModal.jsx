@@ -125,7 +125,7 @@ const RequestModal = ({ publisherData }) => {
 
         <div className="form-control w-full max-w-xs">
           <label className="label">
-            <span className="label-text">Book Price</span>
+            <span className="label-text">Book Price(%)</span>
           </label>
           <input
             type="number"

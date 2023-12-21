@@ -57,7 +57,8 @@ const PublisherSignup = () => {
                     description:data.description,
                     role: "publisher",
                     withdraw:0,
-                    withdrawHistory:[]
+                    withdrawHistory:[],
+                    isDeleted:false
                   };
   
                   axiosSecure.post("/users", saveUser).then((data) => {

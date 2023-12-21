@@ -28,6 +28,7 @@ const Allusers = () => {
     return user.name.toLowerCase().includes(searchText.toLowerCase());
   });
 
+ 
   return (
     <div className="overflow-x-auto w-full card-body bg-slate-50 rounded-xl">
       <div className=" bg-blue-50/40 rounded-md">
@@ -66,7 +67,7 @@ const Allusers = () => {
         </thead>
         <tbody>
           {filteredUsers.map((user, index) => (
-            <AllusersTable user={user} key={index}></AllusersTable>
+            <AllusersTable user={user} refetch = {refetch} key={index}></AllusersTable>
           ))}
         </tbody>
       </table>

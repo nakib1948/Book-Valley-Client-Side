@@ -15,7 +15,7 @@ const Categories = () => {
     <div  className="categories">
       <p className="text-4xl font-bold ml-10 mb-10">Hot Categories</p>
       <Swiper
-        spaceBetween={30}
+      
         pagination={{
           clickable: true,
         }}
@@ -33,12 +33,13 @@ const Categories = () => {
               slidesPerView: 4,
             },
           }}
+          spaceBetween={100}
         className="mySwiper h-96 b-20"
       >
         <SwiperSlide className="">
-          <div className="card w-96  shadow-xl">
-            <figure className="px-10 pt-10">
-              <img src={adventure} alt="Shoes" className=" rounded-xl h-64" />
+          <div className="card w-80 bg-slate-300 shadow-xl">
+            <figure className=" pt-10">
+              <img src={adventure} alt="" className=" rounded-xl h-64" />
             </figure>
             <div className="card-body items-center text-center">
               <h2 className="card-title">ADVENTURE</h2>
@@ -46,7 +47,7 @@ const Categories = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="card w-96  shadow-xl">
+          <div className="card w-80 bg-slate-400  shadow-xl">
             <figure className="px-10 pt-10">
               <img src={fiction} alt="Shoes" className="rounded-xl h-64" />
             </figure>
@@ -56,7 +57,7 @@ const Categories = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="card w-96  shadow-xl">
+          <div className="card w-80  shadow-xl">
             <figure className="px-10 pt-10">
               <img src={romance} alt="Shoes" className="rounded-xl h-64" />
             </figure>
@@ -66,7 +67,7 @@ const Categories = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="card w-96  shadow-xl">
+          <div className="card w-80  shadow-xl">
             <figure className="px-10 pt-10">
               <img src={fantacy} alt="Shoes" className="rounded-xl h-64" />
             </figure>
@@ -76,17 +77,7 @@ const Categories = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="card w-96  shadow-xl">
-            <figure className="px-10 pt-10">
-              <img src={religion} alt="Shoes" className="rounded-xl h-64" />
-            </figure>
-            <div className="card-body items-center text-center">
-              <h2 className="card-title">RELIGION</h2>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="card w-96  shadow-xl">
+          <div className="card w-80  shadow-xl">
             <figure className="px-10 pt-10">
               <img src={thriller} alt="Shoes" className="rounded-xl h-64" />
             </figure>

@@ -1,4 +1,5 @@
 import useGetAllBooks from "../../../hooks/useGetAllBooks";
+import HeaderTitle from "../../Shared/HeaderTitle/HeaderTitle";
 import Loader from "../../Shared/Loader/Loader";
 import BookRequestTable from "./BookRequestTable";
 
@@ -13,7 +14,9 @@ const BookRequest = () => {
   }
 
   return (
-    <div className="overflow-x-auto w-full card-body bg-slate-50 rounded-xl">
+    <div className="mt-10">
+      <HeaderTitle title="Book request from Publishers"></HeaderTitle>
+       <div className="overflow-x-auto w-full mt-10 card-body bg-slate-50 rounded-xl">
       <table className="table">
         <thead>
           <tr className="text-base">
@@ -29,12 +32,14 @@ const BookRequest = () => {
         </thead>
         <tbody>
             {
-                data.filter(data=> data.writerApproval === "approved")
+                data.filter(data=> data.writerApproval === "approved").reverse()
                 .map((data,index)=><BookRequestTable refetch={refetch} request={data} key={index}></BookRequestTable>)
             }
         </tbody>
       </table>
     </div>
+    </div>
+   
   );
 };
 

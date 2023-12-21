@@ -1,6 +1,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
+import { Link } from "react-router-dom";
 
 const Topslider = () => {
   const sliderdata = [
@@ -53,7 +54,7 @@ const Topslider = () => {
               <div className="text-white md:w-1/2 lg:w-1/2 sm:w-full ">
                 <h1 className="text-5xl  font-bold">{data.title}</h1>
                 <p className="py-6">{data.description}</p>
-                <button className="btn bg-deepblue text-white rounded-full">Shop Now</button>
+                <Link to="/allbooks" className="btn bg-deepblue text-white rounded-full">Shop Now</Link>
               </div>
             </div>
           </div>
