@@ -112,7 +112,7 @@ const RequestModal = ({ publisherData }) => {
             <option>FANTACY</option>
             <option>RELIGION</option>
             <option>THRILLER</option>
-            <option>LITERATURE</option>
+            <option>WAR</option>
             <option>EDUCATIONAL</option>
           </select>
           {errors.category?.type === "required" && (
@@ -182,7 +182,7 @@ const RequestModal = ({ publisherData }) => {
 
         <button
           type="submit"
-          className="text-white mt-5 bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+          className="btn btn-block text-xl text-white btn-primary mt-4"
         >
           Send Request
         </button>

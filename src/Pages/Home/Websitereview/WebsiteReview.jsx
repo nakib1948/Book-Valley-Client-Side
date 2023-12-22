@@ -53,7 +53,7 @@ const WebsiteReview = () => {
       ></HeaderTitle>
 
       <AutoplaySlider
-        className="h-[500px] mt-10"
+        className="md:h-[500px] lg:h-[500px] h-[850px] mt-10"
         play={true}
         cancelOnInteraction={false}
         interval={6000}

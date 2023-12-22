@@ -43,6 +43,7 @@ import PublishedBook from "../Pages/Publisher/PublishedBook/PublishedBook";
 import PublisherEarning from "../Pages/Publisher/Earning/publisherEarning";
 import UpdatePublisherProfile from "../Pages/Publisher/UpdatePublisherProfile/UpdatePublisherProfile";
 import Statistic from "../Pages/Admin/Statistic/Statistic";
+import Subcategories from "../Pages/Home/Categories/Subcategories";
 
 export const router = createBrowserRouter([
   {
@@ -73,6 +74,11 @@ export const router = createBrowserRouter([
         path: "/login",
         element: <Login></Login>,
       },
+      {
+        path: "/subcategories/:categoryname",
+        element: <Subcategories></Subcategories>,
+      },
+
       {
         path: "/allbooks",
         element: <Allbooks></Allbooks>,

@@ -102,7 +102,7 @@ const Freebooks = () => {
                 data.map((book, index) => (
                   <SwiperSlide key={index}>
                     {" "}
-                    <div className="card h-96 w-80 mb-10 relative shadow-xl group">
+                    <div className="card h-96 w-72 mb-10 relative shadow-xl group">
                       <figure className="px-10 pt-10">
                         <img
                           src={book.bookCoverPhoto}

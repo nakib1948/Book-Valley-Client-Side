@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import book from "../../../assets/All-Books/offer.png";
 import offerbg from "../../../assets/All-Books/offer-bg.jpg";
+import { Link } from "react-router-dom";
 
 const OfferSection = () => {
-  const [days, setDays] = useState(99);
+  const [days, setDays] = useState(6);
   const [hours, setHours] = useState(10);
   const [minutes, setMinutes] = useState(24);
   const [seconds, setSeconds] = useState(27);
@@ -50,8 +51,8 @@ const OfferSection = () => {
         <div>
           <h1 className="text-3xl text-gray-600 my-4">Special Offers</h1>
           <h1 className="text-4xl font-semibold text-red-400">
-            All books are 20% off now this week! <br /> Don&rsquo;t miss such a
-            deal!
+            All fictions category books are 20% off now this week! <br />{" "}
+            Don&rsquo;t miss such a deal!
           </h1>
           <div className="grid grid-flow-col gap-5 text-center text-gray-600 my-6 auto-cols-max">
             <div className="flex flex-col">
@@ -79,7 +80,11 @@ const OfferSection = () => {
               sec
             </div>
           </div>
-          <button className="btn btn-outline rounded-full font-semibold">Explore More</button>
+          <Link to={`/subcategories/FICTION`}>
+            <button className="btn btn-outline rounded-full font-semibold">
+              Buy Now!!
+            </button>
+          </Link>
         </div>
       </div>
     </div>

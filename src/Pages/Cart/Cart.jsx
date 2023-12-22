@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import HeaderTitle from "../Shared/HeaderTitle/HeaderTitle";
 import bookimg from "../../assets/All-Books/book12.jpg";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
@@ -7,17 +7,39 @@ import Loader from "../Shared/Loader/Loader";
 import Swal from "sweetalert2";
 import useGetCartItem from "../../hooks/useGetCartItem";
 import { Link } from "react-router-dom";
-
+import ReactTooltip from "react-tooltip";
+import cart from "../../assets/All-Books/cart.png";
+import search1 from "../../assets/All-Books/search.gif";
+import details from "../../assets/All-Books/details.png";
+import premium from "../../assets/All-Books/premium.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
+import Modal from "../Home/FeaturedCollection/Modal";
+import useGetUserRole from "../../hooks/useGetUserRole";
 const Cart = () => {
   const [axiosSecure] = useAxiosSecure();
   const [data, isLoading, error, refetch] = useGetCartItem();
-  if (isLoading) {
+  const [isRole, isRoleLoading] = useGetUserRole();
+  const { data: data1, isLoading: isLoading1, error: error1} = useQuery({
+    queryKey: ["getRecommededBook"],
+    queryFn: async () => {
+      if (data) {
+        const queryString = data.map((item) => item.category).join(',');
+        const res = await axiosSecure(`/getRecommededBook?category=${queryString}`);
+        return res.data;
+      }
+    },
+    enabled: !isLoading && !!data,
+  });
+
+  if (isLoading || isLoading1 || isRoleLoading) {
     return <Loader />;
   }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  if (error || error1) {
+    return <div>Error: {error?.message || error1?.message}</div>;
   }
+   const recommendedBook = data1?.filter((item1)=> !data.some(item=>item.name===item1.name))
   let total=0,tax=15;
   if(data.length)
   {
@@ -55,17 +77,42 @@ const Cart = () => {
     });
   };
 
+  const addtoCart = (data) => {
+    axiosSecure(`/existsInPaidbook/${data._id}`).then((res) => {
+      if (res.data.exists) return Swal.fire("You already bought this book!!!");
+      else {
+        axiosSecure(`/existsIncart/${data._id}`).then((res) => {
+          if (res.data.exists)
+            return Swal.fire("You already added this book!!!");
+          else {
+            axiosSecure.patch("/addTocart", data).then((data) => {
+              if (data.data.modifiedCount) {
+                Swal.fire("book added successfully");
+                refetch()
+              } else {
+                Swal.fire("Something went wrong! try again");
+              }
+            });
+          }
+        });
+      }
+    });
+  };
+
+
   return (
     <div className="mt-10">
       <HeaderTitle title={`Your Cart(${data.length} items)`}></HeaderTitle>
       <div className="flex justify-center my-6">
         <div className="flex flex-col w-full p-8 text-gray-800 bg-white shadow-lg pin-r pin-y md:w-4/5 lg:w-4/5">
           <div className="flex-1">
-            <table className="w-full text-sm lg:text-base" cellSpacing="0">
+          <div className="overflow-x-auto">
+          <table className="w-full table text-sm lg:text-base" cellSpacing="0">
               <thead>
                 <tr className="h-12 uppercase">
                   <th className="text-left">Book Image</th>
                   <th className="text-left">Book Name</th>
+                  <th className="text-left">Category</th>
                   <th className="hidden text-right md:table-cell">Writer</th>
                   <th className="lg:text-right text-left pl-5 lg:pl-0">
                     <span className="lg:hidden" title="Quantity">
@@ -84,11 +131,11 @@ const Cart = () => {
                     <td className="hidden pb-4 md:table-cell">
                       <img
                         src={book.bookCoverPhoto}
-                        className="w-20 rounded"
+                        className="w-20 h-16 rounded"
                         alt="Thumbnail"
                       />
                     </td>
-                    <td>
+                    <td className="text-left">
                       <p className="mb-2 md:ml-4">{book.name}</p>
 
                       <button
@@ -98,7 +145,12 @@ const Cart = () => {
                         <small>(Remove item)</small>
                       </button>
                     </td>
-                    <td className="hidden text-right md:table-cell">
+                    <td className="text-left md:table-cell">
+                      <span className="text-sm lg:text-base font-medium">
+                        {book.category}
+                      </span>
+                    </td>
+                    <td className="text-right md:table-cell">
                       <span className="text-sm lg:text-base font-medium">
                         {book.writerName}
                       </span>
@@ -124,6 +176,9 @@ const Cart = () => {
                 ))}
               </tbody>
             </table>
+            
+             </div>
+          
             {data.length === 0 && (
               <h1 className="text-xl font-bold text-center">Cart is empty</h1>
             )}
@@ -215,7 +270,7 @@ const Cart = () => {
                       Tax
                     </div>
                     <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                      15€
+                      {tax}€
                     </div>
                   </div>
                   <div className="flex justify-between pt-4 border-b">
@@ -226,8 +281,10 @@ const Cart = () => {
                       {total + tax}€
                     </div>
                   </div>
-
-                  <Link to="/payment" className="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
+                  
+                  {
+                    isRole !== "publisher" && isRole !== "writer" && isRole !== "admin" &&
+                    <Link to="/payment" className="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
                     <svg
                       aria-hidden="true"
                       data-prefix="far"
@@ -243,12 +300,140 @@ const Cart = () => {
                     </svg>
                     <span className="ml-2 mt-5px">Proceed to checkout</span>
                   </Link>
+                  }
+                  
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      {
+         recommendedBook?.length && <>
+        <HeaderTitle title="Recommended for you" description="You may also like these book"></HeaderTitle>
+        <div className="my-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 m-10 gap-6">
+          {
+            recommendedBook.slice(0, 6).map((book, index) => (
+              <>
+                <div
+                  key={index}
+                  className="group relative w-96  bg-base-100 shadow-xl"
+                >
+                  <div className="badge badge-lg">
+                    <img src={premium} className="h-7" alt="" />
+                  </div>
+                  <figure className="px-5">
+                    <img
+                      src={book.bookCoverPhoto}
+                      alt=""
+                      className="rounded-xl mx-auto h-64"
+                    />
+                  </figure>
+
+                  <div className="card-body items-center text-center">
+                    <div className="rating">
+                      <input
+                        type="radio"
+                        name="rating-2"
+                        className="mask mask-star-2 bg-orange-400"
+                      />
+                      <input
+                        type="radio"
+                        name="rating-2"
+                        className="mask mask-star-2 bg-orange-400"
+                      />
+                      <input
+                        type="radio"
+                        name="rating-2"
+                        className="mask mask-star-2 bg-orange-400"
+                      />
+                      <input
+                        type="radio"
+                        name="rating-2"
+                        className="mask mask-star-2 bg-orange-400"
+                        checked
+                      />
+                      <input
+                        type="radio"
+                        name="rating-2"
+                        className="mask mask-star-2 bg-orange-400"
+                      />
+                    </div>
+                    <h2 className="card-title">
+                      {book.name} by {book.writerName}
+                    </h2>
+                    <p className="text-lg font-bold">
+                      {book.bookPrice} <FontAwesomeIcon icon={faDollarSign} />{" "}
+                    </p>
+
+                    <div className="hidden absolute inset-0 flex items-center justify-center  bg-gray-300 bg-opacity-40 group-hover:flex">
+                      <button
+                        className="btn mr-5"
+                        data-for={`cartTooltip-${index}`}
+                        data-tip="add to cart"
+                        onClick={() => addtoCart(book)}
+                      >
+                        <img src={cart} alt="" />
+                      </button>
+                      <ReactTooltip
+                        id={`cartTooltip-${index}`}
+                        place="top"
+                        type="dark"
+                        effect="solid"
+                      />
+                      <button
+                        className="btn mx-4"
+                        data-for={`quickViewTooltip-${index}`}
+                        onClick={() =>
+                          document
+                            .getElementById(`quickview${book._id}`)
+                            .showModal()
+                        }
+                        data-tip="quick view"
+                      >
+                        <ReactTooltip
+                          id={`quickViewTooltip-${index}`}
+                          place="top"
+                          type="dark"
+                          effect="solid"
+                        />
+                        <img src={search1} className="h-8" alt="" />
+                      </button>
+                      <Link to={`/allbooks/${book._id}`}>
+                        <button
+                          className="btn"
+                          data-for={`details-${index}`}
+                          data-tip="details"
+                        >
+                          <img src={details} className="h-12" alt="" />
+                        </button>
+                      </Link>
+
+                      <ReactTooltip
+                        id={`details-${index}`}
+                        place="top"
+                        type="dark"
+                        effect="solid"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <dialog id={`quickview${book._id}`} className="modal ">
+                  <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
+                    <Modal book={book} />
+                  </div>
+                  <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                  </form>
+                </dialog>
+              </>
+            ))}
+        </div>
+      </div>
+         </>
+      }
     </div>
   );
 };

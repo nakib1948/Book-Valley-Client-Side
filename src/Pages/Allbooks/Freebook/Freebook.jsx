@@ -9,11 +9,13 @@ import publisher from "../../../assets/Dashboard/publisher.png";
 import FreebookModal from "./FreebookModal";
 import Swal from "sweetalert2";
 import Pagination from "../../Shared/Pagination/Pagination";
+import useGetUserRole from "../../../hooks/useGetUserRole";
 
 const Freebook = () => {
   const [search, setSearch] = useState("");
   const [axiosSecure] = useAxiosSecure();
   const [currentPage, setCurrentPage] = useState(1);
+  const [isRole, isRoleLoading] = useGetUserRole();
 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["getFreeBook"],
@@ -22,7 +24,7 @@ const Freebook = () => {
       return res.data;
     },
   });
-  if (isLoading) {
+  if (isLoading || isRoleLoading) {
     return <Loader />;
   }
 
@@ -37,12 +39,12 @@ const Freebook = () => {
           book.writerName.toLowerCase().includes(search.toLowerCase()) ||
           book.category.toLowerCase().includes(search.toLowerCase())
       );
-     
-      const postsPerPage = 12;
 
-      const lastPostIndex = currentPage * postsPerPage;
-      const firstPostIndex = lastPostIndex - postsPerPage;
-      const currentPosts = filteredData.slice(firstPostIndex, lastPostIndex);
+  const postsPerPage = 12;
+
+  const lastPostIndex = currentPage * postsPerPage;
+  const firstPostIndex = lastPostIndex - postsPerPage;
+  const currentPosts = filteredData.slice(firstPostIndex, lastPostIndex);
 
   const addFreeBookToProfile = (book) => {
     axiosSecure(`/getExistsInFreeBook/${book._id}`).then((res) => {
@@ -114,14 +116,19 @@ const Freebook = () => {
                   </h2>
 
                   <div className="hidden absolute inset-0 flex items-center justify-center  bg-gray-300 bg-opacity-40 group-hover:flex">
-                    <button
-                      className="btn mr-5"
-                      data-for={`cartTooltip-${index}`}
-                      data-tip="add to dashboard"
-                      onClick={() => addFreeBookToProfile(book)}
-                    >
-                      <img src={publisher} alt="" />
-                    </button>
+                    {isRole !== "publisher" &&
+                      isRole !== "writer" &&
+                      isRole !== "admin" && (
+                        <button
+                          className="btn mr-5"
+                          data-for={`cartTooltip-${index}`}
+                          data-tip="add to dashboard"
+                          onClick={() => addFreeBookToProfile(book)}
+                        >
+                          <img src={publisher} alt="" />
+                        </button>
+                      )}
+
                     <ReactTooltip
                       id={`cartTooltip-${index}`}
                       place="top"

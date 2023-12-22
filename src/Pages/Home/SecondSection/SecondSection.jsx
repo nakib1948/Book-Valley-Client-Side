@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./secondsection.css";
 
 const Secondsection = () => {
@@ -16,8 +17,8 @@ const Secondsection = () => {
             <div className="max-w-md">
               <p className="mb-5 font-semibold">LATEST BESTSELLING</p>
               <h1 className="mb-5 text-5xl font-bold">Crime Fiction Books</h1>
-
-              <button className="btn rounded-full bg-deepblue text-white">Shop now</button>
+              <Link to={`/subcategories/FICTION`}> <button className="btn rounded-full bg-deepblue text-white">Shop now</button></Link>
+             
             </div>
           </div>
         </div>
@@ -34,8 +35,8 @@ const Secondsection = () => {
             <div className="max-w-md">
               <p className="mb-5 font-semibold">GET TO KNOW</p>
               <h1 className="mb-5 text-5xl font-bold">World war Heroes</h1>
-
-              <button className="btn rounded-full bg-deepblue text-white">Shop now</button>
+              <Link to={`/subcategories/WAR`}><button className="btn rounded-full bg-deepblue text-white">Shop now</button></Link>
+              
             </div>
           </div>
         </div>
