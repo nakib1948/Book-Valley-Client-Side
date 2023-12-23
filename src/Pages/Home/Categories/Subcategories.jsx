@@ -25,7 +25,7 @@ const Subcategories = () => {
     queryKey: ["getBookByCategories"],
     queryFn: async () => {
       const res = await axios(
-        `http://localhost:3000/getBookByCategories/${categoryname}`
+        `https://horse-raincoat.cyclic.app/getBookByCategories/${categoryname}`
       );
       return res.data;
     },

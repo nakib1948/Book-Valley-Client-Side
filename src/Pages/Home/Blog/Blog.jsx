@@ -10,7 +10,7 @@ const Blog = () => {
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["getAllBlog"],
     queryFn: async () => {
-      const res = await axios(`http://localhost:3000/getAllBlog`);
+      const res = await axios(`https://horse-raincoat.cyclic.app/getAllBlog`);
       return res.data;
     },
   });

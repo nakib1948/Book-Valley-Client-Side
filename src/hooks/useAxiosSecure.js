@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Providers/AuthProvider";
 
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://horse-raincoat.cyclic.app",
 });
 
 const useAxiosSecure = () => {
