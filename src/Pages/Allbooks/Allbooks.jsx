@@ -10,12 +10,12 @@ import { useEffect, useState } from "react";
 import Pagination from "../Shared/Pagination/Pagination";
 import { Link, useNavigate } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
-import useGetAllBooks from "../../hooks/useGetAllBooks";
 import Loader from "../Shared/Loader/Loader";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
 import useGetUserRole from "../../hooks/useGetUserRole";
+import { Helmet } from "react-helmet-async";
 const Allbooks = () => {
   const [axiosSecure] = useAxiosSecure();
   const [currentPage, setCurrentPage] = useState(1);
@@ -92,6 +92,9 @@ const Allbooks = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Book Valley | Shop</title>
+      </Helmet>
       <Headersection handleSearch={handleSearch} />
       <div className="my-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 m-10 gap-6">

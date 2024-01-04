@@ -1,6 +1,4 @@
-import { publisherdata } from "./Publiserdata";
 import { useQuery } from "@tanstack/react-query";
-import publisherlogo from "../../../../assets/Writer/publisher-logo.jpg";
 import facebook from "../../../../assets/Writer/facebook.png";
 import instagram from "../../../../assets/Writer/instagram.png";
 import twitter from "../../../../assets/Writer/twitter.png";
@@ -11,7 +9,7 @@ import website from "../../../../assets/Writer/website.png";
 import RequestModal from "./RequestPublisher/RequestModal";
 import Loader from "../../../Shared/Loader/Loader";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
-
+import { Helmet } from "react-helmet-async";
 const Publisherlist = () => {
   const [axiosSecure] = useAxiosSecure();
   const { data, isLoading, error } = useQuery({
@@ -32,6 +30,9 @@ const Publisherlist = () => {
   return (
     <div>
       <div className="mb-4 bg-blue-50/40 p-2 rounded-md">
+        <Helmet>
+          <title>Book Valley | Publisherlists</title>
+        </Helmet>
         <h1 className="text-2xl font-semibold">Publisher List</h1>
         <div className="flex justify-between mt-2">
           <p className="text-gray-600">Total publishers: {data.length}</p>

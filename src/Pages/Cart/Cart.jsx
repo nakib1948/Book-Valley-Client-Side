@@ -16,16 +16,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../Home/FeaturedCollection/Modal";
 import useGetUserRole from "../../hooks/useGetUserRole";
+import { Helmet } from "react-helmet-async";
 const Cart = () => {
   const [axiosSecure] = useAxiosSecure();
   const [data, isLoading, error, refetch] = useGetCartItem();
   const [isRole, isRoleLoading] = useGetUserRole();
-  const { data: data1, isLoading: isLoading1, error: error1} = useQuery({
+  const {
+    data: data1,
+    isLoading: isLoading1,
+    error: error1,
+  } = useQuery({
     queryKey: ["getRecommededBook"],
     queryFn: async () => {
       if (data) {
-        const queryString = data.map((item) => item.category).join(',');
-        const res = await axiosSecure(`/getRecommededBook?category=${queryString}`);
+        const queryString = data.map((item) => item.category).join(",");
+        const res = await axiosSecure(
+          `/getRecommededBook?category=${queryString}`
+        );
         return res.data;
       }
     },
@@ -39,16 +46,16 @@ const Cart = () => {
   if (error || error1) {
     return <div>Error: {error?.message || error1?.message}</div>;
   }
-   const recommendedBook = data1?.filter((item1)=> !data.some(item=>item.name===item1.name))
-  let total=0,tax=15;
-  if(data.length)
-  {
+  const recommendedBook = data1?.filter(
+    (item1) => !data.some((item) => item.name === item1.name)
+  );
+  let total = 0,
+    tax = 15;
+  if (data.length) {
     total = data.reduce((sum, book) => sum + book.bookPrice, 0);
+  } else {
+    tax = 0;
   }
-  else{
-        tax = 0;
-  }
-
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -88,7 +95,7 @@ const Cart = () => {
             axiosSecure.patch("/addTocart", data).then((data) => {
               if (data.data.modifiedCount) {
                 Swal.fire("book added successfully");
-                refetch()
+                refetch();
               } else {
                 Swal.fire("Something went wrong! try again");
               }
@@ -99,86 +106,91 @@ const Cart = () => {
     });
   };
 
-
   return (
     <div className="mt-10">
+      <Helmet>
+        <title>Book Valley | Cart</title>
+      </Helmet>
       <HeaderTitle title={`Your Cart(${data.length} items)`}></HeaderTitle>
       <div className="flex justify-center my-6">
         <div className="flex flex-col w-full p-8 text-gray-800 bg-white shadow-lg pin-r pin-y md:w-4/5 lg:w-4/5">
           <div className="flex-1">
-          <div className="overflow-x-auto">
-          <table className="w-full table text-sm lg:text-base" cellSpacing="0">
-              <thead>
-                <tr className="h-12 uppercase">
-                  <th className="text-left">Book Image</th>
-                  <th className="text-left">Book Name</th>
-                  <th className="text-left">Category</th>
-                  <th className="hidden text-right md:table-cell">Writer</th>
-                  <th className="lg:text-right text-left pl-5 lg:pl-0">
-                    <span className="lg:hidden" title="Quantity">
-                      Qtd
-                    </span>
-                    <span className="hidden lg:inline">Quantity</span>
-                  </th>
-
-                  <th className="text-right"> price</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {data && data.map((book, index) => (
-                  <tr key={index}>
-                    <td className="hidden pb-4 md:table-cell">
-                      <img
-                        src={book.bookCoverPhoto}
-                        className="w-20 h-16 rounded"
-                        alt="Thumbnail"
-                      />
-                    </td>
-                    <td className="text-left">
-                      <p className="mb-2 md:ml-4">{book.name}</p>
-
-                      <button
-                        onClick={() => handleDelete(book._id)}
-                        className="text-gray-700 md:ml-4"
-                      >
-                        <small>(Remove item)</small>
-                      </button>
-                    </td>
-                    <td className="text-left md:table-cell">
-                      <span className="text-sm lg:text-base font-medium">
-                        {book.category}
+            <div className="overflow-x-auto">
+              <table
+                className="w-full table text-sm lg:text-base"
+                cellSpacing="0"
+              >
+                <thead>
+                  <tr className="h-12 uppercase">
+                    <th className="text-left">Book Image</th>
+                    <th className="text-left">Book Name</th>
+                    <th className="text-left">Category</th>
+                    <th className="hidden text-right md:table-cell">Writer</th>
+                    <th className="lg:text-right text-left pl-5 lg:pl-0">
+                      <span className="lg:hidden" title="Quantity">
+                        Qtd
                       </span>
-                    </td>
-                    <td className="text-right md:table-cell">
-                      <span className="text-sm lg:text-base font-medium">
-                        {book.writerName}
-                      </span>
-                    </td>
-                    <td className="justify-center md:justify-end md:flex mt-6">
-                      <div className="w-20 h-10">
-                        <div className="relative flex flex-row w-full h-8">
-                          <input
-                            type="number"
-                            value="1"
-                            className="w-full font-semibold text-center text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black"
-                          />
-                        </div>
-                      </div>
-                    </td>
+                      <span className="hidden lg:inline">Quantity</span>
+                    </th>
 
-                    <td className="text-right">
-                      <span className="text-sm lg:text-base font-medium">
-                        {book.bookPrice} $
-                      </span>
-                    </td>
+                    <th className="text-right"> price</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-            
-             </div>
-          
+                </thead>
+
+                <tbody>
+                  {data &&
+                    data.map((book, index) => (
+                      <tr key={index}>
+                        <td className="hidden pb-4 md:table-cell">
+                          <img
+                            src={book.bookCoverPhoto}
+                            className="w-20 h-16 rounded"
+                            alt="Thumbnail"
+                          />
+                        </td>
+                        <td className="text-left">
+                          <p className="mb-2 md:ml-4">{book.name}</p>
+
+                          <button
+                            onClick={() => handleDelete(book._id)}
+                            className="text-gray-700 md:ml-4"
+                          >
+                            <small>(Remove item)</small>
+                          </button>
+                        </td>
+                        <td className="text-left md:table-cell">
+                          <span className="text-sm lg:text-base font-medium">
+                            {book.category}
+                          </span>
+                        </td>
+                        <td className="text-right md:table-cell">
+                          <span className="text-sm lg:text-base font-medium">
+                            {book.writerName}
+                          </span>
+                        </td>
+                        <td className="justify-center md:justify-end md:flex mt-6">
+                          <div className="w-20 h-10">
+                            <div className="relative flex flex-row w-full h-8">
+                              <input
+                                type="number"
+                                value="1"
+                                className="w-full font-semibold text-center text-gray-700 bg-gray-200 outline-none focus:outline-none hover:text-black focus:text-black"
+                              />
+                            </div>
+                          </div>
+                        </td>
+
+                        <td className="text-right">
+                          <span className="text-sm lg:text-base font-medium">
+                            {book.bookPrice} $
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+
             {data.length === 0 && (
               <h1 className="text-xl font-bold text-center">Cart is empty</h1>
             )}
@@ -281,159 +293,164 @@ const Cart = () => {
                       {total + tax}€
                     </div>
                   </div>
-                  
-                  {
-                    isRole !== "publisher" && isRole !== "writer" && isRole !== "admin" &&
-                    <Link to="/payment" className="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
-                    <svg
-                      aria-hidden="true"
-                      data-prefix="far"
-                      data-icon="credit-card"
-                      className="w-8"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 576 512"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M527.9 32H48.1C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48.1 48h479.8c26.6 0 48.1-21.5 48.1-48V80c0-26.5-21.5-48-48.1-48zM54.1 80h467.8c3.3 0 6 2.7 6 6v42H48.1V86c0-3.3 2.7-6 6-6zm467.8 352H54.1c-3.3 0-6-2.7-6-6V256h479.8v170c0-3.3-2.7-6 6-6zM192 332v40c0 6.6-5.4 12-12 12h-72c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h72c6.6 0-12 5.4 12 12zm192 0v40c0 6.6-5.4 12-12 12H236c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h136c6.6 0-12 5.4 12 12z"
-                      ></path>
-                    </svg>
-                    <span className="ml-2 mt-5px">Proceed to checkout</span>
-                  </Link>
-                  }
-                  
+
+                  {isRole !== "publisher" &&
+                    isRole !== "writer" &&
+                    isRole !== "admin" && (
+                      <Link
+                        to="/payment"
+                        className="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-gray-800 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          data-prefix="far"
+                          data-icon="credit-card"
+                          className="w-8"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 576 512"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M527.9 32H48.1C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48.1 48h479.8c26.6 0 48.1-21.5 48.1-48V80c0-26.5-21.5-48-48.1-48zM54.1 80h467.8c3.3 0 6 2.7 6 6v42H48.1V86c0-3.3 2.7-6 6-6zm467.8 352H54.1c-3.3 0-6-2.7-6-6V256h479.8v170c0-3.3-2.7-6 6-6zM192 332v40c0 6.6-5.4 12-12 12h-72c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h72c6.6 0-12 5.4 12 12zm192 0v40c0 6.6-5.4 12-12 12H236c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h136c6.6 0-12 5.4 12 12z"
+                          ></path>
+                        </svg>
+                        <span className="ml-2 mt-5px">Proceed to checkout</span>
+                      </Link>
+                    )}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      {
-         recommendedBook?.length && <>
-        <HeaderTitle title="Recommended for you" description="You may also like these book"></HeaderTitle>
-        <div className="my-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 m-10 gap-6">
-          {
-            recommendedBook.slice(0, 6).map((book, index) => (
-              <>
-                <div
-                  key={index}
-                  className="group relative w-96  bg-base-100 shadow-xl"
-                >
-                  <div className="badge badge-lg">
-                    <img src={premium} className="h-7" alt="" />
-                  </div>
-                  <figure className="px-5">
-                    <img
-                      src={book.bookCoverPhoto}
-                      alt=""
-                      className="rounded-xl mx-auto h-64"
-                    />
-                  </figure>
-
-                  <div className="card-body items-center text-center">
-                    <div className="rating">
-                      <input
-                        type="radio"
-                        name="rating-2"
-                        className="mask mask-star-2 bg-orange-400"
-                      />
-                      <input
-                        type="radio"
-                        name="rating-2"
-                        className="mask mask-star-2 bg-orange-400"
-                      />
-                      <input
-                        type="radio"
-                        name="rating-2"
-                        className="mask mask-star-2 bg-orange-400"
-                      />
-                      <input
-                        type="radio"
-                        name="rating-2"
-                        className="mask mask-star-2 bg-orange-400"
-                        checked
-                      />
-                      <input
-                        type="radio"
-                        name="rating-2"
-                        className="mask mask-star-2 bg-orange-400"
-                      />
+      {recommendedBook?.length && (
+        <>
+          <HeaderTitle
+            title="Recommended for you"
+            description="You may also like these book"
+          ></HeaderTitle>
+          <div className="my-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 m-10 gap-6">
+              {recommendedBook.slice(0, 6).map((book, index) => (
+                <>
+                  <div
+                    key={index}
+                    className="group relative w-96  bg-base-100 shadow-xl"
+                  >
+                    <div className="badge badge-lg">
+                      <img src={premium} className="h-7" alt="" />
                     </div>
-                    <h2 className="card-title">
-                      {book.name} by {book.writerName}
-                    </h2>
-                    <p className="text-lg font-bold">
-                      {book.bookPrice} <FontAwesomeIcon icon={faDollarSign} />{" "}
-                    </p>
-
-                    <div className="hidden absolute inset-0 flex items-center justify-center  bg-gray-300 bg-opacity-40 group-hover:flex">
-                      <button
-                        className="btn mr-5"
-                        data-for={`cartTooltip-${index}`}
-                        data-tip="add to cart"
-                        onClick={() => addtoCart(book)}
-                      >
-                        <img src={cart} alt="" />
-                      </button>
-                      <ReactTooltip
-                        id={`cartTooltip-${index}`}
-                        place="top"
-                        type="dark"
-                        effect="solid"
+                    <figure className="px-5">
+                      <img
+                        src={book.bookCoverPhoto}
+                        alt=""
+                        className="rounded-xl mx-auto h-64"
                       />
-                      <button
-                        className="btn mx-4"
-                        data-for={`quickViewTooltip-${index}`}
-                        onClick={() =>
-                          document
-                            .getElementById(`quickview${book._id}`)
-                            .showModal()
-                        }
-                        data-tip="quick view"
-                      >
+                    </figure>
+
+                    <div className="card-body items-center text-center">
+                      <div className="rating">
+                        <input
+                          type="radio"
+                          name="rating-2"
+                          className="mask mask-star-2 bg-orange-400"
+                        />
+                        <input
+                          type="radio"
+                          name="rating-2"
+                          className="mask mask-star-2 bg-orange-400"
+                        />
+                        <input
+                          type="radio"
+                          name="rating-2"
+                          className="mask mask-star-2 bg-orange-400"
+                        />
+                        <input
+                          type="radio"
+                          name="rating-2"
+                          className="mask mask-star-2 bg-orange-400"
+                          checked
+                        />
+                        <input
+                          type="radio"
+                          name="rating-2"
+                          className="mask mask-star-2 bg-orange-400"
+                        />
+                      </div>
+                      <h2 className="card-title">
+                        {book.name} by {book.writerName}
+                      </h2>
+                      <p className="text-lg font-bold">
+                        {book.bookPrice} <FontAwesomeIcon icon={faDollarSign} />{" "}
+                      </p>
+
+                      <div className="hidden absolute inset-0 flex items-center justify-center  bg-gray-300 bg-opacity-40 group-hover:flex">
+                        <button
+                          className="btn mr-5"
+                          data-for={`cartTooltip-${index}`}
+                          data-tip="add to cart"
+                          onClick={() => addtoCart(book)}
+                        >
+                          <img src={cart} alt="" />
+                        </button>
                         <ReactTooltip
-                          id={`quickViewTooltip-${index}`}
+                          id={`cartTooltip-${index}`}
                           place="top"
                           type="dark"
                           effect="solid"
                         />
-                        <img src={search1} className="h-8" alt="" />
-                      </button>
-                      <Link to={`/allbooks/${book._id}`}>
                         <button
-                          className="btn"
-                          data-for={`details-${index}`}
-                          data-tip="details"
+                          className="btn mx-4"
+                          data-for={`quickViewTooltip-${index}`}
+                          onClick={() =>
+                            document
+                              .getElementById(`quickview${book._id}`)
+                              .showModal()
+                          }
+                          data-tip="quick view"
                         >
-                          <img src={details} className="h-12" alt="" />
+                          <ReactTooltip
+                            id={`quickViewTooltip-${index}`}
+                            place="top"
+                            type="dark"
+                            effect="solid"
+                          />
+                          <img src={search1} className="h-8" alt="" />
                         </button>
-                      </Link>
+                        <Link to={`/allbooks/${book._id}`}>
+                          <button
+                            className="btn"
+                            data-for={`details-${index}`}
+                            data-tip="details"
+                          >
+                            <img src={details} className="h-12" alt="" />
+                          </button>
+                        </Link>
 
-                      <ReactTooltip
-                        id={`details-${index}`}
-                        place="top"
-                        type="dark"
-                        effect="solid"
-                      />
+                        <ReactTooltip
+                          id={`details-${index}`}
+                          place="top"
+                          type="dark"
+                          effect="solid"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <dialog id={`quickview${book._id}`} className="modal ">
-                  <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
-                    <Modal book={book} />
-                  </div>
-                  <form method="dialog" className="modal-backdrop">
-                    <button>close</button>
-                  </form>
-                </dialog>
-              </>
-            ))}
-        </div>
-      </div>
-         </>
-      }
+                  <dialog id={`quickview${book._id}`} className="modal ">
+                    <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
+                      <Modal book={book} />
+                    </div>
+                    <form method="dialog" className="modal-backdrop">
+                      <button>close</button>
+                    </form>
+                  </dialog>
+                </>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

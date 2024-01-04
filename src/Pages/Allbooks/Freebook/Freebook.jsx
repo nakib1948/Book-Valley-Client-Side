@@ -10,7 +10,7 @@ import FreebookModal from "./FreebookModal";
 import Swal from "sweetalert2";
 import Pagination from "../../Shared/Pagination/Pagination";
 import useGetUserRole from "../../../hooks/useGetUserRole";
-
+import { Helmet } from "react-helmet-async";
 const Freebook = () => {
   const [search, setSearch] = useState("");
   const [axiosSecure] = useAxiosSecure();
@@ -63,6 +63,9 @@ const Freebook = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Book Valley | Free Books</title>
+      </Helmet>
       <div
         className="relative mb-5 rounded-md"
         style={{

@@ -7,21 +7,23 @@ import OfferSection from "./OfferSection/OfferSection";
 import Secondsection from "./SecondSection/SecondSection";
 import Topslider from "./Topslider/Topslider";
 import WebsiteReview from "./Websitereview/WebsiteReview";
-
+import { Helmet } from "react-helmet-async";
 const Home = () => {
-    return (
-        <div>
-            <Topslider/>
-            <Secondsection/>
-         
-            <Categories/>
-            <FeaturedCollection/>
-            <OfferSection/>
-            <WebsiteReview/>
-            <Blog/>
-            <ContactUs/>
-        </div>
-    );
+  return (
+    <div>
+      <Helmet>
+        <title>Book Valley | Home</title>
+      </Helmet>
+      <Topslider />
+      <Secondsection />
+      <Categories />
+      <FeaturedCollection />
+      <OfferSection />
+      <WebsiteReview />
+      <Blog />
+      <ContactUs />
+    </div>
+  );
 };
 
 export default Home;

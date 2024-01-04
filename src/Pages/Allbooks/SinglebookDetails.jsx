@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
 import Swal from "sweetalert2";
 import useGetUserRole from "../../hooks/useGetUserRole";
-
+import { Helmet } from "react-helmet-async";
 const SinglebookDetails = () => {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
@@ -36,12 +36,10 @@ const SinglebookDetails = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-  const addtoCart = (data)=>{
+  const addtoCart = (data) => {
     axiosSecure(`/existsInPaidbook/${data._id}`).then((res) => {
-      if (res.data.exists)
-        return Swal.fire("You already bought this book!!!");
+      if (res.data.exists) return Swal.fire("You already bought this book!!!");
       else {
-
         axiosSecure(`/existsIncart/${data._id}`).then((res) => {
           if (res.data.exists)
             return Swal.fire("You already added this book!!!");
@@ -49,17 +47,15 @@ const SinglebookDetails = () => {
             axiosSecure.patch("/addTocart", data).then((data) => {
               if (data.data.modifiedCount) {
                 Swal.fire("book added successfully");
-              }
-              else{
+              } else {
                 Swal.fire("Something went wrong! try again");
               }
             });
           }
         });
       }
-    })
-  }
-
+    });
+  };
 
   const onSubmit = async (data) => {
     const review = {
@@ -120,6 +116,9 @@ const SinglebookDetails = () => {
   return (
     <div>
       <ToastContainer />
+      <Helmet>
+        <title>Book Valley | Book Details</title>
+      </Helmet>
       <section className="text-gray-600 body-font overflow-hidden">
         <div className="container px-5 py-24 mx-auto">
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
@@ -154,15 +153,17 @@ const SinglebookDetails = () => {
                 <span className="title-font font-medium text-2xl text-gray-900">
                   ${data.bookPrice}
                 </span>
-                {
-                   isRole !== "publisher" && isRole !== "writer" && isRole !== "admin" &&
-                   <button 
-                   onClick={()=>addtoCart(data)}
-                   className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
-                     Add to Cart
-                   </button>
-                }
-               
+                {isRole !== "publisher" &&
+                  isRole !== "writer" &&
+                  isRole !== "admin" && (
+                    <button
+                      onClick={() => addtoCart(data)}
+                      className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                    >
+                      Add to Cart
+                    </button>
+                  )}
+
                 <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                   <svg
                     fill="currentColor"
@@ -191,70 +192,69 @@ const SinglebookDetails = () => {
       </div>
 
       <div className="flex flex-wrap ">
-        {
-           data.review?.length &&    <section className="rounded-md text-center mx-auto md:text-left h-96 overflow-y-scroll">
-           {data.review.map((review) => (
-             <div key={review._id} className="flex justify-center">
-               <div className="max-w-3xl">
-                 <div className="m-4 block rounded-lg bg-white p-6 shadow-lg dark:bg-neutral-800 dark:shadow-black/20">
-                   <div className="md:flex md:flex-row">
-                     <div className="mx-auto mb-6 flex w-36 items-center justify-center md:mx-0 md:w-96 lg:mb-0">
-                       <img
-                         src={review.userImg}
-                         className="rounded-full shadow-md dark:shadow-black/30"
-                         alt="woman avatar"
-                       />
-                     </div>
-                     <div className="md:ml-6">
-                       <p className="mb-6 text-lg font-light text-neutral-500 dark:text-neutral-300">
-                         {review.review}
-                       </p>
-                       <p className="mb-2 text-xl font-semibold text-neutral-800 dark:text-neutral-200">
-                         {review.name}
-                       </p>
-                       <p className="mb-0 font-semibold text-neutral-500 dark:text-neutral-400">
-                         <div className="rating">
-                           <input
-                             type="radio"
-                             name="rating-2"
-                             className="mask mask-star-2 bg-orange-400"
-                             checked={review.rating === 1}
-                           />
-                           <input
-                             type="radio"
-                             name="rating-2"
-                             className="mask mask-star-2 bg-orange-400"
-                             checked={review.rating === 2}
-                           />
-                           <input
-                             type="radio"
-                             name="rating-2"
-                             className="mask mask-star-2 bg-orange-400"
-                             checked={review.rating === 3}
-                           />
-                           <input
-                             type="radio"
-                             name="rating-2"
-                             className="mask mask-star-2 bg-orange-400"
-                             checked={review.rating === 4}
-                           />
-                           <input
-                             type="radio"
-                             name="rating-2"
-                             className="mask mask-star-2 bg-orange-400"
-                             checked={review.rating === 5}
-                           />
-                         </div>
-                       </p>
-                     </div>
-                   </div>
-                 </div>
-               </div>
-             </div>
-           ))}
-         </section>
-        }
-     
+        {data.review?.length && (
+          <section className="rounded-md text-center mx-auto md:text-left h-96 overflow-y-scroll">
+            {data.review.map((review) => (
+              <div key={review._id} className="flex justify-center">
+                <div className="max-w-3xl">
+                  <div className="m-4 block rounded-lg bg-white p-6 shadow-lg dark:bg-neutral-800 dark:shadow-black/20">
+                    <div className="md:flex md:flex-row">
+                      <div className="mx-auto mb-6 flex w-36 items-center justify-center md:mx-0 md:w-96 lg:mb-0">
+                        <img
+                          src={review.userImg}
+                          className="rounded-full shadow-md dark:shadow-black/30"
+                          alt="woman avatar"
+                        />
+                      </div>
+                      <div className="md:ml-6">
+                        <p className="mb-6 text-lg font-light text-neutral-500 dark:text-neutral-300">
+                          {review.review}
+                        </p>
+                        <p className="mb-2 text-xl font-semibold text-neutral-800 dark:text-neutral-200">
+                          {review.name}
+                        </p>
+                        <p className="mb-0 font-semibold text-neutral-500 dark:text-neutral-400">
+                          <div className="rating">
+                            <input
+                              type="radio"
+                              name="rating-2"
+                              className="mask mask-star-2 bg-orange-400"
+                              checked={review.rating === 1}
+                            />
+                            <input
+                              type="radio"
+                              name="rating-2"
+                              className="mask mask-star-2 bg-orange-400"
+                              checked={review.rating === 2}
+                            />
+                            <input
+                              type="radio"
+                              name="rating-2"
+                              className="mask mask-star-2 bg-orange-400"
+                              checked={review.rating === 3}
+                            />
+                            <input
+                              type="radio"
+                              name="rating-2"
+                              className="mask mask-star-2 bg-orange-400"
+                              checked={review.rating === 4}
+                            />
+                            <input
+                              type="radio"
+                              name="rating-2"
+                              className="mask mask-star-2 bg-orange-400"
+                              checked={review.rating === 5}
+                            />
+                          </div>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </section>
+        )}
 
         <div className="lg:w-1/3 md:w-1/2 bg-white flex flex-col  mx-auto">
           <h2 className="text-gray-900 text-lg mb-1 font-medium title-font">

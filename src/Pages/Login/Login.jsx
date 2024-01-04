@@ -61,7 +61,7 @@ const Login = () => {
       }}
     >
       <Helmet>
-        <title>ArtisticCraftersCorner | Login</title>
+        <title>Book Valley | Login</title>
       </Helmet>
       <div className="hero-content mt-20 flex-col lg:flex-row-reverse">
         <div className="text-center w-full lg:text-left">

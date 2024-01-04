@@ -2,32 +2,30 @@ import { useQuery } from "@tanstack/react-query";
 import Loader from "../../../Shared/Loader/Loader";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import HeaderTitle from "../../../Shared/HeaderTitle/HeaderTitle";
+import { Helmet } from "react-helmet-async";
 
 const WithdrawHistory = () => {
+  const [axiosSecure] = useAxiosSecure();
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["withdrawHistory"],
+    queryFn: async () => {
+      const res = await axiosSecure("/getWithdrawAmount");
+      return res.data;
+    },
+  });
+  if (isLoading) {
+    return <Loader />;
+  }
 
-    const [axiosSecure] = useAxiosSecure();
-    const {
-      data,
-      isLoading,
-      error,
-      refetch,
-    } = useQuery({
-      queryKey: ["withdrawHistory"],
-      queryFn: async () => {
-        const res = await axiosSecure("/getWithdrawAmount");
-        return res.data;
-      },
-    });
-    if (isLoading ) {
-      return <Loader />;
-    }
-  
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    }
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
-    return (
-        <div className="ml-10 mt-10">
+  return (
+    <div className="ml-10 mt-10">
+      <Helmet>
+        <title>Book Valley | Withdraw History</title>
+      </Helmet>
       {data ? (
         <>
           <HeaderTitle title="Your withdraw details"></HeaderTitle>
@@ -59,13 +57,15 @@ const WithdrawHistory = () => {
                     {withdrawDetails.Branch}
                   </td>
                   <td className="font-bold text-base">
-                    {withdrawDetails.amount}<span className="font-bold">$</span>
+                    {withdrawDetails.amount}
+                    <span className="font-bold">$</span>
                   </td>
                   <td className="font-bold text-base">
                     {withdrawDetails.transactionId}
                   </td>
-                  <td className="font-bold text-base">{withdrawDetails.date}</td>
-                
+                  <td className="font-bold text-base">
+                    {withdrawDetails.date}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -77,7 +77,7 @@ const WithdrawHistory = () => {
         </div>
       )}
     </div>
-    );
+  );
 };
 
 export default WithdrawHistory;

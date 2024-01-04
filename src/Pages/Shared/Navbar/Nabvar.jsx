@@ -46,23 +46,43 @@ const Navbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow  rounded-box w-52"
           >
-            <li className="text-lg">
-              <a>Item 1</a>
-            </li>
-            <li className="text-lg">
-              <a>Parent</a>
-              <ul className="p-2">
-                <li className="text-lg">
-                  <a>Submenu 1</a>
-                </li>
-                <li className="text-lg">
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </li>
-            <li className="text-lg">
-              <a>Item 3</a>
-            </li>
+          <li className="text-lg bg-gray-600">
+            <Link to="/">Home</Link>
+          </li>
+          <li className="text-lg bg-gray-600">
+            <Link to="/allbooks">Shop</Link>
+          </li>
+          <li className="text-lg bg-gray-600">
+            {user ? (
+              isRole === "reader" ? (
+                <Link to="/reader/readerPremimumbooks">Dashboard</Link>
+              ) : isRole === "writer" ? (
+                <Link to="/writer/writerBooks">Dashboard</Link>
+              ) : isRole === "publisher" ? (
+                <Link to="/publisher/publishedBook">Dashboard</Link>
+              ) : (
+                <Link to="/admin/allbookrequest">Dashboard</Link>
+              )
+            ) : (
+              <Link to="/login">Dashboard</Link>
+            )}
+          </li>
+          <li>
+            {isRole !== "publisher" &&
+              isRole !== "writer" &&
+              isRole !== "admin" && (
+                <Link to="/cart" className="text-lg bg-gray-600">
+                  Cart
+                  <img src={cart} className="h-7" alt="" />
+                </Link>
+              )}
+          </li>
+          <li>
+            <Link to="/freebook" className="text-lg bg-gray-600">
+              <img src={freeBook} className="h-7" alt="" />
+              Free Book
+            </Link>
+          </li>
           </ul>
         </div>
         <img className="h-14" src={bookIcon} alt="" />

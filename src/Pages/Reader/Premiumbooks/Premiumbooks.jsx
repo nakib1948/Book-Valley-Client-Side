@@ -11,6 +11,7 @@ import Loader from "../../Shared/Loader/Loader";
 import { useContext } from "react";
 import { pdfContext } from "../../../Providers/PdfLinkProvider";
 import HeaderTitle from "../../Shared/HeaderTitle/HeaderTitle";
+import { Helmet } from "react-helmet-async";
 const Premiumbooks = () => {
   const [axiosSecure] = useAxiosSecure();
   const [booklink, setBookLink] = useContext(pdfContext);
@@ -52,6 +53,9 @@ const Premiumbooks = () => {
   };
   return (
     <div className="pb-10 mt-10">
+      <Helmet>
+        <title>Book Valley | Premium Books</title>
+      </Helmet>
       {data.length ? (
         <>
           {" "}

@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { v4 as uuidv4 } from "uuid";
-
+import { Helmet } from "react-helmet-async";
 const Earning = () => {
   const [data, isLoading, error, refetch] = useGetAllBooks();
   const { user } = useContext(AuthContext);
@@ -104,6 +104,9 @@ const Earning = () => {
   return (
     <>
       <section className="text-gray-600 body-font">
+        <Helmet>
+          <title>Book Valley | Earning</title>
+        </Helmet>
         <div className="container px-5 py-10 mx-auto">
           <HeaderTitle title="Your Earning History"></HeaderTitle>
           <div className="flex flex-wrap justify-center  my-4 text-center">

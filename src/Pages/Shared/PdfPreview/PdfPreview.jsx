@@ -11,6 +11,7 @@ import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { toolbarPlugin } from "@react-pdf-viewer/toolbar";
 import "@react-pdf-viewer/toolbar/lib/styles/index.css";
+import { Helmet } from "react-helmet-async";
 const PdfPreview = () => {
   const { user } = useContext(AuthContext);
   const [isRole, isRoleLoading] = useGetUserRole();
@@ -67,6 +68,9 @@ const PdfPreview = () => {
       className="h-screen overflow-x-scroll"
       onContextMenu={(e) => e.preventDefault()}
     >
+      <Helmet>
+        <title>Book Valley | Pdf Viewer</title>
+      </Helmet>
       <Worker
         workerUrl={`https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js`}
       >

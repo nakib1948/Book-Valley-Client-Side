@@ -2,7 +2,7 @@ import { useState } from "react";
 import useGetAllUsers from "../../../hooks/useGetAllUsers";
 import Loader from "../../Shared/Loader/Loader";
 import AllusersTable from "./AllusersTable";
-
+import { Helmet } from "react-helmet-async";
 const Allusers = () => {
   const [data, isLoading, error, refetch] = useGetAllUsers();
   const [userType, setUserType] = useState("alluser");
@@ -16,21 +16,25 @@ const Allusers = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  const filteredUsers = data.filter((user) => {
-    if (userType === "alluser") {
-      return true; 
-    }
-    return user.role === userType.toLowerCase();
-  }).filter((user) => {
-    if (searchText.trim() === "") {
-      return true; 
-    }
-    return user.name.toLowerCase().includes(searchText.toLowerCase());
-  });
+  const filteredUsers = data
+    .filter((user) => {
+      if (userType === "alluser") {
+        return true;
+      }
+      return user.role === userType.toLowerCase();
+    })
+    .filter((user) => {
+      if (searchText.trim() === "") {
+        return true;
+      }
+      return user.name.toLowerCase().includes(searchText.toLowerCase());
+    });
 
- 
   return (
     <div className="overflow-x-auto w-full card-body bg-slate-50 rounded-xl">
+      <Helmet>
+        <title>Book Valley | All users</title>
+      </Helmet>
       <div className=" bg-blue-50/40 rounded-md">
         <h1 className="text-2xl font-semibold">User List</h1>
         <div className="flex justify-around ">
@@ -67,7 +71,11 @@ const Allusers = () => {
         </thead>
         <tbody>
           {filteredUsers.map((user, index) => (
-            <AllusersTable user={user} refetch = {refetch} key={index}></AllusersTable>
+            <AllusersTable
+              user={user}
+              refetch={refetch}
+              key={index}
+            ></AllusersTable>
           ))}
         </tbody>
       </table>

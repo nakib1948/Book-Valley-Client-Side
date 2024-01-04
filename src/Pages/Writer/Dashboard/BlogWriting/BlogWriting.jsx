@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import HeaderTitle from "../../../Shared/HeaderTitle/HeaderTitle";
 import { AuthContext } from "../../../../Providers/AuthProvider";
-
+import { Helmet } from "react-helmet-async";
 const img_hosting_token = import.meta.env.VITE_Image_Upload_Token;
 const BlogWriting = () => {
   const [axiosSecure] = useAxiosSecure();
@@ -80,7 +80,10 @@ const BlogWriting = () => {
   return (
     <div className="mt-10 ">
       <HeaderTitle title="Upload your personal Blog"></HeaderTitle>
-      <ToastContainer/>
+      <Helmet>
+        <title>Book Valley | Blog</title>
+      </Helmet>
+      <ToastContainer />
       <div className="bg-white rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 shadow-md">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="lg:flex">
@@ -119,24 +122,22 @@ const BlogWriting = () => {
             </div>
           </div>
 
-         
-            <div className="form-control w-full max-w-md">
-              <label className="label">
-                <span className="label-text text-lg">Blog Description</span>
-              </label>
-              <textarea
-                className="textarea textarea-bordered"
-                placeholder="write your blog here"
-                {...register("description", { required: true })}
-              ></textarea>
-              {errors.description?.type === "required" && (
-                <small className="text-red-500" role="alert">
-                  {" "}
-                  description is required
-                </small>
-              )}
-            </div>
-      
+          <div className="form-control w-full max-w-md">
+            <label className="label">
+              <span className="label-text text-lg">Blog Description</span>
+            </label>
+            <textarea
+              className="textarea textarea-bordered"
+              placeholder="write your blog here"
+              {...register("description", { required: true })}
+            ></textarea>
+            {errors.description?.type === "required" && (
+              <small className="text-red-500" role="alert">
+                {" "}
+                description is required
+              </small>
+            )}
+          </div>
 
           <button
             type="submit"

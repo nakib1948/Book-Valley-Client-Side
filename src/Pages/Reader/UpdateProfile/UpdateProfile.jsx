@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import HeaderTitle from "../../Shared/HeaderTitle/HeaderTitle";
 import logout from "../../../assets/Dashboard/logout.png";
 import UpdatePassword from "../../Shared/UpdatePassword/UpdatePassword";
+import { Helmet } from "react-helmet-async";
 const img_hosting_token = import.meta.env.VITE_Image_Upload_Token;
 
 const UpdateProfile = () => {
@@ -96,6 +97,9 @@ const UpdateProfile = () => {
   };
   return (
     <div className="ml-10 mt-10">
+       <Helmet>
+        <title>Book Valley | Update Profile</title>
+ </Helmet>
       <HeaderTitle title="Update Your Profile"></HeaderTitle>
       <div className="flex justify-end">
         <button onClick={signout} className="btn text-lg font-semibold">

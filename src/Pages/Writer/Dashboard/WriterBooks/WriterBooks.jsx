@@ -11,6 +11,7 @@ import { AuthContext } from "../../../../Providers/AuthProvider";
 import { pdfContext } from "../../../../Providers/PdfLinkProvider";
 import { useNavigate } from "react-router-dom";
 import reading from "../../../../assets/reading.png";
+import { Helmet } from "react-helmet-async";
 
 const WriterBooks = () => {
   const [data, isLoading, error, refetch] = useGetAllBooks();
@@ -45,11 +46,15 @@ const WriterBooks = () => {
     },
   };
 
-  const writerbooks = data.filter((data) => data.writerEmail === user.email && data.status==='approved');
- 
+  const writerbooks = data.filter(
+    (data) => data.writerEmail === user.email && data.status === "approved"
+  );
 
   return (
     <div className="pb-10 mt-10 ">
+      <Helmet>
+        <title>Book Valley | Published Books</title>
+      </Helmet>
       {writerbooks.length ? (
         <>
           {" "}
@@ -79,9 +84,7 @@ const WriterBooks = () => {
                       />
                     </figure>
                     <div className="card-body items-center text-center">
-                      <h2 className="card-title">
-                        {book.name} 
-                      </h2>
+                      <h2 className="card-title">{book.name}</h2>
                     </div>
                     <div className="hidden absolute inset-0 flex items-center justify-center bg-gray-300 bg-opacity-40 group-hover:flex">
                       <button

@@ -3,11 +3,12 @@ import { ToastContainer, toast } from "react-toastify";
 import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
+import { Helmet } from "react-helmet-async";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { storage } from "../../../firebase/firebase.config";
 const maxFileSizeInBytes = 30 * 1024 * 1024;
 const img_hosting_token = import.meta.env.VITE_Image_Upload_Token;
-const UploadBook = ({ id ,refetch}) => {
+const UploadBook = ({ id, refetch }) => {
   const [axiosSecure] = useAxiosSecure();
   const [pdfUpload, setPdfUpload] = useState(null);
   const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`;
@@ -58,7 +59,7 @@ const UploadBook = ({ id ,refetch}) => {
               progress: undefined,
               theme: "light",
             });
-            refetch()
+            refetch();
             reset();
           } else {
             toast.warn("somethings wrong!Try again", {
@@ -78,6 +79,9 @@ const UploadBook = ({ id ,refetch}) => {
 
   return (
     <div className="container   mx-auto flex">
+      <Helmet>
+        <title>Book Valley | Upload</title>
+      </Helmet>
       <ToastContainer />
       <div className="bg-white rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 relative z-10 shadow-md">
         <h2 className="text-gray-900 text-lg mb-1 font-medium title-font">

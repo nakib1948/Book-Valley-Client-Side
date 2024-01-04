@@ -49,7 +49,7 @@ const AuthProvider = ({ children }) => {
 
       if (currentUser) {
         axios
-          .post("https://horse-raincoat.cyclic.app/jwt", {
+          .post("https://book-valley-server-side.vercel.app/jwt", {
             email: currentUser.email,
           })
           .then((data) => {

@@ -2,7 +2,7 @@ import React from 'react';
 
 const HeaderTitle = ({ title, description }) => {
   return (
-    <div className="text-center">
+    <div className="text-center" data-aos="flip-up" data-aos-duration="500">
       <h1 className="text-2xl font-semibold uppercase text-gray-900 tracking-wide">
         {title}
        

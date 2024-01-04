@@ -3,12 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import BlogRequestTable from "./BlogRequestTable";
 import axios from "axios";
 import HeaderTitle from "../../Shared/HeaderTitle/HeaderTitle";
-
+import { Helmet } from "react-helmet-async";
 const BlogRequest = () => {
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["getAllBlog"],
     queryFn: async () => {
-      const res = await axios.get(`https://horse-raincoat.cyclic.app/getAllBlog`);
+      const res = await axios.get(
+        `https://book-valley-server-side.vercel.app/getAllBlog`
+      );
       return res.data;
     },
   });
@@ -22,6 +24,9 @@ const BlogRequest = () => {
 
   return (
     <div className="mt-10">
+      <Helmet>
+        <title>Book Valley | Blog Request</title>
+      </Helmet>
       <HeaderTitle title="Book request from Writers"></HeaderTitle>
       <div className="overflow-x-auto mt-10 w-full card-body bg-slate-50 rounded-xl">
         <table className="table">

@@ -25,7 +25,7 @@ const Subcategories = () => {
     queryKey: ["getBookByCategories"],
     queryFn: async () => {
       const res = await axios(
-        `https://horse-raincoat.cyclic.app/getBookByCategories/${categoryname}`
+        `https://book-valley-server-side.vercel.app/getBookByCategories/${categoryname}`
       );
       return res.data;
     },

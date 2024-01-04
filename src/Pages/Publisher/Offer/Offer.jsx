@@ -15,6 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 import UploadBook from "./UploadBook";
 import HeaderTitle from "../../Shared/HeaderTitle/HeaderTitle";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const Offer = () => {
   const { user, loading } = useContext(AuthContext);
@@ -28,7 +29,7 @@ const Offer = () => {
     reset,
   } = useForm();
 
-  const { data, isLoading, error,refetch } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["requests"],
     queryFn: async () => {
       const res = await axiosSecure(`/offertopublisher/${user?.email}`);
@@ -90,10 +91,9 @@ const Offer = () => {
     });
   };
 
-  const declineRequest = (id)=>{
+  const declineRequest = (id) => {
     axiosSecure.patch(`/updateDeclineRequestbyPubliher/${id}`).then((data) => {
       if (data.data.modifiedCount) {
-
         Swal.fire({
           position: "top-center",
           icon: "success",
@@ -101,144 +101,169 @@ const Offer = () => {
           showConfirmButton: false,
           timer: 2000,
         });
-        refetch()
-      } 
+        refetch();
+      }
     });
-  }
+  };
 
   return (
     <div className="mt-10">
-    <HeaderTitle title="Offer Book From Writer"></HeaderTitle>
-    <div className="grid grid-cols-1 mt-10 md:grid-cols-2 lg:grid-cols-2 gap-6">
-      {data.map((data, index) => (
-        <>
-          <div key={index} className="card w-full bg-base-100 shadow-xl">
-            <div className="card-body">
-              <h2 className="card-title">Offer from {data.writerName}</h2>
-              <p>Book: {data.name}</p>
-              <p>Category: {data.category}</p>
-              <p>Earning percentage: {data.percentage}%</p>
-              <p>writer approval: {data.writerApproval}</p>
-              <p>Status: {data.status}</p>
-              <p>Book: <a className="font-bold text-blue-800 underline" href={data.bookCopy}>see script</a> </p>
-              <div className="card-actions justify-start">
-                <button
-                  onClick={() =>
-                    document.getElementById(`chatModal_${data._id}`).showModal()
-                  }
-                  className="btn btn-outline btn-info"
-                >
-                  Chat
-                </button>
-                <button
-                  disabled= {data.agreement !== "" || data.status==="declined"}
-                  onClick={() =>
-                    document
-                      .getElementById(`agreementModal_${data._id}`)
-                      .showModal()
-                  }
-                  className="btn btn-outline btn-info"
-                >
-                  Sent Agreement
-                </button>
-                <button onClick={()=>declineRequest(data._id)} disabled={data.status==="approved" || data.status==='declined' || data.writerApproval==='approved'} className="btn btn-outline btn-info">Decline</button>
-                <button
-                  onClick={() =>
-                    document
-                      .getElementById(`showagreementModal_${data._id}`)
-                      .showModal()
-                  }
-                  className="btn btn-outline btn-info"
-                  disabled={data.status==="declined"}
-                >
-                  Agreement
-                </button>
-                <button
-                  disabled={data.writerApproval === "pending" || data.bookCoverPhoto!==""}
-                  onClick={() =>
-                    document
-                      .getElementById(`uploadBookModal_${data._id}`)
-                      .showModal()
-                  }
-                  className="btn btn-outline btn-info"
-                >
-                  {
-                     data.bookCoverPhoto ? "uploaded": " upload book"
-                  }
-                 
-                </button>
+      <Helmet>
+        <title>Book Valley | Offer</title>
+      </Helmet>
+      <HeaderTitle title="Offer Book From Writer"></HeaderTitle>
+      <div className="grid grid-cols-1 mt-10 md:grid-cols-2 lg:grid-cols-2 gap-6">
+        {data.map((data, index) => (
+          <>
+            <div key={index} className="card w-full bg-base-100 shadow-xl">
+              <div className="card-body">
+                <h2 className="card-title">Offer from {data.writerName}</h2>
+                <p>Book: {data.name}</p>
+                <p>Category: {data.category}</p>
+                <p>Earning percentage: {data.percentage}%</p>
+                <p>writer approval: {data.writerApproval}</p>
+                <p>Status: {data.status}</p>
+                <p>
+                  Book:{" "}
+                  <a
+                    className="font-bold text-blue-800 underline"
+                    href={data.bookCopy}
+                  >
+                    see script
+                  </a>{" "}
+                </p>
+                <div className="card-actions justify-start">
+                  <button
+                    onClick={() =>
+                      document
+                        .getElementById(`chatModal_${data._id}`)
+                        .showModal()
+                    }
+                    className="btn btn-outline btn-info"
+                  >
+                    Chat
+                  </button>
+                  <button
+                    disabled={
+                      data.agreement !== "" || data.status === "declined"
+                    }
+                    onClick={() =>
+                      document
+                        .getElementById(`agreementModal_${data._id}`)
+                        .showModal()
+                    }
+                    className="btn btn-outline btn-info"
+                  >
+                    Sent Agreement
+                  </button>
+                  <button
+                    onClick={() => declineRequest(data._id)}
+                    disabled={
+                      data.status === "approved" ||
+                      data.status === "declined" ||
+                      data.writerApproval === "approved"
+                    }
+                    className="btn btn-outline btn-info"
+                  >
+                    Decline
+                  </button>
+                  <button
+                    onClick={() =>
+                      document
+                        .getElementById(`showagreementModal_${data._id}`)
+                        .showModal()
+                    }
+                    className="btn btn-outline btn-info"
+                    disabled={data.status === "declined"}
+                  >
+                    Agreement
+                  </button>
+                  <button
+                    disabled={
+                      data.writerApproval === "pending" ||
+                      data.bookCoverPhoto !== ""
+                    }
+                    onClick={() =>
+                      document
+                        .getElementById(`uploadBookModal_${data._id}`)
+                        .showModal()
+                    }
+                    className="btn btn-outline btn-info"
+                  >
+                    {data.bookCoverPhoto ? "uploaded" : " upload book"}
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
-          <dialog id={`chatModal_${data._id}`} className="modal ">
-            <ToastContainer />
-            <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
-              <div className="mb-4  p-2 rounded-md">
-                <h1 className="text-2xl text-white text-center font-semibold">
-                  Chat with {data.writerName}
-                </h1>
+            <dialog id={`chatModal_${data._id}`} className="modal ">
+              <ToastContainer />
+              <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
+                <div className="mb-4  p-2 rounded-md">
+                  <h1 className="text-2xl text-white text-center font-semibold">
+                    Chat with {data.writerName}
+                  </h1>
+                </div>
+                <Chatmodal id={data._id} />
+
+                <div className="flex">
+                  <input
+                    type="text"
+                    placeholder="Type here"
+                    value={message}
+                    className="input input-bordered w-full max-w-xs"
+                    onChange={(event) => setMessage(event.target.value)}
+                  />
+                  <button
+                    onClick={() => chat(data._id)}
+                    className="btn bg-deepblue text-base font-semibold text-white ml-2"
+                  >
+                    send
+                    <img src={send} className="h-6" alt="" />
+                  </button>
+                </div>
               </div>
-              <Chatmodal id={data._id} />
+              <form method="dialog" className="modal-backdrop">
+                <button>close</button>
+              </form>
+            </dialog>
 
-              <div className="flex">
-                <input
-                  type="text"
-                  placeholder="Type here"
-                  value={message}
-                  className="input input-bordered w-full max-w-xs"
-                  onChange={(event) => setMessage(event.target.value)}
-                />
-                <button
-                  onClick={() => chat(data._id)}
-                  className="btn bg-deepblue text-base font-semibold text-white ml-2"
-                >
-                  send
-                  <img src={send} className="h-6" alt="" />
-                </button>
+            <dialog id={`agreementModal_${data._id}`} className="modal ">
+              <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
+                <Agreement id={data._id} percentage={data.percentage} />
               </div>
-            </div>
-            <form method="dialog" className="modal-backdrop">
-              <button>close</button>
-            </form>
-          </dialog>
+              <form method="dialog" className="modal-backdrop">
+                <button>close</button>
+              </form>
+            </dialog>
 
-          <dialog id={`agreementModal_${data._id}`} className="modal ">
-            <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
-              <Agreement id={data._id} percentage={data.percentage} />
-            </div>
-            <form method="dialog" className="modal-backdrop">
-              <button>close</button>
-            </form>
-          </dialog>
+            <dialog id={`showagreementModal_${data._id}`} className="modal ">
+              {data.agreement === "" ? (
+                <div className="text-center modal-box w-9/12 max-w-5xl  h-full text-blue-500 text-xl font-bold modal-bottom sm:modal-middle">
+                  No agreement yet
+                </div>
+              ) : (
+                <div className="modal-box w-9/12 max-w-5xl  h-full bg-gray-500 modal-bottom sm:modal-middle">
+                  <embed src={data.agreement} width="100%" height="600px" />
+                </div>
+              )}
 
-          <dialog id={`showagreementModal_${data._id}`} className="modal ">
-            {data.agreement === "" ? (
-              <div className="text-center modal-box w-9/12 max-w-5xl  h-full text-blue-500 text-xl font-bold modal-bottom sm:modal-middle">
-                No agreement yet
+              <form method="dialog" className="modal-backdrop">
+                <button>close</button>
+              </form>
+            </dialog>
+
+            <dialog id={`uploadBookModal_${data._id}`} className="modal ">
+              <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
+                <UploadBook id={data._id} refetch={refetch} />
               </div>
-            ) : (
-              <div className="modal-box w-9/12 max-w-5xl  h-full bg-gray-500 modal-bottom sm:modal-middle">
-                <embed src={data.agreement} width="100%" height="600px" />
-              </div>
-            )}
-
-            <form method="dialog" className="modal-backdrop">
-              <button>close</button>
-            </form>
-          </dialog>
-
-          <dialog id={`uploadBookModal_${data._id}`} className="modal ">
-            <div className="modal-box bg-gray-900 modal-bottom sm:modal-middle">
-              <UploadBook id={data._id} refetch={refetch} />
-            </div>
-            <form method="dialog" className="modal-backdrop">
-              <button>close</button>
-            </form>
-          </dialog>
-        </>
-      ))}
-    </div>
+              <form method="dialog" className="modal-backdrop">
+                <button>close</button>
+              </form>
+            </dialog>
+          </>
+        ))}
+      </div>
     </div>
   );
 };

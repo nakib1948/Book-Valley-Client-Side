@@ -11,7 +11,6 @@ import "slick-carousel/slick/slick-theme.css";
 import {
   QueryClient,
   QueryClientProvider,
-  useQuery,
 } from "@tanstack/react-query";
 import PdfLinkProvider from "./Providers/PdfLinkProvider.jsx";
 

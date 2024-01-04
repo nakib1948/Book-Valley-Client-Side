@@ -2,6 +2,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import HeaderTitle from "../../Shared/HeaderTitle/HeaderTitle";
 import Loader from "../../Shared/Loader/Loader";
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet-async";
 
 const PaymentHistory = () => {
   const [axiosSecure] = useAxiosSecure();
@@ -22,6 +23,9 @@ const PaymentHistory = () => {
 
   return (
     <div className="ml-10 mt-10">
+      <Helmet>
+        <title>Book Valley | Payment History</title>
+      </Helmet>
       {data.length ? (
         <>
           <HeaderTitle title="Your payment details"></HeaderTitle>

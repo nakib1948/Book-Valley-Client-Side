@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { v4 as uuidv4 } from "uuid";
+import { Helmet } from "react-helmet-async";
 
 const PublisherEarning = () => {
   const [data, isLoading, error, refetch] = useGetAllBooks();
@@ -43,7 +44,9 @@ const PublisherEarning = () => {
     (data) => data.publisherEmail === user.email && data.status === "approved"
   );
   const publisherTotalEarning = publisherbooks.reduce((sum, val) => {
-    return (sum += (val.soldUnit * val.bookPrice )-(val.soldUnit * val.bookPrice * (val.percentage+5)) / 100);
+    return (sum +=
+      val.soldUnit * val.bookPrice -
+      (val.soldUnit * val.bookPrice * (val.percentage + 5)) / 100);
   }, 0);
   const bookSoldUnit = publisherbooks.reduce((sum, val) => {
     return (sum += val.soldUnit);
@@ -103,6 +106,9 @@ const PublisherEarning = () => {
   return (
     <>
       <section className="text-gray-600 body-font">
+        <Helmet>
+          <title>Book Valley | Eraning</title>
+        </Helmet>
         <div className="container px-5 py-10 mx-auto">
           <HeaderTitle title="Your Earning History"></HeaderTitle>
           <div className="flex flex-wrap justify-center  my-4 text-center">

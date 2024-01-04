@@ -13,6 +13,7 @@ import { useContext } from "react";
 import { pdfContext } from "../../../Providers/PdfLinkProvider";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const Freebooks = () => {
   const [axiosSecure] = useAxiosSecure();
@@ -80,6 +81,9 @@ const Freebooks = () => {
   };
   return (
     <div className="pb-10 mt-10">
+      <Helmet>
+        <title>Book Valley | Freebooks</title>
+      </Helmet>
       {data.length ? (
         <>
           {" "}
@@ -139,8 +143,7 @@ const Freebooks = () => {
         </>
       ) : (
         <div className="flex items-center justify-center h-screen">
-        <HeaderTitle title="You have no FreeBook Collection"></HeaderTitle>
-
+          <HeaderTitle title="You have no FreeBook Collection"></HeaderTitle>
         </div>
       )}
     </div>

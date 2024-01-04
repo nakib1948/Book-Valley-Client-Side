@@ -6,13 +6,14 @@ import { v4 } from "uuid";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { storage } from "../../../firebase/firebase.config";
 import HeaderTitle from "../../Shared/HeaderTitle/HeaderTitle";
+import { Helmet } from "react-helmet-async";
 const maxFileSizeInBytes = 30 * 1024 * 1024;
 const img_hosting_token = import.meta.env.VITE_Image_Upload_Token;
 const UploadBook = () => {
   const [axiosSecure] = useAxiosSecure();
   const [pdfUpload, setPdfUpload] = useState(null);
   const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`;
- 
+
   const {
     register,
     formState: { errors },
@@ -43,10 +44,10 @@ const UploadBook = () => {
         const downloadURL = await getDownloadURL(pdfRef);
 
         const uploadBook = {
-          name:data.name,
-          writerName:data.writername,
-          description:data.description,
-          category:data.category,
+          name: data.name,
+          writerName: data.writername,
+          description: data.description,
+          category: data.category,
           bookCoverPhoto: bookCoverPhoto,
           bookCopy: downloadURL,
         };
@@ -83,9 +84,11 @@ const UploadBook = () => {
   return (
     <div className="">
       <ToastContainer />
+      <Helmet>
+        <title>Book Valley | Upload Books</title>
+      </Helmet>
       <HeaderTitle title="upload Free Book"></HeaderTitle>
       <div className="bg-white rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 shadow-md">
-        
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="lg:flex">
             <div className="form-control w-full max-w-md lg:w-1/2 lg:pr-2">

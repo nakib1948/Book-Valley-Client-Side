@@ -13,7 +13,12 @@ const Secondsection = () => {
           }}
         >
           <div className="hero-overlay bg-opacity-30"></div>
-          <div className="hero-content text-center text-neutral-content">
+          <div className="hero-content text-center text-neutral-content"
+           data-aos="flip-right"
+           data-aos-offset="300"
+           data-aos-easing="ease-in-sine"
+           data-aos-duration="1000"
+          >
             <div className="max-w-md">
               <p className="mb-5 font-semibold">LATEST BESTSELLING</p>
               <h1 className="mb-5 text-5xl font-bold">Crime Fiction Books</h1>
@@ -31,7 +36,12 @@ const Secondsection = () => {
           }}
         >
           <div className="hero-overlay bg-opacity-30"></div>
-          <div className="hero-content text-center text-neutral-content">
+          <div className="hero-content text-center text-neutral-content"
+           data-aos="flip-right"
+           data-aos-offset="300"
+           data-aos-easing="ease-in-sine"
+           data-aos-duration="1000"
+          >
             <div className="max-w-md">
               <p className="mb-5 font-semibold">GET TO KNOW</p>
               <h1 className="mb-5 text-5xl font-bold">World war Heroes</h1>

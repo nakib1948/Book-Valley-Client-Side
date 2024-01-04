@@ -7,79 +7,82 @@ import { getAuth, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 const img_hosting_token = import.meta.env.VITE_Image_Upload_Token;
 
 const WriterSignup = () => {
-    const { createUser, logOut } = useContext(AuthContext);
-    const [axiosSecure] = useAxiosSecure();
-    const auth = getAuth();
-    const navigate = useNavigate();
-    const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`;
-    const {
-      register,
-      formState: { errors },
-      handleSubmit,
-      reset,
-    } = useForm();
-  
-    const onSubmit = (data) => {
-      const formData = new FormData();
-      formData.append("image", data.profilePhoto[0]);
-  
-      fetch(img_hosting_url, {
-        method: "POST",
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((imgResponse) => {
-          const imgURL = imgResponse.data.display_url;
-          createUser(data.email, data.password)
-            .then((result) => {
-              updateProfile(auth.currentUser, {
-                displayName: data.name,
-                photoURL: imgURL,
-              })
-                .then(() => {
-                  const saveUser = {
-                    name: data.name,
-                    email: data.email,
-                    image: imgURL,
-                    bankAccount:data.bankAccount,
-                    bankDetails:data.bankDetails,
-                    phone:data.phone,
-                    role: "writer",
-                    withdraw:0,
-                    withdrawHistory:[],
-                    isDeleted:false
-                  };
-  
-                  axiosSecure.post("/users", saveUser).then((data) => {
-                    if (data.data.insertedId) {
-                      Swal.fire({
-                        position: "top-center",
-                        icon: "success",
-                        title: "Signup successfull.",
-                        showConfirmButton: false,
-                        timer: 1500,
-                      }).then(() => {
-                        reset();
-                        navigate("/");
-                        window.location.reload();
-                      });
-                    }
-                  });
-                })
-                .catch((error) => {
-                });
+  const { createUser, logOut } = useContext(AuthContext);
+  const [axiosSecure] = useAxiosSecure();
+  const auth = getAuth();
+  const navigate = useNavigate();
+  const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`;
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm();
+
+  const onSubmit = (data) => {
+    const formData = new FormData();
+    formData.append("image", data.profilePhoto[0]);
+
+    fetch(img_hosting_url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((imgResponse) => {
+        const imgURL = imgResponse.data.display_url;
+        createUser(data.email, data.password)
+          .then((result) => {
+            updateProfile(auth.currentUser, {
+              displayName: data.name,
+              photoURL: imgURL,
             })
-            .catch((error) => {
-              Swal.fire(error.message);
-            });
-        });
-    };
+              .then(() => {
+                const saveUser = {
+                  name: data.name,
+                  email: data.email,
+                  image: imgURL,
+                  bankAccount: data.bankAccount,
+                  bankDetails: data.bankDetails,
+                  phone: data.phone,
+                  role: "writer",
+                  withdraw: 0,
+                  withdrawHistory: [],
+                  isDeleted: false,
+                };
+
+                axiosSecure.post("/users", saveUser).then((data) => {
+                  if (data.data.insertedId) {
+                    Swal.fire({
+                      position: "top-center",
+                      icon: "success",
+                      title: "Signup successfull.",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    }).then(() => {
+                      reset();
+                      navigate("/");
+                      window.location.reload();
+                    });
+                  }
+                });
+              })
+              .catch((error) => {});
+          })
+          .catch((error) => {
+            Swal.fire(error.message);
+          });
+      });
+  };
 
   return (
     <div className="card w-full md:w-11/12 lg:w-11/12 mx-auto lg:card-side bg-base-100 shadow-xl">
+      <Helmet>
+        <title>Book Valley | Signup</title>
+      </Helmet>
       <figure>
         <Lottie animationData={img1} />
       </figure>

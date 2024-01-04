@@ -10,6 +10,7 @@ import logout from "../../../../assets/Dashboard/logout.png";
 import { useForm } from "react-hook-form";
 import useGetAllUsers from "../../../../hooks/useGetAllUsers";
 import Loader from "../../../Shared/Loader/Loader";
+import { Helmet } from "react-helmet-async";
 
 const img_hosting_token = import.meta.env.VITE_Image_Upload_Token;
 
@@ -121,6 +122,9 @@ const UpdateWriterProfile = () => {
   };
   return (
     <div className="ml-10 mt-10">
+       <Helmet>
+        <title>Book Valley | Profile Update</title>
+ </Helmet>
       <HeaderTitle title="Update Your Profile"></HeaderTitle>
       <div className="flex justify-end">
         <button onClick={signout} className="btn text-lg font-semibold">
