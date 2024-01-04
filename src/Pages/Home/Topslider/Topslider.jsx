@@ -56,11 +56,11 @@ const Topslider = () => {
                   <TypeAnimation
                     sequence={[
                       "Stories Come to Life",
-                      1000, 
+                      2000, 
                       "Discover Your Next Adventure",
-                      1000,
+                      2000,
                       "Explore Our Book Collection",
-                      1000,
+                      2000,
                     ]}
                     wrapper="span"
                     speed={50}

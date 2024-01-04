@@ -48,7 +48,7 @@ const Footer = () => {
               beatFade
               size="xl"
             />
-            <p className="text-orange-500">+44 (0) 20 9994 7740</p>
+            <p className="text-orange-500">+4420 9994 7740</p>
           </div>
           <div className="flex">
             <FontAwesomeIcon
