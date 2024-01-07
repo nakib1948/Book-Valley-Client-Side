@@ -256,7 +256,7 @@ const SinglebookDetails = () => {
           </section>
         )}
 
-        <div className="lg:w-1/3 md:w-1/2 bg-white flex flex-col  mx-auto">
+        <div className="lg:w-1/3 p-4 md:w-1/2 bg-white flex flex-col  mx-auto">
           <h2 className="text-gray-900 text-lg mb-1 font-medium title-font">
             Write a review
           </h2>

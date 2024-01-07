@@ -80,14 +80,13 @@ const UpdateProfile = () => {
 
           axiosSecure.patch("/updateReader", updateReader).then((data) => {
             if (data.data.modifiedCount) {
-              
               Swal.fire({
                 position: "top-center",
                 icon: "success",
                 title: "Profile updated successfully!!.",
                 showConfirmButton: false,
                 timer: 1500,
-              })
+              });
               window.location.reload();
             }
           });
@@ -97,9 +96,9 @@ const UpdateProfile = () => {
   };
   return (
     <div className="ml-10 mt-10">
-       <Helmet>
+      <Helmet>
         <title>Book Valley | Update Profile</title>
- </Helmet>
+      </Helmet>
       <HeaderTitle title="Update Your Profile"></HeaderTitle>
       <div className="flex justify-end">
         <button onClick={signout} className="btn text-lg font-semibold">
@@ -150,7 +149,7 @@ const UpdateProfile = () => {
           </div>
         </div>
 
-         <UpdatePassword/>
+        <UpdatePassword />
       </div>
     </div>
   );

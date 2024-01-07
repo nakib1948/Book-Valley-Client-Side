@@ -15,13 +15,13 @@ import {
 const Footer = () => {
   return (
     <>
-      <footer className="footer p-5 text-base bg-[#361f53]  text-white">
+      <footer className="footer p-5 mt-10 text-base bg-[#361f53]  text-white">
         <div className="justify-items-center">
           <img className="h-24 rounded-full bg-white" src={footerImg} alt="" />
           <p className="text-center">
             {" "}
             <span className="text-blue-600 text-xl">Book Valley</span>
-            <br /> Exploring Recipes since 2012
+            <br /> A collaborative ebook platform, fostering connections <br/> between readers, writers, and publishers since 2012
           </p>
         </div>
 
