@@ -59,7 +59,7 @@ const FeaturedCollection = () => {
           <>
             <div
               key={index}
-              className="group relative w-96  bg-base-100 shadow-xl"
+              className="group relative w-80 md:w-96 lg:w-96  bg-base-100 shadow-xl"
             >
               <figure className="px-10 pt-10">
                 <img

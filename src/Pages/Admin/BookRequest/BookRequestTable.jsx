@@ -14,6 +14,7 @@ const BookRequestTable = ({ request, refetch }) => {
   const navigate = useNavigate();
   const bookPreview = async (link) => {
     await setBookLink(link);
+    const result = await axiosSecure.put("/booklink", { link });
     navigate("/pdfreader");
   };
 

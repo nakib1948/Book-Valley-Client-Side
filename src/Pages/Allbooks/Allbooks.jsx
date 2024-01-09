@@ -103,7 +103,7 @@ const Allbooks = () => {
               <>
                 <div
                   key={index}
-                  className="group relative w-96  bg-base-100 shadow-xl"
+                  className="group relative w-80 md:w-96 lg:w-96 bg-base-100 shadow-xl"
                 >
                   <div className="badge badge-lg">
                     <img src={premium} className="h-7" alt="" />

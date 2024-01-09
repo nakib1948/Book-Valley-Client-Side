@@ -223,7 +223,7 @@ export const router = createBrowserRouter([
   },
   {
     path:"/pdfreader",
-    element:<PdfPreview/>
+    element:<PrivateRoute><PdfPreview/></PrivateRoute>
   },
   {
     path: "*",

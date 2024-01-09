@@ -12,8 +12,10 @@ import { useNavigate } from "react-router-dom";
 import reading from "../../../assets/reading.png";
 import HeaderTitle from "../../Shared/HeaderTitle/HeaderTitle";
 import { Helmet } from "react-helmet-async";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 const PublishedBook = () => {
   const [data, isLoading, error, refetch] = useGetAllBooks();
+  const [axiosSecure] = useAxiosSecure();
   const { user } = useContext(AuthContext);
   const [booklink, setBookLink] = useContext(pdfContext);
   const navigate = useNavigate();
@@ -27,6 +29,7 @@ const PublishedBook = () => {
 
   const pdflinkClick = async (link) => {
     await setBookLink(link);
+    const result = await axiosSecure.put("/booklink", { link });
     navigate("/pdfreader");
   };
 

@@ -12,19 +12,22 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { toolbarPlugin } from "@react-pdf-viewer/toolbar";
 import "@react-pdf-viewer/toolbar/lib/styles/index.css";
 import { Helmet } from "react-helmet-async";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Loader from "../Loader/Loader";
 const PdfPreview = () => {
   const { user } = useContext(AuthContext);
   const [isRole, isRoleLoading] = useGetUserRole();
+  const [axiosSecure] = useAxiosSecure();
   const navigate = useNavigate();
   const [booklink, setBookLink] = useContext(pdfContext);
   const [position, setPosition] = useState({ top: "50%", left: "50%" });
+  useEffect(() => {
+    fetch(`https://book-valley-server-side.vercel.app/getbooklink/${user?.email}`)
+      .then((res) => res.json())
+      .then((data) => setBookLink(data.booklink));
+  }, [setBookLink, user?.email]);
 
   useEffect(() => {
-    const storedPdfLink = localStorage.getItem("pdfLink");
-    if (storedPdfLink) {
-      setBookLink(storedPdfLink);
-    }
-
     const timeout = setInterval(() => {
       const randomTop = `${Math.floor(Math.random() * 60) + 20}%`;
       const randomLeft = `${Math.floor(Math.random() * 60) + 20}%`;
@@ -33,12 +36,11 @@ const PdfPreview = () => {
     }, 3000);
 
     return () => clearInterval(timeout);
-  }, [setBookLink]);
-  useEffect(() => {
-    if (booklink) {
-      localStorage.setItem("pdfLink", booklink);
-    }
-  }, [booklink]);
+  }, [setBookLink, user?.email, axiosSecure]);
+
+  if (isRoleLoading) {
+    <Loader />;
+  }
 
   const path = () => {
     if (user) {
@@ -86,7 +88,9 @@ const PdfPreview = () => {
           <Toolbar>{renderDefaultToolbar(transform)}</Toolbar>
         </div>
         <div>
-          <Viewer fileUrl={booklink} plugins={[toolbarPluginInstance]} />
+          {booklink && (
+            <Viewer fileUrl={booklink} plugins={[toolbarPluginInstance]} />
+          )}
         </div>
       </Worker>
 
@@ -95,7 +99,10 @@ const PdfPreview = () => {
           <img src={home} className="h-7" alt="" />
           <span>Home</span>
         </Link>
-        <Link to="/allbooks" className="active bg-blue-200 text-blue-600 border-blue-600">
+        <Link
+          to="/allbooks"
+          className="active bg-blue-200 text-blue-600 border-blue-600"
+        >
           <img src={shop} className="h-7" alt="" />
           <span>Shop</span>
         </Link>

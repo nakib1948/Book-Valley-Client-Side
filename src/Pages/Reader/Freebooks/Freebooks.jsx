@@ -62,6 +62,7 @@ const Freebooks = () => {
   };
   const pdflinkClick = async (link) => {
     await setBookLink(link);
+    const result = await axiosSecure.put("/booklink", { link });
     navigate("/pdfreader");
   };
 
